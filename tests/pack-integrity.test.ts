@@ -14,10 +14,19 @@ import { listPackIds, loadPack, orphanCardIds } from "../src/pack/load.ts";
 import { escapeHtml, jsonForScript, renderDeckPage } from "../src/render/deckPage.ts";
 import {
   BODY_TEXT_MAX,
+  BODY_TEXT_MIN,
   CARD_AXIS_CLAIM,
   CARD_AXIS_LABEL_KO,
+  NEXT_MAX,
+  NEXT_MIN,
+  REFERENCE_TRACKS,
+  TABLE_DATA_ROW_MAX,
+  TABLE_MAX,
+  TERMS_MAX,
+  TERMS_MIN,
   bodyTextLength,
   disallowedBodyMarkup,
+  tableStats,
 } from "../src/domain/pack.ts";
 import type { Pack } from "../src/domain/pack.ts";
 
@@ -70,10 +79,10 @@ for (const pack of packs) {
     }
   });
 
-  test(`[${id}] 질문 칩은 카드마다 3~5개다`, () => {
+  test(`[${id}] D7 질문 칩은 카드마다 ${NEXT_MIN}~${NEXT_MAX}개다`, () => {
     for (const card of pack.cards) {
       assert.ok(
-        card.next.length >= 3 && card.next.length <= 5,
+        card.next.length >= NEXT_MIN && card.next.length <= NEXT_MAX,
         `카드 ${card.id} 의 "이어서 볼 것"이 ${card.next.length}개입니다.`,
       );
     }
@@ -96,11 +105,33 @@ for (const pack of packs) {
     }
   });
 
-  test(`[${id}] 본문이 태그 제외 ${BODY_TEXT_MAX}자를 넘지 않는다`, () => {
+  test(`[${id}] D4 본문이 태그 제외 ${BODY_TEXT_MIN}~${BODY_TEXT_MAX}자다`, () => {
     for (const card of pack.cards) {
       const length = bodyTextLength(card.body);
-      assert.ok(length <= BODY_TEXT_MAX, `카드 ${card.id} 본문이 ${length}자입니다.`);
-      assert.ok(length > 0, `카드 ${card.id} 본문이 비어 있습니다.`);
+      assert.ok(length >= BODY_TEXT_MIN, `카드 ${card.id} 본문이 ${length}자로 짧습니다.`);
+      assert.ok(length <= BODY_TEXT_MAX, `카드 ${card.id} 본문이 ${length}자로 깁니다.`);
+    }
+  });
+
+  test(`[${id}] D5 표는 카드당 ${TABLE_MAX}개 이하이고 데이터 행이 ${TABLE_DATA_ROW_MAX}행 이하다`, () => {
+    for (const card of pack.cards) {
+      const { count, maxDataRows } = tableStats(card.body);
+      assert.ok(count <= TABLE_MAX, `카드 ${card.id} 에 표가 ${count}개입니다.`);
+
+      // 조회용 트랙은 행수 상한을 면제합니다 — 근거는 src/domain/pack.ts 의 REFERENCE_TRACKS 주석.
+      if (REFERENCE_TRACKS.includes(card.track)) continue;
+      assert.ok(maxDataRows <= TABLE_DATA_ROW_MAX, `카드 ${card.id} 의 표가 데이터 ${maxDataRows}행입니다.`);
+    }
+  });
+
+  test(`[${id}] 용어 미니사전이 카드마다 ${TERMS_MIN}~${TERMS_MAX}개다`, () => {
+    for (const card of pack.cards) {
+      // 조회용 트랙은 카드 자체가 사전이므로 별도 미니사전을 요구하지 않습니다.
+      if (REFERENCE_TRACKS.includes(card.track)) continue;
+      assert.ok(
+        card.terms.length >= TERMS_MIN && card.terms.length <= TERMS_MAX,
+        `카드 ${card.id} 의 용어가 ${card.terms.length}개입니다.`,
+      );
     }
   });
 
@@ -151,6 +182,29 @@ for (const pack of packs) {
     assert.ok(html.includes(escapeForCheck(pack.meta.source.basis)));
     assert.ok(html.includes(escapeForCheck(pack.meta.source.limitation)));
     assert.ok(html.includes(escapeForCheck(pack.meta.source.asOf)));
+  });
+
+  test(`[${id}] 화면 문구에 저장소 내부 참조가 새어 나오지 않는다`, () => {
+    // pack.json 의 known_limits 와 위치 안내문은 화면에 그대로 나갑니다.
+    // 작성자용 메모(파일 경로·ADR 번호·개념 id)가 섞이면 읽는 사람에게 뜻 없는 글자가 보입니다.
+    const 내부표시 = [
+      /\.(md|json)\b/,
+      /\bADR\s*\d/,
+      /\bK-\d\d\b/,
+      /\b(known_limits|authoring_notes|always_cards|card_by_field|entry_card|positions|fields)\b/,
+    ];
+    const 화면문구 = [
+      ...pack.meta.source.limits,
+      ...pack.fieldMatrix.positions.map((p) => p.note),
+      pack.fieldMatrix.note,
+      pack.meta.searchNote,
+    ];
+
+    for (const 문구 of 화면문구) {
+      for (const 표시 of 내부표시) {
+        assert.ok(!표시.test(문구), `화면 문구에 내부 참조가 있습니다 (${표시}): ${문구}`);
+      }
+    }
   });
 
   test(`[${id}] 주입한 JSON 이 </script> 로 일찍 닫히지 않는다`, () => {

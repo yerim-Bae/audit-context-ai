@@ -124,12 +124,55 @@ export const ALLOWED_BODY_TAGS: readonly string[] = [
   "br",
 ];
 
-/** 본문 길이 상한(태그 제외). 한 장을 3~5분에 읽게 하기 위한 상한입니다. */
-export const BODY_TEXT_MAX = 1800;
+/**
+ * 카드 규격(docs/onboarding-deck-design.md §5). 검사 D4·D5·D7 이 이 값을 씁니다.
+ * 한 장을 3~5분에 읽게 하는 것이 목적이므로 상한뿐 아니라 하한도 둡니다 —
+ * 너무 짧은 카드는 게이트를 통과시키지 못한 채 장수만 늘립니다.
+ */
+export const BODY_TEXT_MIN = 800;
+export const BODY_TEXT_MAX = 1400;
+
+/** 카드당 표 개수 상한. "표가 두 개면 이미 두 카드다"(§5). */
+export const TABLE_MAX = 1;
+
+/** 표의 데이터 행 상한. 머리글 행(th 만 있는 첫 행)은 세지 않습니다. */
+export const TABLE_DATA_ROW_MAX = 6;
+
+/** "이어서 볼 것" 칩 개수. 목차가 아니라 궁금증이므로 좁게 잡습니다(§5). */
+export const NEXT_MIN = 3;
+export const NEXT_MAX = 4;
+
+/** 용어 미니사전 개수. 그 카드에 처음 나온 것만(§5). */
+export const TERMS_MIN = 2;
+export const TERMS_MAX = 4;
+
+/**
+ * 조회용 카드의 트랙.
+ *
+ * §5 의 표 행수·용어 개수 규격은 "한 장에 한 논증"을 지키려는 것입니다.
+ * 용어 트랙의 카드는 논증이 아니라 **찾아보는 표**여서 그 취지에 해당하지 않습니다.
+ * 20개짜리 사전을 6행씩 네 장으로 쪼개면 찾는 일이 더 어려워집니다.
+ * 그래서 이 트랙에 한해 행수 상한과 용어 개수 하한을 면제하되,
+ * 표 개수 1개와 본문 길이 규격은 그대로 적용합니다.
+ */
+export const REFERENCE_TRACKS: readonly Track[] = ["GLOSSARY"];
 
 /** 태그를 뺀 본문 길이. 화면과 테스트가 같은 함수를 씁니다. */
 export function bodyTextLength(body: string): number {
   return body.replace(/<[^>]*>/g, "").trim().length;
+}
+
+/** 본문 안 표의 개수와, 가장 큰 표의 데이터 행 수(머리글 제외). */
+export function tableStats(body: string): { count: number; maxDataRows: number } {
+  let count = 0;
+  let maxDataRows = 0;
+  for (const table of body.matchAll(/<table>([\s\S]*?)<\/table>/g)) {
+    count++;
+    const rows = [...table[1]!.matchAll(/<tr>([\s\S]*?)<\/tr>/g)];
+    const dataRows = rows.filter((row) => !/<th>/.test(row[1]!)).length;
+    if (dataRows > maxDataRows) maxDataRows = dataRows;
+  }
+  return { count, maxDataRows };
 }
 
 /**
