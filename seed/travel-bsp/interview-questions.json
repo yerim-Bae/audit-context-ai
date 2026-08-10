@@ -1,0 +1,95 @@
+{
+  "$comment": "담당자 인터뷰 질문 10건. 각 질문은 어떤 위험·Claim에서 출발했는지와 어떤 근거를 기대하는지를 함께 기록합니다.",
+  "interview_questions": [
+    {
+      "id": "IQ-01",
+      "question": "항공권 매출은 예약 시점, 발권 시점, 탑승 시점 중 언제 인식하십니까?",
+      "expected_evidence": "회계정책 문서와 실제 전표 처리 사례",
+      "follow_up_rule": "발권 시점이라고 답하면 발권 후 취소분의 처리 방법을 확인. 이어서 항공권 가격 결정 재량, 미판매분 위험 부담, 운송 미이행 시 책임 주체를 물어 통제 획득 여부(본인·대리인) 판단 근거를 확보",
+      "owner_role": "회계 담당",
+      "risk_ids": ["RK-02", "RK-03"],
+      "claim_ids": ["CL-003", "CL-022", "CL-025"]
+    },
+    {
+      "id": "IQ-02",
+      "question": "고객에게서 받은 항공권 대금 중 아직 BSP에 송금하지 않은 금액은 어떤 계정으로 관리하십니까?",
+      "expected_evidence": "계정별원장과 기말 잔액 명세",
+      "follow_up_rule": "매출로 처리한다고 답하면, 신탁 보유 성격과의 차이를 어떻게 보는지 확인",
+      "owner_role": "회계 담당",
+      "risk_ids": ["RK-01"],
+      "claim_ids": ["CL-003", "CL-014"]
+    },
+    {
+      "id": "IQ-03",
+      "question": "회사에 적용되는 BSP 빌링·송금 주기는 어떻게 되며, 기말 직후 첫 Remittance Date는 언제입니까?",
+      "expected_evidence": "해당 시장 BSP 캘린더",
+      "follow_up_rule": "주기를 즉답하지 못하면 BSP 캘린더 원본을 요청(RQ-01)",
+      "owner_role": "정산 담당",
+      "risk_ids": ["RK-01", "RK-04"],
+      "claim_ids": ["CL-005", "CL-020"]
+    },
+    {
+      "id": "IQ-04",
+      "question": "기말 미송금 판매분은 어떤 로직으로 집계해 계상하십니까? 시스템 자동 집계입니까, 수작업입니까?",
+      "expected_evidence": "산출 내역서와 시스템 화면 또는 집계 파일",
+      "follow_up_rule": "수작업이면 검토·승인 절차를 확인",
+      "owner_role": "회계 담당",
+      "risk_ids": ["RK-01"],
+      "claim_ids": ["CL-014"]
+    },
+    {
+      "id": "IQ-05",
+      "question": "회사의 IATA 인가 유형은 무엇이며 Cash Facility를 보유하고 있습니까?",
+      "expected_evidence": "인가 관련 증빙",
+      "follow_up_rule": "Cash Facility 보유라고 답하면 Financial Security 제공 내역(IQ-06)으로 이어감. 미보유라고 답하면 사용제한예금의 다른 사유를 확인",
+      "owner_role": "경영지원 또는 정산 담당",
+      "risk_ids": ["RK-05"],
+      "claim_ids": ["CL-008", "CL-013", "CL-018"]
+    },
+    {
+      "id": "IQ-06",
+      "question": "IATA에 제공한 Financial Security가 있다면 그 형태는 무엇입니까? 예금 질권, 은행보증, 보증보험 중 어느 것입니까?",
+      "expected_evidence": "보증서 또는 질권설정계약서",
+      "follow_up_rule": "예금 질권이면 해당 예금 계좌와 재무제표상 계정을 특정",
+      "owner_role": "재무 담당",
+      "risk_ids": ["RK-05"],
+      "claim_ids": ["CL-011", "CL-019"]
+    },
+    {
+      "id": "IQ-07",
+      "question": "담보 금액은 누가 어떤 기준으로 산정하며, 회사가 통지받은 산정 근거 자료가 있습니까?",
+      "expected_evidence": "IATA의 담보 산정·요청 통지문",
+      "follow_up_rule": "통지문이 있으면 금액과 기말 잔액의 일치 여부를 확인",
+      "owner_role": "재무 담당",
+      "risk_ids": ["RK-05"],
+      "claim_ids": ["CL-009", "CL-019"]
+    },
+    {
+      "id": "IQ-08",
+      "question": "기중 담보 금액이 증액되거나 감액된 적이 있습니까? 있다면 시점과 사유는 무엇입니까?",
+      "expected_evidence": "증감 통지문과 예금 거래 내역",
+      "follow_up_rule": "증액이 있었다면 판매 증가와의 연관성을 확인",
+      "owner_role": "재무 담당",
+      "risk_ids": ["RK-05"],
+      "claim_ids": ["CL-010", "CL-016"]
+    },
+    {
+      "id": "IQ-09",
+      "question": "취소·환불 접수 시점과 BSP 반영 시점 사이의 차이는 어떻게 관리하십니까?",
+      "expected_evidence": "미처리 환불 목록과 후속 정산 자료",
+      "follow_up_rule": "별도 관리 대장이 없다면 기말 미처리 환불의 파악 방법을 확인",
+      "owner_role": "정산 담당",
+      "risk_ids": ["RK-04"],
+      "claim_ids": ["CL-006"]
+    },
+    {
+      "id": "IQ-10",
+      "question": "항공사가 발행한 ADM에 대해 이의를 제기한 사례가 있습니까? 미해결 건은 어떻게 계상하십니까?",
+      "expected_evidence": "ADM 내역과 이의 제기 기록",
+      "follow_up_rule": "미해결 건이 있으면 기말 부채 계상 여부와 금액 근거를 확인",
+      "owner_role": "정산 담당",
+      "risk_ids": ["RK-04"],
+      "claim_ids": ["CL-006"]
+    }
+  ]
+}

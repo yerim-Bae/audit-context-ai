@@ -1,0 +1,70 @@
+{
+  "$comment": "하나투어 사례의 출처와 근거 위치. PDF와 달리 위치의 단위는 '페이지'가 아니라 '섹션'입니다(splitSections, TITLE 기준). 인용문은 원문 그대로이며 tests/company-case.test.ts 가 섹션 원문과 대조합니다.",
+  "sources": [
+    {
+      "id": "SRC-H01",
+      "title": "하나투어 사업보고서 (2025.12)",
+      "publisher": "하나투어 (금융감독원 전자공시시스템 DART)",
+      "source_type": "REGULATORY_FILING",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260319001345",
+      "trust_grade": "A",
+      "authority": "법정 정기공시. 외부감사를 받은 재무제표를 포함",
+      "directness": "이 회사의 재무제표와 주석을 직접 기술",
+      "freshness": "접수일 2026-03-19, 보고기간 2025.01.01~2025.12.31",
+      "company_specificity": "COMPANY",
+      "can_support_scope": ["INDUSTRY", "COMPANY", "PERIOD"],
+      "cannot_support_scope": ["TRANSACTION"],
+      "locator_kind": "DART_SECTION",
+      "snapshot": {
+        "file": "20260319001345.xml",
+        "sha256": "a3882730da9ffa2878d74d60ceef06740d81636ddf2a105cfe95a5c6f4f46862",
+        "bytes": 5373609,
+        "pages": 133,
+        "fetched_at": "2026-08-05",
+        "effective_date": "2026-03-19",
+        "parser": "splitSections (TITLE 기준)",
+        "pages_text_file": "20260319001345.sections.json",
+        "page_numbering": "섹션 번호. TITLE 태그를 경계로 나눈 순번이며 같은 원문에서 항상 같게 재현됩니다."
+      },
+      "limitations": "공시는 재무제표와 주석의 범위까지만 말합니다. 계약 상대방, 질권자, 담보 산정 기준, 정산 주기 같은 세부는 기재되지 않습니다. 확인되지 않은 것은 미확인으로 남깁니다.",
+      "notes": "공개 자료입니다. 회사 내부 자료는 이 저장소에 넣지 않습니다."
+    }
+  ],
+  "evidence_spans": [
+    {
+      "id": "HD-EV-001",
+      "source_id": "SRC-H01",
+      "page": 53,
+      "section": "34. 담보제공자산 (연결)",
+      "quote": "담보제공자산 장부금액 | 69,535,150 | 317,504 | 69,852,654 | 담보설정금액 | 70,512,155 | 317,504 | 70,829,659"
+    },
+    {
+      "id": "HD-EV-002",
+      "source_id": "SRC-H01",
+      "page": 53,
+      "section": "34. 담보제공자산 (연결)",
+      "quote": "담보제공처 | 담보제공처 합계 | | (주)우리은행 등"
+    },
+    {
+      "id": "HD-EV-003",
+      "source_id": "SRC-H01",
+      "page": 53,
+      "section": "34. 담보제공자산 (연결)",
+      "quote": "담보로 제공되어 있는 자산에 대한 기술 | 계약이행 등"
+    },
+    {
+      "id": "HD-EV-004",
+      "source_id": "SRC-H01",
+      "page": 64,
+      "section": "2. 재무제표 작성기준 및 중요한 회계정책 (별도)",
+      "quote": "회사는 여행서비스의 최종적인 책임은 공급업체에 있으므로 대리인으로서 모든 서비스에 대하여 순액으로 수익을 인식하였으나, 기업회계기준서 제1115호를 적용하여 일부 항공권, 호텔, 티켓 등의 권리를 사전적으로 통제하는 부분에 한해서는 본인으로서 총액으로 수익을 인식하였습니다."
+    },
+    {
+      "id": "HD-EV-005",
+      "source_id": "SRC-H01",
+      "page": 69,
+      "section": "7. 재고자산 (별도)",
+      "quote": "항공권 등 | 46,115,955 | (744,021) | 45,371,934"
+    }
+  ]
+}

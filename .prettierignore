@@ -1,0 +1,5 @@
+dist/
+node_modules/
+seed/travel-bsp/sources/*.pages.json
+report.txt
+검토표.md

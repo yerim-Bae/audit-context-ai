@@ -1,0 +1,212 @@
+{
+  "$comment": "출처와 Evidence Span 시드. 인용문(quote)은 원문 그대로이며, PDF 텍스트 추출 과정에서 생긴 줄바꿈과 낱말 중간 공백만 정규화했습니다(quote_normalization 참조). 단어를 바꾸거나 요약하지 않았습니다.",
+  "quote_normalization": "인용문 대조 시 양쪽 모두에 적용하는 정규화: (1) 모든 공백 문자 제거, (2) 둥근따옴표·아포스트로피를 곧은 문자로 변환, (3) 대시(–, —)를 하이픈으로 변환, (4) 글머리표(•, ●, ▪) 제거. 단어·어순·숫자는 원문과 동일하며 요약이나 바꿔쓰기를 하지 않았습니다. 이 정규화는 tests/seed-integrity.test.ts가 강제합니다.",
+  "sources": [
+    {
+      "id": "SRC-001",
+      "title": "BSP Manual for Agents – NewGen ISS, Edition 5",
+      "publisher": "International Air Transport Association (IATA)",
+      "source_type": "INDUSTRY_BODY_MANUAL",
+      "url": "https://www.iata.org/contentassets/bfacf03f8e914960898e262df2777352/bsp-manual-for-agents.pdf",
+      "trust_grade": "A",
+      "authority": "산업기구 공식 매뉴얼. 여객판매대리점계약(PSAA)의 일부로 명시됨",
+      "directness": "BSP 제도 자체를 직접 규정",
+      "freshness": "Effective 1 September 2021. 이후 개정판 존재 여부 미확인",
+      "company_specificity": "NONE",
+      "can_support_scope": ["INDUSTRY"],
+      "cannot_support_scope": ["COMPANY", "PERIOD", "TRANSACTION"],
+      "snapshot": {
+        "file": "iata-bsp-manual-for-agents-2021-09-01.pdf",
+        "sha256": "2d3ae2250666f3b0efefa796f89e52ae0f5398de93f3056b140c8023210497d6",
+        "bytes": 3126538,
+        "pages": 67,
+        "fetched_at": "2026-08-05",
+        "effective_date": "2021-09-01",
+        "parser": "pypdf 6.14.2 extract_text",
+        "pages_text_file": "iata-bsp-manual-for-agents-2021-09-01.pages.json",
+        "page_numbering": "PDF 페이지 번호와 문서에 인쇄된 페이지 번호가 일치함(각 페이지 머리글로 확인)"
+      },
+      "notes": "공개 배포용 원문. 내부 검토 목적의 로컬 보관이며 재배포하지 않습니다."
+    },
+    {
+      "id": "SRC-003",
+      "title": "IFRS 해석위원회 논의 결과 (2022년 5월) — 본인 대 대리인: 소프트웨어 재판매자, IFRS 15",
+      "publisher": "IFRS Foundation (한국회계기준원 회계기준위원회 번역·배포)",
+      "source_type": "STANDARD_SETTER_AGENDA_DECISION",
+      "url": "https://www.ifrs.org/content/dam/ifrs/supporting-implementation/agenda-decisions/2022/ko-principal-versus-agent-software-reseller-may-2022.pdf",
+      "trust_grade": "A",
+      "authority": "국제회계기준위원회 해석위원회 논의 결과. 한국회계기준원이 IFRS 재단 동의를 받아 번역·배포",
+      "directness": "기업회계기준서 제1115호 문단 33, B34~B38의 본인·대리인 판단 체계를 직접 인용·설명",
+      "freshness": "2022년 5월. 이후 관련 기준 개정 여부 미확인",
+      "company_specificity": "NONE",
+      "can_support_scope": ["INDUSTRY"],
+      "cannot_support_scope": ["COMPANY", "PERIOD", "TRANSACTION"],
+      "snapshot": {
+        "file": "kifrs1115-principal-agent-agenda-decision-2022-05.pdf",
+        "sha256": "a3820b045db8cc368ffe8a927ffee20b8957a65da48d6f768d48fc7a2a792f73",
+        "bytes": 575620,
+        "pages": 5,
+        "fetched_at": "2026-08-05",
+        "effective_date": "2022-05-01",
+        "parser": "pypdf 6.14.2 extract_text",
+        "pages_text_file": "kifrs1115-principal-agent-agenda-decision-2022-05.pages.json",
+        "page_numbering": "PDF 페이지 번호와 인쇄된 페이지 번호가 일치함"
+      },
+      "limitations": "이 문서는 소프트웨어 재판매자 사안에 관한 논의 결과입니다. 여기서 인용하는 것은 그 안에 재진술된 기준서의 일반 판단 체계(문단 B34~B38, B37 지표)에 한정하며, 소프트웨어 사안의 결론을 여행업에 적용하지 않습니다. 기준서 제1115호 원문 자체는 접근 제한으로 아직 등록하지 못했습니다.",
+      "notes": "저작권 © IFRS Foundation. 내부 검토 목적의 로컬 보관이며 재배포하지 않습니다."
+    },
+    {
+      "id": "SRC-002",
+      "title": "Billing and Settlement Plan (BSP)",
+      "publisher": "International Air Transport Association (IATA)",
+      "source_type": "INDUSTRY_BODY_WEBPAGE",
+      "url": "https://www.iata.org/en/services/finance/bsp/",
+      "trust_grade": "A",
+      "authority": "산업기구 공식 웹페이지",
+      "directness": "BSP 제도의 개요와 규모를 설명",
+      "freshness": "2026-08-05 조회 시점 기준. 웹페이지는 예고 없이 변경됨",
+      "company_specificity": "NONE",
+      "can_support_scope": ["INDUSTRY"],
+      "cannot_support_scope": ["COMPANY", "PERIOD", "TRANSACTION"],
+      "snapshot": {
+        "file": "iata-bsp-webpage-2026-08-05.md",
+        "sha256": "0273efd14c54f0bec14339dce5fcb9c5bc2a29507fc20c56d87b3202b2a1d42e",
+        "bytes": 3031,
+        "pages": null,
+        "fetched_at": "2026-08-05",
+        "effective_date": null,
+        "parser": "HTML→Markdown 변환 텍스트",
+        "page_numbering": "없음"
+      },
+      "notes": "원문 바이트 그대로의 스냅샷이 아니라 변환 텍스트입니다. 따라서 이 출처에는 FACT Claim을 연결하지 않았습니다. 맥락 참고용으로만 등록합니다. 규칙 검증(테스트 T5)이 이 제약을 강제합니다."
+    }
+  ],
+  "evidence_spans": [
+    {
+      "id": "EV-001",
+      "source_id": "SRC-001",
+      "page": 4,
+      "section": "1.1 What is the Billing & Settlement Plan (BSP)?",
+      "quote": "The BSP is a system designed to facilitate and simplify the selling, refunding, reporting and remitting procedures of IATA Accredited Agents on behalf of BSP Airlines. Through the BSP, IATA consolidates the amounts owed by each Agent and the amounts due to each Airline, enabling the remittance & settlement of those amounts to be made through a single financial transfer for each participant."
+    },
+    {
+      "id": "EV-002",
+      "source_id": "SRC-001",
+      "page": 51,
+      "section": "13.2 BSP Remittances",
+      "quote": "When issuing tickets, amounts owing for \"Cash sales\" are received by the Agent from the customer and held in trust pending remittance to the BSP."
+    },
+    {
+      "id": "EV-003",
+      "source_id": "SRC-001",
+      "page": 16,
+      "section": "3.6 Agency BSP Billings & Remittances",
+      "quote": "The net amount owing to the BSP from all \"Cash\" tickets and refunds, as well as any adjustment transactions billed in a given Billing period, must be remitted to IATA's Clearing Bank and received by the Remittance Date specified for the period in question."
+    },
+    {
+      "id": "EV-004",
+      "source_id": "SRC-001",
+      "page": 51,
+      "section": "13.4 BSP Calendar",
+      "quote": "The BSP calendar contains three important timelines: Reporting period: The start and end date for each reporting period for which a BSP Billing is produced. Billing date: The dates when the Agent's Billing Reports for each Reporting period will be available on BSPlink. Remittance date: The date by which All Amounts Owing by the Agent for a Reporting period must be remitted by the Agent to IATA's Clearing Bank."
+    },
+    {
+      "id": "EV-005",
+      "source_id": "SRC-001",
+      "page": 51,
+      "section": "13.4 BSP Calendar",
+      "quote": "The frequency of both billings and remittances in a BSP is established by the Passenger Agency Conference per the recommendation of the local APJC."
+    },
+    {
+      "id": "EV-006",
+      "source_id": "SRC-001",
+      "page": 16,
+      "section": "3.7 Remittance Holding Capacity",
+      "quote": "For any Agent with Cash Facility, IATA will assign a Remittance Holding Capacity – a maximum monetary threshold for all BSP \"Cash\" amounts, held in trust and pending remittance to the BSP."
+    },
+    {
+      "id": "EV-007",
+      "source_id": "SRC-001",
+      "page": 18,
+      "section": "3.13 Financial Security for Standard Agents with Cash Facility/Multi-Country Agents",
+      "quote": "Before obtaining IATA Accreditation each Standard Agent with Cash Facility or Multi-Country Agent must provide a Financial Security which must be in place for a minimum of the first two years as an Accredited Agent."
+    },
+    {
+      "id": "EV-008",
+      "source_id": "SRC-001",
+      "page": 18,
+      "section": "3.13 Financial Security for Standard Agents with Cash Facility/Multi-Country Agents",
+      "quote": "Any Financial Security amount will be calculated per the Local Financial Criteria applicable to that market, or per the Multi Country Financial Criteria."
+    },
+    {
+      "id": "EV-009",
+      "source_id": "SRC-001",
+      "page": 18,
+      "section": "3.13 Financial Security for Standard Agents with Cash Facility/Multi-Country Agents",
+      "quote": "IATA will continuously monitor the amount of Financial Security provided to ensure that the Financial Security amount provided always meet the calculation in the Local Financial Criteria, and if the Agent has increased their sales it is possible that the Financial Security must be increased, or vice versa if the sales have decreased."
+    },
+    {
+      "id": "EV-010",
+      "source_id": "SRC-001",
+      "page": 62,
+      "section": "15.2 Acceptable Financial Securities",
+      "quote": "All acceptable Financial Security types are available in Resolution 850p and each Agent has the choice of providing which of those Financial Security types that is seen as most beneficial to them, as long as the Financial Security type is available in the market."
+    },
+    {
+      "id": "EV-011",
+      "source_id": "SRC-001",
+      "page": 18,
+      "section": "3.14 Failure to Provide a Financial Security",
+      "quote": "In case an Agent has been requested to provide a Financial Security and does not do so by the deadline, the Agent will incur a Risk Event of \"Failure to Provide a Financial Security.\" As an immediate consequence, the Agent's authorisation to use the Cash and Credit Card payment methods will be restricted until IATA receives the requested Financial Security."
+    },
+    {
+      "id": "EV-012",
+      "source_id": "SRC-001",
+      "page": 62,
+      "section": "15.4 Financial Security calculation – Standard Agents with no Cash Facility",
+      "quote": "For (new) Agents under the Standard Accreditation with no Cash Facility, no minimum Financial Security is. As part of the Risk Management, IATA will monitor ADM levels for Agents under this Accreditation type. If ADMs exceed the threshold defined in Resolution 812, Section 5.10, a Financial Security will be required."
+    },
+    {
+      "id": "EV-013",
+      "source_id": "SRC-001",
+      "page": 16,
+      "section": "3.6 Agency BSP Billings & Remittances",
+      "quote": "This Billing will contain Agent ticket sales and refunds issued and reported on all forms of payment (Cash, Card and IATA EasyPay) as well as adjustment transactions such as ADMs and ACMs"
+    },
+    {
+      "id": "EV-014",
+      "source_id": "SRC-001",
+      "page": 62,
+      "section": "15.3 Financial Security calculation – Standard Agents with Cash Facility and Multi-Country Agents",
+      "quote": "For (new) Agents Accredited for less than two years (or per the Local Financial Criteria, whichever is the longer) and Agents with Risk Status C the Financial Security amount must equal the Remittance Holding Capacity amount."
+    },
+    {
+      "id": "EV-015",
+      "source_id": "SRC-001",
+      "page": 3,
+      "section": "INTRODUCTION",
+      "quote": "The BSP Manual for Agents is part of the Passenger Sales Agency Agreement and contains the basic rules and procedures for participation in a BSP. By virtue of this Agreement, all IATA Accredited Agents are bound to apply such procedures in markets where a BSP is implemented."
+    },
+    {
+      "id": "EV-016",
+      "source_id": "SRC-003",
+      "page": 2,
+      "section": "2. 검토 내용과 결정 — IFRS 15의 적용 가능한 요구사항",
+      "quote": "문단 B34~B38에서는 기업이 본인인지 아니면 대리인인지를 판단하는 체계를 제시한다. 고객에게 재화나 용역을 제공하는 데에 다른 당사자가 관여할 때, 기업은 약속의 성격이 정해진 재화나 용역 자체를 제공하는 수행의무인지(기업은 본인) 아니면 다른 당사자가 재화나 용역을 제공하도록 주선하는 수행의무인지(기업은 대리인)를 판단한다."
+    },
+    {
+      "id": "EV-017",
+      "source_id": "SRC-003",
+      "page": 2,
+      "section": "2. 검토 내용과 결정 — 통제 판단",
+      "quote": "고객에게 재화나 용역이 이전되기 전에 기업이 그 정해진 재화나 용역을 통제한다면 이 기업은 본인이다(문단 B35)."
+    },
+    {
+      "id": "EV-018",
+      "source_id": "SRC-003",
+      "page": 3,
+      "section": "2. 검토 내용과 결정 — 문단 B37 지표",
+      "quote": "문단 B37에서는 기업이 본인인지 아니면 대리인인지 판단하는 데 도움이 되는 지표를 제시한다. 이러한 지표에는 다음 사항이 포함되지만 이에 한정되지는 않는다. (a) 정해진 재화나 용역을 제공하기로 하는 약속을 이행할 주된 책임 (b) 정해진 재화나 용역이 고객에게 이전되기 전이나, 고객에게 통제가 이전된 후의 재고위험 (c) 정해진 재화나 용역의 가격을 결정할 재량권."
+    }
+  ]
+}

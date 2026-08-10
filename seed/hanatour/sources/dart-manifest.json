@@ -1,0 +1,35 @@
+{
+  "corp_code": "00269940",
+  "corp_name": "하나투어",
+  "report_name": "사업보고서 (2025.12)",
+  "receipt_no": "20260319001345",
+  "receipt_date": "20260319",
+  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260319001345",
+  "fetched_at": "2026-08-05",
+  "trust_grade": "A",
+  "can_support_scope": ["INDUSTRY", "COMPANY", "PERIOD"],
+  "files": [
+    {
+      "file": "20260319001345.xml",
+      "sha256": "a3882730da9ffa2878d74d60ceef06740d81636ddf2a105cfe95a5c6f4f46862",
+      "bytes": 5373609,
+      "sections": 133,
+      "sections_file": "20260319001345.sections.json"
+    },
+    {
+      "file": "20260319001345_00760.xml",
+      "sha256": "170c752ce648a4d6bf0e9b024974b0fcb3111601976d5c6d5d7ec0370e9209c4",
+      "bytes": 590974,
+      "sections": 11,
+      "sections_file": "20260319001345_00760.sections.json"
+    },
+    {
+      "file": "20260319001345_00761.xml",
+      "sha256": "5c5f2435f6a79e0b6eb856816d03a866eb57fff0932372cf00b2a3e42956d674",
+      "bytes": 719952,
+      "sections": 10,
+      "sections_file": "20260319001345_00761.sections.json"
+    }
+  ],
+  "note": "DART 전자공시 원문. 회사 특정 근거로 쓸 수 있습니다(ADR 0007)."
+}

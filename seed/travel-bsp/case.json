@@ -1,0 +1,15 @@
+{
+  "id": "CASE-001",
+  "company_name": "가상 여행사 A",
+  "is_fictional": true,
+  "industry": "여행업(항공권 판매)",
+  "period_start": "2026-01-01",
+  "period_end": "2026-12-31",
+  "status": "DRAFT",
+  "fiction_policy": {
+    "decision": "가상 회사의 계약서·조회서 등 데모 문서를 만들지 않습니다.",
+    "consequence": "회사 범위(COMPANY) Claim은 FACT가 될 수 없으며 INFERENCE 또는 UNVERIFIED로만 존재합니다.",
+    "adr": "docs/decisions/0004-no-fabricated-company-documents.md"
+  },
+  "notes": "실제 회사명·실제 감사자료는 이 저장소에 넣지 않습니다. README의 경고를 참조하십시오."
+}

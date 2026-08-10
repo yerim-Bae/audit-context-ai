@@ -1,0 +1,69 @@
+{
+  "$comment": "새 산업팩을 시작할 때 이 디렉터리를 packs/{팩id}/ 로 복사하고 값을 채웁니다. 대괄호 [ ] 로 감싼 값은 전부 자리표시자이므로 그대로 남겨두면 안 됩니다. 작성 절차는 docs/pack-authoring.md, 프롬프트는 prompts/pack/01~04 를 따릅니다.",
+
+  "id": "[영문 kebab-case. 예: semiconductor, secondary-battery, nuclear-power]",
+  "industry": "[산업 한국어명. 예: 반도체]",
+
+  "$comment_scope": "이 팩은 산업 일반론만 담습니다. 회사 사실은 한 줄도 들어가지 않습니다. 산업 자료는 특정 회사가 그 거래를 실제로 한다는 사실을 증명하지 못합니다(docs/source-policy.md §3).",
+  "scope": "INDUSTRY",
+
+  "$comment_sources": "원자료 목록. grade 는 docs/source-policy.md §2 의 S/A/B/C/D 를 씁니다. S=법령·서명계약·조회서·원장, A=감독기관·표준제정기관·감사받은 공시, B=회사 공식 IR·홈페이지, C=신뢰도 높은 전문 매체·학술·전문가 자료, D=블로그·개인 해설·출처 불명. D등급은 FACT 의 단독 근거가 될 수 없습니다. date 가 추정이면 date_estimated 를 true 로 둡니다.",
+  "sources": [
+    {
+      "id": "[S-01]",
+      "title": "[소스 제목. 예: 염승환 「함께 배우기」 반도체 Part 1 — 기초와 밸류체인]",
+      "date": "[YYYY-MM-DD]",
+      "date_estimated": false,
+      "type": "[유튜브 자동자막 | 증권사 산업리포트 | 증권사 기업리포트 | 사업보고서 | IR | 기사]",
+      "grade": "[S | A | B | C | D]",
+      "note": "[이 소스에서만 나오는 고유 자산, 또는 주의할 점]"
+    }
+  ],
+
+  "$comment_date_range": "투입된 소스의 정보 시점 범위. clusters 에는 시점이 몰린 덩어리를 적습니다. 클러스터 간 수치 차이는 상충이 아니라 변화로 읽습니다(prompts/pack/02-merge-pack.md).",
+  "date_range": { "from": "[YYYY-MM-DD]", "to": "[YYYY-MM-DD]" },
+  "date_clusters": [{ "from": "[YYYY-MM-DD]", "to": "[YYYY-MM-DD]", "sources": ["[S-01]"] }],
+
+  "$comment_positions": "밸류체인 위치 옵션. 같은 산업이라도 감사대상이 어느 위치냐에 따라 필요 지식이 완전히 달라지므로, 온보딩 도구의 필수 입력값입니다. field-matrix.json 의 positions 와 정확히 같아야 합니다.",
+  "positions": ["[예: 소자업체]", "[예: 소재·부품·장비사]", "[예: 팹리스]"],
+
+  "$comment_fields": "담당 필드 옵션. field-matrix.json 의 fields 와 정확히 같아야 합니다.",
+  "fields": [
+    "매출·채권",
+    "매입·재고·원가",
+    "자금·금융상품",
+    "충당·우발",
+    "전반(인차지)"
+  ],
+
+  "$comment_artifacts": "이 팩이 실제로 보유한 산출물. 없으면 null 로 둡니다.",
+  "artifacts": {
+    "knowledge_dir": "knowledge/",
+    "source_notes": null,
+    "master": null,
+    "field_matrix": null,
+    "cards": null
+  },
+
+  "$comment_stats": "품질 게이트 통과 값. docs/pack-authoring.md §6 참조. atoms_total 은 소스노트들의 원자 수 합계이고, atoms_unreflected 는 0 이어야 합니다.",
+  "stats": {
+    "source_count": 0,
+    "atoms_total": 0,
+    "atoms_unreflected": 0,
+    "source_notes_bytes": 0,
+    "gaps_total": 0,
+    "gaps_transaction_layer": 0,
+    "cards_total": 0,
+    "confirmed_grade_items": 0
+  },
+
+  "last_updated": "[YYYY-MM-DD]",
+
+  "$comment_known_limits": "이 팩으로 답할 수 없는 것을 정직하게 적습니다. 한계가 없는 팩은 없습니다. 비어 있으면 G5 게이트를 통과하지 못합니다. 소스 유형 편중, 화자 편중, 시점 공백, 회사 확인 사실 건수, 구축되지 않은 밸류체인 트랙을 반드시 포함합니다.",
+  "known_limits": [
+    "[예: 소스가 단일 유형·단일 화자라 확신도가 사실상 전량 (전언)이다]",
+    "[예: YYYY-MM 부터 YYYY-MM 까지 N개월 공백]",
+    "[예: 회사 확인 사실 0건 — (확인) 등급 항목 없음]",
+    "[예: {위치} 트랙 미구축]"
+  ]
+}

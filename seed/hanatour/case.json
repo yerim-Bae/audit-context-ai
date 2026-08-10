@@ -1,0 +1,75 @@
+{
+  "id": "CASE-002",
+  "company_name": "하나투어",
+  "is_fictional": false,
+  "industry": "여행업(항공권 판매)",
+  "period_start": "2025-01-01",
+  "period_end": "2025-12-31",
+  "status": "DRAFT",
+  "corp_code": "00269940",
+  "stock_code": "039130",
+  "real_company_policy": {
+    "decision": "공시 원문으로 직접 확인되는 사실만 FACT로 둡니다.",
+    "consequence": "회계처리 적정성, 유의적 위험, 감사의견은 제시하지 않습니다. 위험은 계속 '가능성 … 확인 필요'로만 표현합니다.",
+    "adr": "docs/decisions/0007-allow-dart-ingestion.md"
+  },
+  "separation": "가상 여행사 사례(CASE-001)와 데이터를 섞지 않습니다. 산업 일반 Claim은 공유하지 않고, 이 사례에는 공시로 확인된 회사 특정 사실만 둡니다.",
+  "open_questions_status": [
+    {
+      "claim_id": "CL-019",
+      "question": "담보의 유형·금액·질권자",
+      "outcome": "PARTIAL",
+      "resolved": "금액과 담보제공처 표기는 확인됨 (HC-001, HC-002)",
+      "still_unknown": "질권자가 누구인지, 담보의 형태(예금 질권·보증보험·은행보증)가 무엇인지는 공시에 없음. 사유도 '계약이행 등'이 전부",
+      "next_action": ["RQ-05", "RQ-06", "IQ-06", "IQ-07"]
+    },
+    {
+      "claim_id": "CL-025",
+      "question": "항공권에 대한 통제 획득 여부(본인·대리인)",
+      "outcome": "PARTIAL",
+      "resolved": "회사가 일부 항공권을 사전적으로 통제해 본인으로 총액 인식한다고 회계정책에 명시 (HC-003). 항공권을 재고자산으로 계상하는 사실이 이를 뒷받침 (HC-004)",
+      "still_unknown": "어떤 거래가 '통제하는 부분'에 해당하는지, 총액·순액 구분 기준과 금액은 공시에 없음",
+      "next_action": ["RQ-07", "IQ-01"]
+    },
+    {
+      "claim_id": "CL-015",
+      "question": "사용제한예금이 BSP 담보와 관련되는가",
+      "outcome": "PARTIAL",
+      "resolved": "담보로 제공된 단기금융상품이 실재함은 확인됨 (HC-001). 또한 이사회 결의 안건에 '항공 BSP 담보 연장'이 기재되어 있음 — 근거 후보로 발견되었고 사람 승인 대기 중",
+      "still_unknown": "이사회 안건 명칭 외에는 금액·상대방·계약 내용이 없음. 담보제공자산 주석의 금액 중 BSP 관련분이 얼마인지는 공시로 확인 불가",
+      "next_action": ["RQ-04", "RQ-05", "IQ-05", "IQ-06"]
+    },
+    {
+      "claim_id": "CL-018",
+      "question": "IATA 인가 유형(Cash Facility 보유 여부)",
+      "outcome": "UNRESOLVED",
+      "resolved": "없음",
+      "still_unknown": "공시 원문에 BSP·IATA 언급이 한 건도 없음",
+      "next_action": ["RQ-04", "IQ-05"]
+    },
+    {
+      "claim_id": "CL-020",
+      "question": "BSP 빌링·송금 주기와 기말 직후 Remittance Date",
+      "outcome": "UNRESOLVED",
+      "resolved": "없음",
+      "still_unknown": "공시 원문에 BSP 언급이 없음",
+      "next_action": ["RQ-01", "RQ-02", "IQ-03"]
+    }
+  ],
+  "search_negative_findings": [
+    "'IATA', '국제항공운송협회' — 원문 전체에서 0건",
+    "'사용제한', '사용이 제한', '질권' — 원문 전체에서 0건",
+    "'BSP' — 원문 전체에서 1건. 재무제표 주석이 아니라 이사회 안건 목록에 있습니다(아래 참조)"
+  ],
+  "pending_review_highlight": {
+    "title": "승인 대기 중인 중요 후보 — 담보와 BSP를 잇는 유일한 기재",
+    "section": 119,
+    "section_title": "1. 이사회에 관한 사항",
+    "quote": "항공 BSP 담보 연장 | 가결",
+    "context": "2025.03.11 이사회 결의 안건. 같은 회차에 'KEB하나은행 외화 지급보증 연장'도 함께 가결됨",
+    "why_it_matters": "담보제공자산 주석(HC-001, HC-003)은 사유를 '계약이행 등'으로만 적어 BSP와의 연결을 보여주지 않습니다. 이 안건 명칭이 공시 원문에서 담보와 BSP를 잇는 유일한 기재입니다.",
+    "limits": "안건 명칭뿐이며 금액, 상대방, 담보의 형태, 대상 계약은 기재되어 있지 않습니다. 이 기재만으로 담보제공자산 주석의 금액이 BSP 담보라고 단정할 수 없습니다.",
+    "status": "PENDING"
+  },
+  "notes": "공개 공시 원문만 사용합니다. 회사 내부 자료나 감사조서는 이 저장소에 넣지 않습니다."
+}

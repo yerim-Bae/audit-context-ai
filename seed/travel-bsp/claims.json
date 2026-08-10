@@ -1,0 +1,279 @@
+{
+  "$comment": "골든 Claim 20개. 사람이 손으로 작성한 기준 데이터이며, 이후 AI 자동 추출의 채점 기준이 됩니다. 구성: FACT 13 / INFERENCE 4 / UNVERIFIED 3. 회사(COMPANY) 범위 Claim은 회사 특정 근거가 없으므로 FACT가 될 수 없습니다.",
+  "claims": [
+    {
+      "id": "CL-001",
+      "text": "BSP는 IATA 인가 여행사가 BSP 항공사를 대신하여 수행하는 판매·환불·보고·송금 절차를 단순화하기 위해 만들어진 체계다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-001", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-02", "ST-03", "ST-04"]
+    },
+    {
+      "id": "CL-002",
+      "text": "BSP Manual for Agents는 여객판매대리점계약(PSAA)의 일부이며, BSP가 시행되는 시장의 모든 IATA 인가 여행사는 그 절차를 적용할 의무가 있다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-015", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-003",
+      "text": "여행사가 현금(Cash) 판매로 고객에게서 수령한 금액은 BSP에 송금하기 전까지 신탁 보유(held in trust) 상태다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-002", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-01", "ST-02"],
+      "audit_note": "고객 수령액이 회사의 자유로운 자금이 아니라는 점에서 부채 인식과 표시에 직접 영향을 줄 수 있는 사실입니다."
+    },
+    {
+      "id": "CL-004",
+      "text": "각 빌링 기간에 청구된 현금 항공권·환불·조정거래의 순액은 해당 기간에 지정된 Remittance Date까지 IATA 청산은행에 도달하도록 송금되어야 한다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-003", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-04"]
+    },
+    {
+      "id": "CL-005",
+      "text": "BSP 캘린더는 Reporting period, Billing date, Remittance date 세 가지 일정을 포함한다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-004", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-03", "ST-04"],
+      "audit_note": "기간귀속(cut-off) 판단의 기준이 되는 일정입니다."
+    },
+    {
+      "id": "CL-006",
+      "text": "BSP 빌링에는 모든 결제수단의 항공권 판매와 환불뿐 아니라 ADM·ACM 같은 조정거래도 포함된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-013", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-03", "ST-05"]
+    },
+    {
+      "id": "CL-007",
+      "text": "Cash Facility를 보유한 여행사에는 신탁 보유 중이며 송금 대기 상태인 BSP 현금 판매액의 상한인 Remittance Holding Capacity가 부여된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-006", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-02", "ST-06"]
+    },
+    {
+      "id": "CL-008",
+      "text": "Cash Facility를 가진 표준 인가 여행사 또는 Multi-Country 여행사는 IATA 인가 취득 전에 Financial Security를 제공해야 하며, 최소 최초 2년간 유지해야 한다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-007", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-009",
+      "text": "Financial Security 금액은 해당 시장의 Local Financial Criteria 또는 Multi-Country Financial Criteria에 따라 산정된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-008", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"],
+      "audit_note": "산정 기준이 국가별로 다르므로, 금액의 합리성은 해당 시장 기준을 확인하지 않으면 판단할 수 없습니다."
+    },
+    {
+      "id": "CL-010",
+      "text": "IATA는 제공된 Financial Security 금액을 지속적으로 모니터링하며, 여행사의 판매가 증가하면 증액이 요구될 수 있고 감소하면 그 반대가 될 수 있다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-009", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-011",
+      "text": "허용되는 Financial Security의 종류는 Resolution 850p에 규정되어 있으며, 여행사는 자기 시장에서 이용 가능한 유형 중에서 선택한다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-010", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"],
+      "audit_note": "담보의 형태가 예금 질권일 수도, 보증보험이나 은행보증일 수도 있습니다. 형태에 따라 재무제표 표시가 달라지므로 회사별 확인이 필요합니다."
+    },
+    {
+      "id": "CL-012",
+      "text": "Financial Security 제공 요구를 기한 내 이행하지 않으면 Risk Event가 등록되고, IATA가 해당 담보를 수령할 때까지 현금·신용카드 결제수단 사용 권한이 제한된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-011", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"],
+      "audit_note": "영업 지속 능력에 영향을 줄 수 있는 제재입니다."
+    },
+    {
+      "id": "CL-013",
+      "text": "Cash Facility가 없는 표준 인가 여행사에는 최소 Financial Security가 요구되지 않으나, ADM이 Resolution 812에 정의된 기준을 초과하면 Financial Security가 요구된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-012", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-06"],
+      "audit_note": "모든 여행사가 담보를 제공하는 것은 아니라는 반대 방향의 사실입니다. 사용제한예금을 곧바로 BSP 담보로 단정하지 못하게 막는 근거가 됩니다."
+    },
+
+    {
+      "id": "CL-014",
+      "text": "이 회사가 BSP 현금 결제수단을 사용한다면, 기말 현재 고객에게서 수령했으나 BSP에 아직 송금하지 않은 판매대금이 존재할 가능성이 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "INFERENCE",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": ["CL-003", "CL-004", "CL-005"],
+      "inference_note": "산업 일반 사실(신탁 보유 + 정해진 송금일)에서 도출한 추정입니다. 이 회사가 실제로 현금 결제수단을 쓰는지, 기말 시점에 잔액이 있었는지는 확인되지 않았습니다.",
+      "steps": ["ST-02", "ST-04"]
+    },
+    {
+      "id": "CL-015",
+      "text": "이 회사의 사용제한예금이 BSP 인가 유지를 위한 Financial Security와 관련되어 있을 가능성이 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "INFERENCE",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": ["CL-008", "CL-009", "CL-011"],
+      "inference_note": "여행업에서 담보 제공 요건이 존재한다는 산업 사실에 근거한 추정일 뿐입니다. 이 회사의 예금이 실제로 BSP 담보인지, 다른 목적(리스보증금, 차입 담보 등)인지는 회사 자료로 확인해야 합니다.",
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-016",
+      "text": "Financial Security 금액이 기중 판매액 변동에 따라 조정되었다면 기초와 기말의 사용제한예금 잔액이 다를 수 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "INFERENCE",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": ["CL-010", "CL-015"],
+      "inference_note": "담보액이 판매 규모에 연동된다는 산업 사실에서 도출했습니다. 실제 증감 여부와 시점은 확인되지 않았습니다.",
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-017",
+      "text": "이 회사가 Cash Facility 없는 인가 유형이라면 Financial Security가 없을 수 있으므로, 사용제한예금이 BSP와 무관할 가능성도 배제할 수 없다.",
+      "scope": "COMPANY",
+      "assertion_status": "INFERENCE",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": ["CL-013"],
+      "inference_note": "CL-015와 반대 방향의 추정입니다. 두 추정은 서로 배타적이며, 인가 유형(CL-018)이 확인되기 전에는 어느 쪽도 사실로 승격할 수 없습니다.",
+      "steps": ["ST-06"]
+    },
+
+    {
+      "id": "CL-018",
+      "text": "이 회사의 IATA 인가 유형(Cash Facility 보유 여부, Multi-Country 여부)은 확인되지 않았다.",
+      "scope": "COMPANY",
+      "assertion_status": "UNVERIFIED",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": [],
+      "converts_to": { "request_items": ["RQ-04"], "interview_questions": ["IQ-05"] },
+      "blocks_resolution_of": ["CL-015", "CL-017"],
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-019",
+      "text": "이 회사가 제공한 Financial Security의 유형, 금액, 질권자 또는 수익자는 확인되지 않았다.",
+      "scope": "COMPANY",
+      "assertion_status": "UNVERIFIED",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": [],
+      "converts_to": { "request_items": ["RQ-05", "RQ-06"], "interview_questions": ["IQ-06", "IQ-07"] },
+      "blocks_resolution_of": ["CL-015", "CL-016"],
+      "steps": ["ST-06"]
+    },
+    {
+      "id": "CL-020",
+      "text": "이 회사에 적용되는 BSP 빌링·송금 주기와 기말 직후의 Remittance Date는 확인되지 않았다.",
+      "scope": "COMPANY",
+      "assertion_status": "UNVERIFIED",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": [],
+      "converts_to": { "request_items": ["RQ-01", "RQ-02"], "interview_questions": ["IQ-03"] },
+      "blocks_resolution_of": ["CL-014"],
+      "steps": ["ST-03", "ST-04"]
+    },
+
+    {
+      "id": "CL-021",
+      "text": "기업회계기준서 제1115호 문단 B34~B38은 기업이 본인인지 아니면 대리인인지를 판단하는 체계를 제시한다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-016", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-02"]
+    },
+    {
+      "id": "CL-022",
+      "text": "정해진 재화나 용역이 고객에게 이전되기 전에 기업이 그것을 통제한다면 그 기업은 본인이다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-017", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-02"],
+      "audit_note": "총액·순액 표시의 갈림길은 '통제'입니다. 거래 형식이나 정산 경로가 아니라 통제 여부로 판단합니다."
+    },
+    {
+      "id": "CL-023",
+      "text": "본인·대리인 판단을 돕는 지표에는 약속을 이행할 주된 책임, 재고위험, 가격 결정 재량권이 포함된다.",
+      "scope": "INDUSTRY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-018", "relation": "SUPPORTS" }],
+      "premises": [],
+      "steps": ["ST-02"],
+      "audit_note": "지표는 통제 판단을 돕는 보조 수단이며, 지표만으로 결론을 대체하지 않습니다."
+    },
+    {
+      "id": "CL-024",
+      "text": "이 회사가 항공권 판매에서 본인인지 대리인인지에 따라 매출을 총액으로 표시할지 순액으로 표시할지가 달라질 수 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "INFERENCE",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": ["CL-021", "CL-022", "CL-023"],
+      "inference_note": "기준서의 일반 판단 체계를 이 회사의 거래에 적용하면 도출되는 추정입니다. 이 회사가 항공권에 대한 통제를 획득하는지는 확인되지 않았으므로(CL-025), 어느 쪽 표시가 맞는지는 결론 내리지 않습니다.",
+      "steps": ["ST-02"]
+    },
+    {
+      "id": "CL-025",
+      "text": "이 회사가 항공권이 고객에게 이전되기 전에 그 항공권을 통제하는지(본인 여부)는 확인되지 않았다.",
+      "scope": "COMPANY",
+      "assertion_status": "UNVERIFIED",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [],
+      "premises": [],
+      "converts_to": { "request_items": ["RQ-07"], "interview_questions": ["IQ-01"] },
+      "blocks_resolution_of": ["CL-024"],
+      "steps": ["ST-02"]
+    }
+  ]
+}
