@@ -1,0 +1,35 @@
+{
+  "corp_code": "00111193",
+  "corp_name": "대양전기공업",
+  "report_name": "사업보고서 (2025.12)",
+  "receipt_no": "20260323001662",
+  "receipt_date": "20260323",
+  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260323001662",
+  "fetched_at": "2026-08-10",
+  "trust_grade": "A",
+  "can_support_scope": ["INDUSTRY", "COMPANY", "PERIOD"],
+  "files": [
+    {
+      "file": "20260323001662.xml",
+      "sha256": "5cde1368df35313b48cc72b1bfdff51187944eef78bf3daf237d6717c15951d3",
+      "bytes": 4489691,
+      "sections": 125,
+      "sections_file": "20260323001662.sections.json"
+    },
+    {
+      "file": "20260323001662_00760.xml",
+      "sha256": "7224a657ccd9905c2198e83ab922c54af1d179792f3d03154b378d3573d85c65",
+      "bytes": 555694,
+      "sections": 11,
+      "sections_file": "20260323001662_00760.sections.json"
+    },
+    {
+      "file": "20260323001662_00761.xml",
+      "sha256": "ebdb61671e2516b91c5ec7bb96571a9d4d924f2c83e22c288e7568da6503a9cd",
+      "bytes": 632466,
+      "sections": 10,
+      "sections_file": "20260323001662_00761.sections.json"
+    }
+  ],
+  "note": "DART 전자공시 원문. 회사 특정 근거로 쓸 수 있습니다(ADR 0007)."
+}

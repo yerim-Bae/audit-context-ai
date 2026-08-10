@@ -1,0 +1,21 @@
+{
+  "corp_code": "00164609",
+  "corp_name": "에이치디현대미포",
+  "report_name": "[기재정정]사업보고서 (2024.12)",
+  "receipt_no": "20250711000373",
+  "receipt_date": "20250711",
+  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20250711000373",
+  "fetched_at": "2026-08-10",
+  "trust_grade": "A",
+  "can_support_scope": ["INDUSTRY", "COMPANY", "PERIOD"],
+  "files": [
+    {
+      "file": "20250711000373.xml",
+      "sha256": "bf7fd65464010c559f2f323d96c2fcb5572a1d0eb11b4cd26d9645739f5406de",
+      "bytes": 4207362,
+      "sections": 128,
+      "sections_file": "20250711000373.sections.json"
+    }
+  ],
+  "note": "DART 전자공시 원문. 회사 특정 근거로 쓸 수 있습니다(ADR 0007)."
+}

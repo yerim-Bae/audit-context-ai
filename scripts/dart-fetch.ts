@@ -2,8 +2,12 @@
  * 지정한 회사의 공시 원문 한 건을 가져와 불변 스냅샷으로 저장하고, 근거 후보를 뽑습니다.
  *
  * 실행:
- *   npm run dart:fetch -- <고유번호> [--report 사업보고서] [--out <폴더명>]
+ *   npm run dart:fetch -- <고유번호> [--report 사업보고서] [--out <폴더명>] [--terms <검색어묶음>]
  *   예) npm run dart:fetch -- 00269940 --out hanatour
+ *   예) npm run dart:fetch -- 00164609 --out hd-hyundai-mipo --terms shipbuilding
+ *
+ * --terms 는 근거 후보를 뽑을 때 쓸 검색어 묶음입니다(travel | shipbuilding).
+ * 산업이 다르면 찾을 낱말이 다르므로, 기본값(travel)을 그대로 두면 후보가 헛돕니다.
  *
  * 하는 일:
  *   1) 정기공시 목록에서 최신 보고서 한 건을 고릅니다 (자동 크롤링 아님, 한 건만)
@@ -20,7 +24,12 @@ import { join } from "node:path";
 
 import { DartError, decodeDocument, fetchDocument, listFilings, readApiKey } from "../src/ingest/dart.ts";
 import { sectionsAsPages, splitSections } from "../src/ingest/dartDocument.ts";
-import { findCandidates, RESTRICTED_DEPOSIT_TERMS, BSP_TERMS } from "../src/ingest/candidates.ts";
+import {
+  findCandidates,
+  RESTRICTED_DEPOSIT_TERMS,
+  BSP_TERMS,
+  SHIPBUILDING_TERMS,
+} from "../src/ingest/candidates.ts";
 import { REPO_ROOT } from "../src/seed/load.ts";
 
 const args = process.argv.slice(2);
@@ -38,6 +47,19 @@ if (!corpCode) {
 const reportKeyword = flag("report") ?? "사업보고서";
 const outName = flag("out") ?? corpCode;
 const OUT_DIR = join(REPO_ROOT, "seed", outName, "sources");
+
+const TERM_SETS: Record<string, string[]> = {
+  travel: [...RESTRICTED_DEPOSIT_TERMS, ...BSP_TERMS],
+  shipbuilding: SHIPBUILDING_TERMS,
+};
+const termSetName = flag("terms") ?? "travel";
+const searchTerms = TERM_SETS[termSetName];
+if (!searchTerms) {
+  console.error(
+    `--terms 값이 잘못됐습니다: ${termSetName} (쓸 수 있는 값: ${Object.keys(TERM_SETS).join(", ")})`,
+  );
+  process.exit(1);
+}
 
 try {
   const key = readApiKey();
@@ -90,7 +112,7 @@ try {
       sections_file: sectionsFile,
     });
 
-    const hits = findCandidates(sectionsAsPages(sections), [...RESTRICTED_DEPOSIT_TERMS, ...BSP_TERMS], {
+    const hits = findCandidates(sectionsAsPages(sections), searchTerms, {
       maxPerPageTerm: 2,
       window: 220,
     });
@@ -134,6 +156,8 @@ try {
           "근거 후보입니다. Claim이 아니며 아무 상태도 갖지 않습니다. 사람이 원문을 보고 확정해야 근거가 됩니다.",
         receipt_no: target.receiptNo,
         generated_at: new Date().toISOString().slice(0, 10),
+        term_set: termSetName,
+        terms: searchTerms,
         candidates: allCandidates,
       },
       null,
