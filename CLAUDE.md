@@ -8,13 +8,26 @@ The product is not a generic DART summarizer and not an autonomous auditor. It h
 
 ## MVP boundary
 
+### Audit linkage — travel agencies only
+
 - Domain: travel agencies
 - Transaction: airline ticket sales settled through BSP
 - Accounting focus: unsettled balances and restricted/pledged deposits
 - Primary output: transaction map plus evidence-backed audit preparation pack
 - Use a fictional company unless company-specific claims are supported by company-specific sources.
 
-Do not add other industries, automatic DART ingestion, broad web crawling, multi-tenant permissions, or autonomous accounting conclusions unless the user explicitly changes scope.
+Transaction maps, audit risks, request items, and interview questions stay inside this boundary. Do not build them for other industries.
+
+### Scope changes already approved
+
+- Company search and the business-model dashboard cover all listed companies — `docs/decisions/0008-allow-all-listed-companies.md`
+- DART filings may be ingested one document at a time — `docs/decisions/0007-allow-dart-ingestion.md`
+- Industry learning packs and the onboarding card deck cover other industries — `docs/decisions/0009-add-industry-packs-and-onboarding-deck.md`
+- A company overlay may sit on top of a pack deck, sourced only from that company's own filings — `docs/decisions/0011-company-overlay-on-pack-deck.md`
+
+A pack is a learning surface, not an evidence asset. Every pack statement is `INDUSTRY` scope and can never be `FACT` — `docs/decisions/0010-lecture-source-grade-and-limits.md`. Never mix `packs/` content into `seed/`.
+
+Do not add broad web crawling, multi-tenant permissions, or autonomous accounting conclusions unless the user explicitly changes scope.
 
 ## Non-negotiable domain rules
 
@@ -26,12 +39,13 @@ Do not add other industries, automatic DART ingestion, broad web crawling, multi
    - scope: `INDUSTRY | COMPANY | PERIOD | TRANSACTION`
    - source trust grade: `S | A | B | C | D`
 4. A source about an industry cannot prove a company-specific claim.
-5. A D-grade source cannot be the sole support for a FACT.
+5. A D-grade source cannot be the sole support for a FACT. The same limit applies to any single-publisher, unedited source regardless of its grade letter — see `docs/decisions/0010-lecture-source-grade-and-limits.md`.
 6. Confidence does not change an inference into a fact.
 7. Preserve source snapshots, hashes, versions, page/section locators, and short supporting excerpts.
 8. Never silently fill missing facts. Create an `UNVERIFIED` claim and convert it into a requested document or interview question.
 9. Conflicting evidence must remain visible until a human resolves it.
 10. The system assists audit planning; it must not present an audit opinion or final accounting conclusion.
+11. Content under `packs/` is `INDUSTRY` scope and never `FACT`. Repetition by the same speaker is not cross-verification.
 
 ## Architecture
 
@@ -44,10 +58,15 @@ packages/db     schema, migrations, repositories
 packages/domain pure business rules and use cases
 packages/ai     provider adapters, prompts, schemas, evaluations
 packages/ui     reusable UI components
-seed            curated BSP demo data
+seed            curated BSP demo data — claims with evidence
+packs           industry learning packs — cards, not evidence (ADR 0009)
 evals           trust and retrieval regression sets
 docs            product, architecture, ADRs, source policy
 ```
+
+`seed/` and `packs/` are separate trust domains. A pack card is never evidence for a seed claim, and a seed claim is never copied into a card. They have separate loaders, separate tests, and separate build commands.
+
+A pack directory holds `pack.json` (industry, sources, date range), `knowledge/` (reference library merged from the lossless source notes), `field-matrix.json` (concept × value-chain position × field need), and `cards.json` (the deck).
 
 Dependencies flow inward:
 
@@ -126,6 +145,14 @@ Every feature must preserve these invariants:
 - A citation resolves to the stored snapshot and locator.
 - Failed or retried jobs do not create duplicate claims.
 
+Card deck invariants (`packs/`, checks D1–D11 in `docs/onboarding-deck-design.md` §9):
+
+- No card carries `assertion_status = FACT`.
+- Every card body stays within 800–1,400 characters, holds at most one table of at most 6 rows, and states what changes if you know this.
+- Every card exposes a scope/status badge, and every deck page exposes the source-and-date notice.
+- Every "next question" target resolves to an existing card.
+- Numbers in a card carry their source date.
+
 For AI behavior, add or update an evaluation fixture. Do not rely only on unit tests with mocked model output.
 
 ## Working method
@@ -172,7 +199,8 @@ Keep this section current as scripts are added. Do not claim a check passed unle
 npm install            # dev tooling only: typescript, prettier, @types/node
 npm start              # build + serve the transaction map at http://localhost:5173
 npm run build          # generate dist/index.html and copy source PDFs
-npm test               # 36 checks: seed trust (20) + rendered screen (16)
+npm run deck:build     # generate dist/deck-<industry>.html from packs/<industry>/cards.json
+npm test               # seed trust + rendered screen + ingestion + company case + card deck
 npm run typecheck      # tsc --noEmit
 npm run format:check   # prettier --check
 npm run seed:report    # human-readable dump of the golden dataset
@@ -182,6 +210,8 @@ npm run review         # review tables as markdown
 ```bash
 python scripts/extract_pdf_pages.py   # only when a source PDF changes
 ```
+
+`deck:build` reads a pack's `cards.json` and writes one static HTML file per industry. No runtime dependencies, no model calls at build time — cards are authored and reviewed by a human before they ship (ADR 0006, ADR 0009).
 
 ### Not available yet
 

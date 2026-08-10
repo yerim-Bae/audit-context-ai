@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "audit-context-ai",
+      "name": "audit-context-ai-dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start"],
       "port": 5173
