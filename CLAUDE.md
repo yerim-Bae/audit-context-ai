@@ -153,6 +153,13 @@ Card deck invariants (`packs/`, checks D1–D11 in `docs/onboarding-deck-design.
 - Every "next question" target resolves to an existing card.
 - Numbers in a card carry their source date.
 
+Company overlay invariants (`seed/<company>/overlay.json`, checks O1–O12 in `tests/overlay.test.ts`):
+
+- A difference-table row's status is derived from its evidence, never written by hand.
+- A row with no company claim is `UNVERIFIED` and converts to an interview question.
+- Every question names the row it came from, so the screen traces back to the original industry statement.
+- An industry card is a comparison baseline on the screen, never a citation.
+
 For AI behavior, add or update an evaluation fixture. Do not rely only on unit tests with mocked model output.
 
 ## Working method
@@ -200,7 +207,8 @@ npm install            # dev tooling only: typescript, prettier, @types/node
 npm start              # build + serve the transaction map at http://localhost:5173
 npm run build          # generate dist/index.html and copy source PDFs
 npm run deck:build     # generate dist/deck-<industry>.html from packs/<industry>/cards.json
-npm test               # seed trust + rendered screen + ingestion + company case + card deck
+npm run overlay:build  # generate dist/overlay-<company>.html from seed/<company>/overlay.json
+npm test               # seed trust + rendered screen + ingestion + company case + card deck + overlay
 npm run typecheck      # tsc --noEmit
 npm run format:check   # prettier --check
 npm run seed:report    # human-readable dump of the golden dataset
@@ -212,6 +220,8 @@ python scripts/extract_pdf_pages.py   # only when a source PDF changes
 ```
 
 `deck:build` reads a pack's `cards.json` and writes one static HTML file per industry. No runtime dependencies, no model calls at build time — cards are authored and reviewed by a human before they ship (ADR 0006, ADR 0009).
+
+`overlay:build` reads a company's `overlay.json` and writes one static HTML file per company. A difference-table row's status is **derived, never authored** — no evidence means `UNVERIFIED`, and there is no way to write a row that looks confirmed without a company-filing citation (ADR 0011).
 
 ### Not available yet
 

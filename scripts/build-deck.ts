@@ -10,8 +10,24 @@ import { join } from "node:path";
 
 import { listPackIds, loadPack, REPO_ROOT } from "../src/pack/load.ts";
 import { renderDeckIndexPage, renderDeckPage } from "../src/render/deckPage.ts";
+import type { OverlayLink } from "../src/render/deckPage.ts";
 import { totalMinutes } from "../src/domain/pack.ts";
 import type { Pack } from "../src/domain/pack.ts";
+import { listOverlayIds, loadOverlay } from "../src/overlay/load.ts";
+
+/* 이 팩에 회사 층이 준비된 회사. 없으면 빈 배열이고 카드덱은 그대로 동작합니다. */
+const overlaysByPack = new Map<string, OverlayLink[]>();
+for (const overlayId of listOverlayIds()) {
+  const overlay = loadOverlay(overlayId);
+  const list = overlaysByPack.get(overlay.meta.packId) ?? [];
+  list.push({
+    id: overlay.meta.id,
+    companyName: overlay.meta.companyName,
+    positionLabel: overlay.profile.positionLabel,
+    href: `overlay-${overlay.meta.id}.html`,
+  });
+  overlaysByPack.set(overlay.meta.packId, list);
+}
 
 const DIST = join(REPO_ROOT, "dist");
 
@@ -26,7 +42,7 @@ mkdirSync(DIST, { recursive: true });
 const built: Pack[] = [];
 for (const id of packIds) {
   const pack = loadPack(id);
-  const html = renderDeckPage(pack);
+  const html = renderDeckPage(pack, { overlays: overlaysByPack.get(pack.meta.id) ?? [] });
   const file = `deck-${pack.meta.id}.html`;
   writeFileSync(join(DIST, file), html, "utf-8");
   built.push(pack);

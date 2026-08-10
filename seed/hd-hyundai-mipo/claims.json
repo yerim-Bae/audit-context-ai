@@ -1,0 +1,85 @@
+{
+  "$comment": "에이치디현대미포 오버레이의 Claim. 전부 회사 특정 사실이며 사업보고서 원문이 직접 지지합니다. 회계처리 적정성이나 감사 결론은 담지 않습니다(도메인 규칙 10).",
+  "claims": [
+    {
+      "id": "MC-01",
+      "text": "회사는 투입원가를 기준으로 산정한 진행률에 따라 선박 건조 수익을 안분하여 인식한다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M01", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "대체 용도가 없고 집행 가능한 지급청구권이 있다는 판단이 근거로 적혀 있습니다. 그 판단의 계약상 조항이 무엇인지는 기재되어 있지 않습니다."
+    },
+    {
+      "id": "MC-02",
+      "text": "회사는 선박 건조에 일반적으로 1년의 공사기간이 소요된다고 기재하고 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M02", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "회계정책 주석의 문장 그대로입니다. 선종별 실제 건조기간의 분포는 기재되어 있지 않습니다."
+    },
+    {
+      "id": "MC-03",
+      "text": "제51기 핵심감사사항으로 투입법에 따른 수익인식, 총계약원가 추정의 불확실성, 공사진행률 산정, 계약자산금액의 회수가능성 평가, 공사변경에 따른 회계처리 5건이 기재되어 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M03", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "전임 감사인이 유의적으로 본 영역입니다. 각 사항에 대해 어떤 절차를 수행했는지는 이 요약표에 없고 감사보고서 본문에 있습니다."
+    },
+    {
+      "id": "MC-04",
+      "text": "당기말 현재 회사는 선박선수금과 관련하여 한국수출입은행 외 금융기관으로부터 USD 3,803,874천의 지급보증을 제공받고 있으며, 건조중인 선박과 건조용 원자재, 수출채권 등을 담보로 제공하고 있다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M04", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "선수금환급보증(RG)의 총액과 담보 대상이 확인됩니다. 계약별 발급 조건, 수수료율, 한도 사용률은 기재되어 있지 않습니다."
+    },
+    {
+      "id": "MC-05",
+      "text": "제51기 조선 부문 선박 매출은 수출 4,126,046백만원, 내수 504,003백만원으로 합계 4,630,049백만원이다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M05", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "내부매출액을 차감한 수치입니다. 매출의 약 89%가 수출입니다."
+    },
+    {
+      "id": "MC-06",
+      "text": "회사의 판매경로는 선주와의 직접매매 계약형태이며 개별 주문 생산 방식이다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M06", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "중개나 대리 구조가 아니라는 뜻입니다. 개별 선주가 누구인지, 특정 선주 비중이 얼마인지는 이 절에 없습니다."
+    },
+    {
+      "id": "MC-07",
+      "text": "2024년 12월 31일 기준 조선 부문 기말수주잔고는 12,796,281백만원이다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M07", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "당기 매출 4,630,049백만원의 약 2.8배입니다. 잔고를 매출로 환산할 때 쓰는 내부 가정은 기재되어 있지 않습니다."
+    },
+    {
+      "id": "MC-08",
+      "text": "회사는 기댓값 방법을 사용하여 변동대가를 추정한다.",
+      "scope": "COMPANY",
+      "assertion_status": "FACT",
+      "review_status": "HUMAN_VERIFIED",
+      "evidence": [{ "span_id": "EV-M08", "relation": "SUPPORTS" }],
+      "premises": [],
+      "audit_note": "변동대가가 존재한다는 것이 회계정책으로 확인됩니다. 어떤 항목이 변동대가인지(계약변경·지체상금·인센티브 중 무엇인지)는 기재되어 있지 않습니다."
+    }
+  ]
+}

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "node scripts/build.ts",
     "deck:build": "node scripts/build-deck.ts",
+    "overlay:build": "node scripts/build-overlay.ts",
     "start": "node scripts/build.ts && node scripts/serve.ts",
     "test": "node --test \"tests/*.test.ts\"",
     "typecheck": "tsc --noEmit",

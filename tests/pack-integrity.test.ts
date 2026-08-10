@@ -224,6 +224,17 @@ for (const pack of packs) {
     assert.ok(!data.cards.some((c) => c.hay.includes("<")), "검색 색인에 태그가 남아 있습니다.");
   });
 
+  test(`[${id}] 회사 층 링크는 시작 전에 숨겨져 있다`, () => {
+    // .hide 뒤에 오는 규칙이 display 를 정하면 숨기기가 덮입니다. 한 번 그렇게 깨졌습니다.
+    const cssBlock = html.split("<style>")[1]!.split("</style>")[0]!;
+    assert.ok(html.includes('id="ovl"'), "회사 층 링크가 없습니다.");
+    assert.ok(html.includes('class="btn hide" id="ovl"'), "회사 층 링크가 처음부터 보입니다.");
+    assert.ok(
+      !/a\.btn\{[^}]*display\s*:/.test(cssBlock),
+      "a.btn 이 display 를 정하고 있어 .hide 가 덮입니다.",
+    );
+  });
+
   test(`[${id}] 시작 화면에 회사명·밸류체인 위치·담당 필드가 모두 있다`, () => {
     assert.ok(html.includes('id="co"'), "회사명 입력이 없습니다.");
     for (const position of pack.fieldMatrix.positions) {

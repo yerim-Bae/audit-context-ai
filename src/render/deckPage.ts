@@ -127,6 +127,11 @@ h1{font-size:25px;line-height:1.35;margin:.1em 0 .35em;letter-spacing:-.02em}
 .hits{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .hits .chip{font-size:14.5px;padding:10px 14px}
 .note{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.ovlnote{max-width:1100px;margin:16px auto 0;padding:12px 16px;border:1px solid var(--line);
+ border-radius:10px;background:var(--accent-soft);font-size:13.5px;line-height:1.7}
+.ovlnote a{color:var(--accent);font-weight:600}
+/* display 를 정하지 않습니다. .hide 보다 뒤에 오는 규칙이라 display 를 쓰면 숨기기를 덮습니다. */
+a.btn{text-decoration:none;line-height:1.6}
 .start{max-width:640px;margin:56px auto;background:var(--panel);border:1px solid var(--line);
  border-radius:16px;padding:40px 38px;box-shadow:var(--shadow)}
 .start h2{font-size:22px;margin:0 0 6px;letter-spacing:-.02em}
@@ -160,6 +165,7 @@ const CLIENT_JS = `
 (function () {
   "use strict";
   var DATA = JSON.parse(document.getElementById("deck-data").textContent);
+  var OVERLAYS = DATA.overlays || [];
   var INDEX = {};
   DATA.cards.forEach(function (c) { INDEX[c.id] = c; });
 
@@ -200,10 +206,41 @@ const CLIENT_JS = `
     };
   });
 
+  /* 회사 층이 준비된 회사인지 본다. 이름이 정확히 같을 때만 잇는다 — 짐작으로 잇지 않는다. */
+  function overlayFor(name) {
+    var key = String(name || "").replace(/\\s+/g, "");
+    for (var i = 0; i < OVERLAYS.length; i++) {
+      if (OVERLAYS[i].companyName.replace(/\\s+/g, "") === key) return OVERLAYS[i];
+    }
+    return null;
+  }
+
   el("go").onclick = function () {
     el("startview").classList.add("hide");
     el("mainview").classList.remove("hide");
     el("ctx").textContent = S.company + " \\u00b7 " + S.position + " \\u00b7 " + S.field;
+
+    var ov = overlayFor(S.company);
+    var link = el("ovl");
+    if (link) {
+      if (ov) {
+        link.setAttribute("href", ov.href);
+        link.textContent = "이 회사 차이표 \\u2192";
+        link.classList.remove("hide");
+      } else {
+        link.classList.add("hide");
+      }
+    }
+    var banner = el("ovlnote");
+    if (banner) {
+      banner.classList.toggle("hide", !ov);
+      if (ov) {
+        banner.innerHTML =
+          "<b>" + ov.companyName + "</b> \\u00b7 회사 층이 준비되어 있습니다. " +
+          "산업 카드를 읽은 뒤 <a href=\\"" + ov.href + "\\">차이표</a>로 넘어가면 " +
+          "이 회사 공시가 실제로 무엇을 말하는지 볼 수 있습니다.";
+      }
+    }
 
     var shown = {};
     all("#myfield .fieldrow").forEach(function (row) {
@@ -405,7 +442,7 @@ function renderToc(pack: Pack, byId: Map<string, Card>): string {
   );
 }
 
-function renderStart(pack: Pack): string {
+function renderStart(pack: Pack, overlays: OverlayLink[]): string {
   const positions = pack.fieldMatrix.positions
     .map(
       (p) =>
@@ -429,7 +466,22 @@ function renderStart(pack: Pack): string {
     `<div id="startview"><div class="start">` +
     `<h2>어느 회사를 맡으셨나요</h2>` +
     `<p class="sub">${escapeHtml(pack.meta.subtitle)}</p>` +
-    `<div class="f"><label for="co">회사명</label><input id="co" type="text" placeholder="예: 한국조선"></div>` +
+    `<div class="f"><label for="co">회사명</label>` +
+    `<input id="co" type="text" placeholder="예: 한국조선" list="colist" autocomplete="off">` +
+    (overlays.length
+      ? `<datalist id="colist">` +
+        overlays.map((o) => `<option value="${escapeHtml(o.companyName)}">`).join("") +
+        `</datalist>` +
+        `<p class="note">회사 층이 준비된 회사: ` +
+        overlays
+          .map(
+            (o) =>
+              `<a href="${escapeHtml(o.href)}">${escapeHtml(o.companyName)}</a>(${escapeHtml(o.positionLabel)})`,
+          )
+          .join(", ") +
+        `. 그 밖의 회사는 산업 카드만 열립니다.</p>`
+      : "") +
+    `</div>` +
     `<div class="f"><label>밸류체인 위치 — 이게 없으면 무엇을 볼지 정해지지 않습니다</label>` +
     `<div class="opts" id="pos">${positions}</div><div id="posnotes">${positionNotes}</div></div>` +
     `<div class="f"><label>담당 필드</label><div class="opts" id="fld">${fields}</div></div>` +
@@ -473,13 +525,27 @@ function renderFooter(pack: Pack): string {
 }
 
 /** 팩 하나를 화면 하나로. 순수 함수입니다. */
-export function renderDeckPage(pack: Pack): string {
+/** 이 팩에 회사 층이 준비된 회사. 카드덱에서 차이표로 넘어가는 링크가 됩니다(ADR 0011). */
+export interface OverlayLink {
+  id: string;
+  companyName: string;
+  positionLabel: string;
+  href: string;
+}
+
+export interface DeckRenderOptions {
+  overlays?: OverlayLink[];
+}
+
+export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): string {
   const byId = new Map(pack.cards.map((c) => [c.id, c]));
+  const overlays = options.overlays ?? [];
 
   /* 검색 색인. 본문 HTML 대신 태그를 벗긴 글자만 넣습니다. */
   const data = {
     packId: pack.meta.id,
     entryCardId: pack.meta.entryCardId,
+    overlays,
     cards: pack.cards.map((c) => ({
       id: c.id,
       title: c.title,
@@ -505,10 +571,13 @@ export function renderDeckPage(pack: Pack): string {
     `<div class="brand">${escapeHtml(pack.meta.title)} <span>· ${escapeHtml(pack.meta.industry)}</span></div>` +
     `<div class="sp"></div><div class="meta" id="ctx"></div>` +
     `<div class="prog" id="prog">0/${pack.cards.length}장 · 약 0분</div>` +
+    `<a class="btn hide" id="ovl" href="">이 회사 차이표 →</a>` +
     `<button class="btn" type="button" id="reset">처음부터</button>` +
     `</div></header>\n` +
-    renderStart(pack) +
-    `\n<div class="wrap hide" id="mainview"><div class="layout">` +
+    renderStart(pack, overlays) +
+    `\n<div class="wrap hide" id="mainview">` +
+    `<p class="ovlnote hide" id="ovlnote"></p>` +
+    `<div class="layout">` +
     renderToc(pack, byId) +
     `<div><div id="cardhost">` +
     pack.cards.map((c) => renderCard(pack, c, byId)).join("\n") +
