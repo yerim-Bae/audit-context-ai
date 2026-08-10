@@ -237,11 +237,18 @@ function normalizeFieldMatrix(
   const rawFields = raw?.fields ?? rawMeta.fields ?? [];
   const limits = rawMeta.known_limits ?? [];
 
-  /* 위치별 안내문은 팩이 스스로 적어 둔 한계에서 가져옵니다(예: 해운사 트랙 미구축). */
+  /*
+   * 위치별 안내문은 field-matrix.json 의 note 를 씁니다.
+   * note 가 없는 팩만 known_limits 로 넘어가는데, known_limits 는 작성자용 내부 기록이라
+   * 아무 문장이나 화면에 나가면 안 됩니다. 그래서 "<위치명> …" 으로 시작하는 항목만 씁니다.
+   * (본문 어딘가에 위치명이 들어 있다는 이유로 붙던 예전 규칙은 내부 메모를 화면에 노출시켰습니다.)
+   */
   const positions: ValueChainPosition[] = rawPositions.map((value) => {
     const option = optionOf(value);
     const note =
-      (typeof value === "object" && value.note) || limits.find((limit) => limit.includes(option.label)) || "";
+      (typeof value === "object" && value.note) ||
+      limits.find((limit) => limit.startsWith(option.label)) ||
+      "";
     return { id: option.id, label: option.label, note };
   });
 

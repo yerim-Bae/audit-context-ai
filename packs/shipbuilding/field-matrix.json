@@ -1,0 +1,4290 @@
+{
+  "$comment": "조선업 (개념 × 밸류체인 위치 × 담당 필드) 지식 필요도 매트릭스입니다. prompts/pack/04-field-matrix.md 의 5문 게이트를 knowledge/ 의 마스터 위에서 적용한, 사람이 큐레이션한 분석 틀입니다. 회사 사실이 아니라 산업 일반론 위의 판정이며, 회사 자료가 들어오면 개별 판정이 바뀔 수 있습니다. 카드 26장이 이 표보다 먼저 만들어져 파이프라인 순서(P4 → P3)와 반대로 갔으므로, 이 표는 카드의 입력이 아니라 카드의 사후 대조표로 쓰입니다.",
+  "pack": "shipbuilding",
+  "industry": "조선업",
+  "generated_from": [
+    "knowledge/00_조선업_마스터.md",
+    "knowledge/01_산업구조.md",
+    "knowledge/02_기업구조와밸류체인.md",
+    "knowledge/03_비즈니스구조와거래구조.md",
+    "knowledge/05_벤치마크수치와타임라인.md",
+    "knowledge/06_빈칸목록.md"
+  ],
+  "last_updated": "2026-08-11",
+  "$comment_levels": "필수 = 5문 중 2개 이상 Yes 또는 Q4 Yes / 조건부 = Yes 1개이거나 특정 조건에서만 Yes(조건 명시 필수) / 불필요 = 전부 No. 불필요는 삭제가 아니라 다른 필드·다른 위치에서는 필수일 수 있다는 뜻입니다.",
+  "levels": ["필수", "조건부", "불필요"],
+  "$comment_positions": "화면의 밸류체인 위치 선택지입니다. note 는 그 위치를 고른 사람에게 그대로 보이는 문장이므로 여기에 명시합니다. pack.json 의 known_limits 는 작성자용 내부 기록이라 화면 문구로 새어 나가면 안 됩니다.",
+  "positions": [
+    {
+      "id": "조선사",
+      "label": "조선사",
+      "note": "이 팩의 기준 위치입니다. 카드 26장 대부분이 조선사를 전제로 쓰였습니다."
+    },
+    {
+      "id": "조선기자재사",
+      "label": "조선기자재사",
+      "note": "전방 조선사와 시차가 다릅니다. 고객 집중과 그룹 내부거래가 구조적 논점이 됩니다."
+    },
+    {
+      "id": "해운사",
+      "label": "해운사",
+      "note": "해운업 자체를 다룬 소스가 없어 이 위치는 아직 비어 있습니다. 선박금융·용선·운임은 이 팩으로 채워지지 않으며, 해운업 산업팩이 별도로 필요합니다."
+    }
+  ],
+  "fields": ["매출·채권", "매입·재고·원가", "자금·금융상품", "충당·우발", "전반(인차지)"],
+  "card_by_field": {
+    "매출·채권": "C22",
+    "매입·재고·원가": "C23",
+    "자금·금융상품": "C24",
+    "충당·우발": "C25",
+    "전반(인차지)": "C26"
+  },
+  "always_cards": ["C01", "C21", "C26"],
+  "note": "담당 필드를 고르면 그 필드의 카드와 누구나 볼 카드를 먼저 엽니다.",
+  "concepts": [
+    {
+      "id": "K-01",
+      "name": "고객의 성격 — 선주·해운사와 계약 상대방",
+      "summary": "누가 발주하고 누가 대금을 내는지, 함정은 정부·해양설비는 에너지 기업이라는 구분",
+      "source_ref": "00_마스터 §0 산업 3줄, 03_비즈니스구조와거래구조 거래유형 8개",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "계약자산·매출채권의 상대방이 누구인지가 곧 이 계정의 실체다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "선주 사양 요구가 총계약원가 추정에 반영되는지 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "선주 사양 요구가 원가에 얹히는 경로가 있다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객 신용도가 평가에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "고객 성격은 이 필드에서 배경으로만 쓰인다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "고객 신용도가 평가에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "고객 성격은 이 필드에서 배경으로만 쓰인다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 유형이 달라지면 계약 구조와 위험 지도가 통째로 달라진다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객이 한두 곳이므로 채권 상대방 구성이 곧 신용위험 구성이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "고객이 단일 조선사이거나 계열사일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "고객이 조선사 한두 곳이라는 사실이 배경으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객이 단일 조선사이거나 계열사일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "고객이 조선사 한두 곳이라는 사실이 배경으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "고객이 단일 조선사이거나 계열사일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "고객이 조선사 한두 곳이라는 사실이 배경으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 구성이 매출 실재성·계속기업까지 한 줄로 이어진다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사의 고객은 화주다. 선주=고객 구조가 성립하지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사의 고객은 화주다. 선주=고객 구조가 성립하지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사의 고객은 화주다. 선주=고객 구조가 성립하지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사의 고객은 화주다. 선주=고객 구조가 성립하지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "해운사가 발주한 신조계약의 선수금·보증 조항을 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사는 이 계약의 반대편(발주자)이다"
+        }
+      ]
+    },
+    {
+      "id": "K-02",
+      "name": "대금 수취 마일스톤과 헤비테일",
+      "summary": "계약·절단·탑재·진수·인도 5단계 20%씩이 표준이고, 앞 40%·인도 60%가 헤비테일이다",
+      "source_ref": "00_마스터 §0 거래 흐름 3줄, 03_비즈니스구조와거래구조 §4-3",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "대금이 들어오는 시점이 이 회사 모든 잔액의 리듬을 정한다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "건조 중 대금이 원가 투입을 못 따라가는 구간이 재고·계약자산으로 쌓인다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "대금이 들어오는 시점이 이 회사 모든 잔액의 리듬을 정한다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "인도 지연으로 잔금 60%가 밀릴 위험을 평가할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "대금 구조 자체가 충당을 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "대금이 들어오는 시점이 이 회사 모든 잔액의 리듬을 정한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "납품 대금이 조선사의 단계별 수령에 연동될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "결제 조건이 고객사 마일스톤에 묶이는 경우가 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "고객사 대금 마일스톤에 연동된 납품·결제 조건이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사의 대금 리듬이 기자재사 발주 시점을 통해 간접으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객사 대금 마일스톤에 연동된 납품·결제 조건이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사의 대금 리듬이 기자재사 발주 시점을 통해 간접으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "고객사 대금 마일스톤에 연동된 납품·결제 조건이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사의 대금 리듬이 기자재사 발주 시점을 통해 간접으로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "고객사 대금 마일스톤에 연동된 납품·결제 조건이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사의 대금 리듬이 기자재사 발주 시점을 통해 간접으로 걸린다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "선박 취득 대금의 지급 스케줄과 자금조달을 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사는 이 대금을 내는 쪽이다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-03",
+      "name": "수익인식 방법과 진행률 산정 방식",
+      "summary": "기간에 걸쳐인가 한 시점인가, 진행률은 원가투입법인가 공정률인가",
+      "source_ref": "00_마스터 §5 빈칸 2번(8/8편 미언급), 06_빈칸목록 ④",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "매출과 계약자산·계약부채가 전부 이 판단에서 나온다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "매출과 계약자산·계약부채가 전부 이 판단에서 나온다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "계약자산과 수취채권의 구분 시점을 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "인식 시점이 아니라 수취 시점이 이 필드의 관심사다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "매출과 계약자산·계약부채가 전부 이 판단에서 나온다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "매출과 계약자산·계약부채가 전부 이 판단에서 나온다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "같은 조선 밸류체인 안에서도 인식 시점이 달라 매출 기간귀속이 갈린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "주문생산·장기계약이면 필수, 규격품을 납품 시 인식하면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "엔진사는 납품 시점 인식이라는 진술이 있어 조선사와 다를 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "주문생산·장기계약이면 필수, 규격품을 납품 시 인식하면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "엔진사는 납품 시점 인식이라는 진술이 있어 조선사와 다를 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "주문생산·장기계약이면 필수, 규격품을 납품 시 인식하면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "엔진사는 납품 시점 인식이라는 진술이 있어 조선사와 다를 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "인식 시점이 다르면 전방 호황과 당기 실적의 괴리 해석이 달라진다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-04",
+      "name": "총계약원가 추정과 재추정",
+      "summary": "후판가·인건비·환율이 계약 뒤에 움직이므로 총원가 추정이 계속 바뀐다",
+      "source_ref": "00_마스터 §4 경영진 추정 개입 지점, 05_벤치마크수치와타임라인",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "진행률의 분모이므로 매출·이익 전체가 여기에 걸린다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "진행률의 분모이므로 매출·이익 전체가 여기에 걸린다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "원자재·환 헤지 포지션의 근거로 총원가 가정을 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "원가 추정이 직접 금융상품을 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "진행률의 분모이므로 매출·이익 전체가 여기에 걸린다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "진행률의 분모이므로 매출·이익 전체가 여기에 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "주문생산 장기계약이면 필수, 규격품 납품이면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "주문생산이면 조선사와 같은 구조가 된다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "원가가 이 필드의 대상 그 자체다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "주문생산 장기계약이면 필수, 규격품 납품이면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "주문생산이면 조선사와 같은 구조가 된다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "총원가가 계약금액을 넘으면 공사손실충당부채가 바로 걸린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "주문생산 장기계약이면 필수, 규격품 납품이면 불필요",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "주문생산이면 조선사와 같은 구조가 된다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-05",
+      "name": "계약변경(체인지오더)과 클레임",
+      "summary": "계약 후 설계·사양이 바뀌어 금액과 납기를 조정하는 것. 승인 전 반영 여부가 논점",
+      "source_ref": "00_마스터 §5 빈칸 4번(8편 언급 0회), C26 최상단 4개",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "승인 전 변동대가를 매출에 넣었는지가 곧 과대계상 위험이다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "승인 전 변동대가를 매출에 넣었는지가 곧 과대계상 위험이다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "체인지오더로 대금 마일스톤이 재조정될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "변경이 대금 스케줄을 흔들 때만 이 필드에 닿는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "승인 전 변동대가를 매출에 넣었는지가 곧 과대계상 위험이다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "승인 전 변동대가를 매출에 넣었는지가 곧 과대계상 위험이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "단가 조정분을 언제 매출로 넣었는지가 그대로 기간귀속 문제다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "고객사 설계 변경이 단가·납기 조정으로 이어지는 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "사양 변경이 하도급 단가 조정으로 오는 경로가 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객사 설계 변경이 단가·납기 조정으로 이어지는 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "사양 변경이 하도급 단가 조정으로 오는 경로가 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "고객사 설계 변경이 단가·납기 조정으로 이어지는 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "사양 변경이 하도급 단가 조정으로 오는 경로가 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "고객사 설계 변경이 단가·납기 조정으로 이어지는 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "사양 변경이 하도급 단가 조정으로 오는 경로가 있다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "발주자로서 사양 변경을 요구한 계약의 취득원가를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사는 변경을 요구하는 쪽이다"
+        }
+      ]
+    },
+    {
+      "id": "K-06",
+      "name": "인도지연·취소와 지체상금",
+      "summary": "납기를 못 맞추거나 계약이 깨질 때 무엇을 물어내는가. 요율과 상한이 논점",
+      "source_ref": "00_마스터 §5 빈칸 5번(7편 미언급), C26",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "취소되면 이미 인식한 매출과 계약자산이 되돌아간다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "인도 지연이 실제로 발생했거나 예상될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "지연이 현실화될 때만 이 필드로 넘어온다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "인도 지연이 실제로 발생했거나 예상될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "지연이 현실화될 때만 이 필드로 넘어온다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "지체상금 요율과 상한이 곧 충당·우발 금액의 산식이다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "취소는 계속기업까지 닿을 수 있는 사건이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "고객사 계약에 지체상금 조항이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "납기 지연 책임이 하도급 계약에 어떻게 적혀 있는지에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "고객사 계약에 지체상금 조항이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "납기 지연 책임이 하도급 계약에 어떻게 적혀 있는지에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객사 계약에 지체상금 조항이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "납기 지연 책임이 하도급 계약에 어떻게 적혀 있는지에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "카타르 화물창 복구비 86억을 원청이 부담한 뒤 협력사에 구상한 사례가 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "고객사 계약에 지체상금 조항이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "납기 지연 책임이 하도급 계약에 어떻게 적혀 있는지에 달렸다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "발주한 선박의 인도 지연 배상을 수령할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사는 지체상금을 받는 쪽이다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-07",
+      "name": "RG — 선수금환급보증",
+      "summary": "은행이 발급해야 건조계약이 성립한다. 금융기관이 계약 성립 전부터 개입한다",
+      "source_ref": "00_마스터 §0 거래 흐름 1번, 04_용어사전",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "RG 없이는 계약이 없다. 수주 능력의 상한이 여기서 정해진다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "RG 수수료의 계정 분류를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "RG 수수료가 원가인지 금융비용인지 갈린다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "은행 여신약정의 한도와 사용률이 그대로 이 필드의 대상이다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "발급된 RG 전액이 우발부채로 공시 대상이 된다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "RG 없이는 계약이 없다. 수주 능력의 상한이 여기서 정해진다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 RG의 당사자가 아니다. 선수금을 선주에게 받지 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 RG의 당사자가 아니다. 선수금을 선주에게 받지 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 RG의 당사자가 아니다. 선수금을 선주에게 받지 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 RG의 당사자가 아니다. 선수금을 선주에게 받지 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 RG의 당사자가 아니다. 선수금을 선주에게 받지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "선수금을 낸 뒤 조선사 부실에 대비한 보증을 확인할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "해운사는 RG의 수익자다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-08",
+      "name": "후판 등 지배적 원가 항목과 강재 조달·사급",
+      "summary": "후판이 건조원가의 약 20%. 강재를 회사가 사급하는지 협력사가 직접 사는지가 논점",
+      "source_ref": "00_마스터 §0 돈 버는 법 1번, C26 그다음 7개",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "계약가가 고정가가 아니라 강재가 연동일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "강재가 연동 계약이면 매출 금액이 원가를 따라 움직인다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "사급 여부에 따라 매입과 외주비의 총액·순액 표시가 갈린다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "후판·원자재 헤지 포지션이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "원자재 가격 변동을 파생으로 덮는 경우가 있다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "원가의 지배 항목이 어디서 오는지가 총원가 추정의 뿌리다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "원가의 지배 항목이 어디서 오는지가 총원가 추정의 뿌리다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "강재가 주요 투입물일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "기자재사도 강재를 쓰지만 비중이 조선사와 다르다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "사급이면 재고가 장부에 없고 지급이면 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "강재가 주요 투입물일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "기자재사도 강재를 쓰지만 비중이 조선사와 다르다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "강재가 주요 투입물일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "기자재사도 강재를 쓰지만 비중이 조선사와 다르다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "강재가 주요 투입물일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "기자재사도 강재를 쓰지만 비중이 조선사와 다르다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-09",
+      "name": "외주·블록 제작 구조",
+      "summary": "선체를 블록으로 쪼개 협력사에 맡기고 야드에서 탑재한다. 블록 제작 3~4개월",
+      "source_ref": "02_기업구조와밸류체인 통합 밸류체인, 03_비즈니스구조와거래구조",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "외주 협력사와의 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "외주 구조가 이 필드에 직접 닿지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "외주가공비가 원가의 큰 덩어리이고 진행률의 분자에 들어간다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "외주 협력사와의 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "외주 구조가 이 필드에 직접 닿지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "협력사 상대 구상 소송이나 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "협력사 구상·분쟁이 우발로 남는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "물리적 동선이 서류 흐름과 진행률 증빙의 경로를 정한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "세진중공업이 현대중공업 데크하우스 외주 물량 전량을 받는 구조가 그 예다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "기자재사에게 이 외주는 자기 매출 그 자체다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "원청의 상생결제·조기지급 프로그램을 쓸 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "외주 구조 자체가 금융상품을 만들지는 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "기자재사에게 이 외주는 자기 매출 그 자체다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "기자재사에게 이 외주는 자기 매출 그 자체다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-10",
+      "name": "라이선스·로열티",
+      "summary": "LNG선 화물창 GTT 척당 5%(2024 기준), 대형엔진 MAN·WinGD. 요율·시점은 빈칸",
+      "source_ref": "00_마스터 §4, §3 함정 3번(Part 8 미언급을 폐지로 읽지 말 것)",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "로열티 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "로열티가 이 필드로 오는 경로가 좁다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "척당 5%가 상시 원가로 붙으므로 총계약원가 추정에서 빠지면 5% 과소가 된다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "로열티 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "로열티가 이 필드로 오는 경로가 좁다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "로열티 산정기준에 다툼이 있거나 미지급 잔액이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "미지급 로열티와 특허 분쟁이 우발로 남는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "로열티 정산 분쟁이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "로열티가 이 필드로 오는 경로가 좁다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "MAN·WinGD 등 라이선스를 받아 제조할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진사는 라이선시 쪽이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "라이선스료가 제조원가에 상시로 얹힌다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "MAN·WinGD 등 라이선스를 받아 제조할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진사는 라이선시 쪽이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "MAN·WinGD 등 라이선스를 받아 제조할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진사는 라이선시 쪽이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "MAN·WinGD 등 라이선스를 받아 제조할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진사는 라이선시 쪽이다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-11",
+      "name": "고객 집중도와 그룹 내부거래·이전가격",
+      "summary": "기자재사는 고객이 한두 곳이고 대개 같은 그룹 안이다. 현물출자로 세운 외주사도 있다",
+      "source_ref": "02_기업구조와밸류체인 고객집중도, 00_마스터 §4 다섯째 항목",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "특정 선주 비중이 10%를 넘을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사는 고객이 분산돼 있어 집중 위험이 구조적이지 않다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "특정 선주 비중이 10%를 넘을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사는 고객이 분산돼 있어 집중 위험이 구조적이지 않다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "특정 선주 비중이 10%를 넘을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사는 고객이 분산돼 있어 집중 위험이 구조적이지 않다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "특정 선주 비중이 10%를 넘을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조선사는 고객이 분산돼 있어 집중 위험이 구조적이지 않다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "계열 기자재사에서 매입하는 비중이 유의적일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "계열 기자재사와의 거래가 특수관계자 주석으로 온다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 한두 곳에 매출이 몰려 신용위험이 구조적이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 한두 곳에 매출이 몰려 신용위험이 구조적이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "그룹 내 자금거래와 채권 상계가 같은 상대방에서 겹친다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 한 곳이 흔들리면 대손과 계약해지가 동시에 온다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "고객 한두 곳에 매출이 몰려 신용위험이 구조적이다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "같은 그룹의 조선사에 발주한 내부거래가 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사도 그룹 안에 있으면 같은 논점을 받는다"
+        }
+      ]
+    },
+    {
+      "id": "K-12",
+      "name": "하자보증·성능보증과 충당부채",
+      "summary": "기화율 같은 성능보증치를 못 맞추면 배상이 나간다. KC-1 결함은 선주 배상·소송으로 갔다",
+      "source_ref": "00_마스터 §4 손실 사건 4건, 03_비즈니스구조와거래구조",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "성능 미달로 계약금액이 감액될 조항이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "보증이 변동대가로 계약금액을 줄이는 경우가 있다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "보증 이행이 실제로 발생했을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "보증이 이 필드로 오는 경로가 간접이다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "보증 이행이 실제로 발생했을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "보증이 이 필드로 오는 경로가 간접이다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "요율 근거와 최근 실제 지출 대비가 이 계정의 적정성 그 자체다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "과거 손실 사건 4건이 전부 이 유형에서 나왔다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "원청의 구상 청구가 가능한 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "부품 하자가 어디까지 올라오는지가 계약에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "원청의 구상 청구가 가능한 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "부품 하자가 어디까지 올라오는지가 계약에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "원청의 구상 청구가 가능한 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "부품 하자가 어디까지 올라오는지가 계약에 달렸다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "구상 청구를 받는 자리가 기자재사다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "원청의 구상 청구가 가능한 계약일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "부품 하자가 어디까지 올라오는지가 계약에 달렸다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "인도받은 선박의 성능 미달로 배상을 청구할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "해운사는 보증을 받는 쪽이다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-13",
+      "name": "신조선가 결정 구조와 계약가",
+      "summary": "클락슨 신조선가지수 = 운임 + 중고선가 + 협상력. 지수를 끄는 건 벌크·탱커다",
+      "source_ref": "00_마스터 §0 돈 버는 법 2번, 03_비즈니스구조와거래구조 §4-10",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "계약금액이 정상 범위인지 판단할 기준선이 여기서 나온다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "계약가와 지수의 괴리를 설명받을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "지수는 시장 평균이라 개별 계약금액의 근거가 되지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "계약가와 지수의 괴리를 설명받을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "지수는 시장 평균이라 개별 계약금액의 근거가 되지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "계약가와 지수의 괴리를 설명받을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "지수는 시장 평균이라 개별 계약금액의 근거가 되지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "회사 숫자가 시장과 어긋나는 지점이 곧 질문거리다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "단가가 신조선가에 연동되는 제품일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "단가 기준 시점이 지금이 아니라 2년 전이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "제품 단가가 신조선가에 연동될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진가는 2년 전 신조선가와 상관계수 89%로 후행한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "제품 단가가 신조선가에 연동될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진가는 2년 전 신조선가와 상관계수 89%로 후행한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "제품 단가가 신조선가에 연동될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진가는 2년 전 신조선가와 상관계수 89%로 후행한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "제품 단가가 신조선가에 연동될 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "엔진가는 2년 전 신조선가와 상관계수 89%로 후행한다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "선박 취득원가나 중고선 평가를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사에게 신조선가는 자산 취득원가의 기준선이다"
+        }
+      ]
+    },
+    {
+      "id": "K-14",
+      "name": "밸류체인 단계별 매출 도착 시차",
+      "summary": "조선사 수주 후 엔진 2년, 피팅 1년, 조명·전장 1~1.5년 뒤에 매출이 도착한다",
+      "source_ref": "00_마스터 §0 돈 버는 법 3번, 03_비즈니스구조와거래구조 돈 버는 리듬 표",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "조선사는 이 사다리의 기준점이므로 자기 시차가 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "조선사는 이 사다리의 기준점이므로 자기 시차가 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "조선사는 이 사다리의 기준점이므로 자기 시차가 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "조선사는 이 사다리의 기준점이므로 자기 시차가 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "연결 대상 기자재 자회사가 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "계열 기자재사의 실적을 읽을 때 필요하다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "수주잔고를 매출로 환산하는 회사 가정이 이 시차 위에 서 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "전방 호황과 당기 실적의 괴리가 정상인지 여기서 갈린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "수주와 매출 사이 운전자금을 차입으로 메우고 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "시차 구간의 운전자금이 차입으로 메워진다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "장기 수주잔고의 취소 위험을 평가할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "시차가 길수록 취소 노출 기간이 길어진다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "전방 호황과 당기 실적의 괴리가 정상인지 여기서 갈린다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "해운사는 배를 짓지 않는다. 이 개념이 해운사 재무제표에 닿는 경로가 없다"
+        }
+      ]
+    },
+    {
+      "id": "K-15",
+      "name": "환경규제와 교체·개조 수요",
+      "summary": "IMO EEXI·CII가 저등급 선박 운항을 막는다. 레트로핏과 컨버전은 수행의무가 다르다",
+      "source_ref": "01_산업구조 규제 체계, 00_마스터 §3 함정 7번",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "개조가 레트로핏인지 컨버전인지에 따라 수행의무와 인식 시점이 달라진다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "수주잔고의 성격(교체 수요인지)과 취소 위험을 해석할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제는 발주의 배경이지 계정을 직접 만들지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "수주잔고의 성격(교체 수요인지)과 취소 위험을 해석할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제는 발주의 배경이지 계정을 직접 만들지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "수주잔고의 성격(교체 수요인지)과 취소 위험을 해석할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제는 발주의 배경이지 계정을 직접 만들지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "수주잔고의 성격(교체 수요인지)과 취소 위험을 해석할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제는 발주의 배경이지 계정을 직접 만들지 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "신조용 매출과 교체·개조용 매출이 함께 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "신조용과 교체용은 동인이 아예 달라 분리해야 한다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "규제 대응 개조 부품을 다룰 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제 대응 부품은 애프터마켓 수요를 만든다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "규제 대응 개조 부품을 다룰 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제 대응 부품은 애프터마켓 수요를 만든다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "규제 대응 개조 부품을 다룰 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제 대응 부품은 애프터마켓 수요를 만든다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "규제 대응 개조 부품을 다룰 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "규제 대응 부품은 애프터마켓 수요를 만든다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "선대의 규제 등급이 운항 제한에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사가 규제의 직접 수범자다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "선대의 규제 등급이 운항 제한에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사가 규제의 직접 수범자다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "선대의 규제 등급이 운항 제한에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사가 규제의 직접 수범자다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "선대의 규제 등급이 운항 제한에 걸릴 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운사가 규제의 직접 수범자다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "규제로 운항이 제한되는 선박을 보유할 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "저등급 선박은 손상징후가 된다"
+        }
+      ]
+    },
+    {
+      "id": "K-16",
+      "name": "계약 통화와 환헤지",
+      "summary": "선박 계약은 달러가 흔하고 원가는 원화로 나간다. 헤지 방식과 헤지회계 적용이 논점",
+      "source_ref": "00_마스터 §5 빈칸 6번(7편 미언급), C26 그다음 7개",
+      "thin": true,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "계약 통화가 달러면 채권 환산과 매출 금액이 환율에 걸린다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "환 변동이 총계약원가 추정 가정에 들어갈 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "환 노출이 이 필드로 오는 경로가 간접이다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "파생상품 주석과 헤지회계 적용 여부가 이 필드의 대상이다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "환 변동이 총계약원가 추정 가정에 들어갈 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "환 노출이 이 필드로 오는 경로가 간접이다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "환 변동이 총계약원가 추정 가정에 들어갈 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "환 노출이 이 필드로 오는 경로가 간접이다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "수출 비중이 유의적일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "국내 조선사 상대 거래면 원화일 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "수출 비중이 유의적일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "국내 조선사 상대 거래면 원화일 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "외화 표시 매출이나 차입이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "노출이 있으면 조선사와 같은 논점이 된다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "수출 비중이 유의적일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "국내 조선사 상대 거래면 원화일 수 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "수출 비중이 유의적일 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "국내 조선사 상대 거래면 원화일 수 있다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "달러 운임과 원화 비용의 불일치를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운 운임은 달러가 기본이다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "달러 운임과 원화 비용의 불일치를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운 운임은 달러가 기본이다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "외화 선박금융 차입이 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "선박금융도 달러인 경우가 많다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "달러 운임과 원화 비용의 불일치를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운 운임은 달러가 기본이다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "달러 운임과 원화 비용의 불일치를 볼 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운 운임은 달러가 기본이다"
+        }
+      ]
+    },
+    {
+      "id": "K-17",
+      "name": "선박금융과 선주의 자금조달",
+      "summary": "선주가 배값을 어떻게 조달하는가. 조선사에게는 고객의 지급능력 문제다",
+      "source_ref": "01_산업구조 사이클 동인, 03_비즈니스구조와거래구조",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "특정 선주의 자금조달이 흔들린다는 징후가 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": true,
+            "q5": false
+          },
+          "reason": "선주가 조달에 실패하면 잔금 60%가 들어오지 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "고객의 대금 조달 능력과 회수가능성, 보증 구조까지만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "선박금융 상품 구조 전체는 조선사 감사에 필요 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "고객의 대금 조달 능력과 회수가능성, 보증 구조까지만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "선박금융 상품 구조 전체는 조선사 감사에 필요 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "고객의 대금 조달 능력과 회수가능성, 보증 구조까지만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "선박금융 상품 구조 전체는 조선사 감사에 필요 없다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "고객의 대금 조달 능력과 회수가능성, 보증 구조까지만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "선박금융 상품 구조 전체는 조선사 감사에 필요 없다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 선박금융의 당사자도 아니고 선주와 직접 거래하지도 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 선박금융의 당사자도 아니고 선주와 직접 거래하지도 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 선박금융의 당사자도 아니고 선주와 직접 거래하지도 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 선박금융의 당사자도 아니고 선주와 직접 거래하지도 않는다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "기자재사는 선박금융의 당사자도 아니고 선주와 직접 거래하지도 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "운임채권이 차입의 담보로 잡혀 있을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "조달 구조가 매출채권에 직접 닿지는 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "선박 취득 자금조달이 해운사 재무제표의 중심이다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "차입·리스·담보 구조가 그대로 이 필드의 대상이다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "선박 취득 자금조달이 해운사 재무제표의 중심이다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": false,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "선박 취득 자금조달이 해운사 재무제표의 중심이다"
+        }
+      ]
+    },
+    {
+      "id": "K-18",
+      "name": "연결범위 변동과 그룹 재편",
+      "summary": "2024년 이후만 사명변경·물적분할·상장·M&A가 20건. 연결 대상이 자주 움직인다",
+      "source_ref": "02_기업구조와밸류체인 §2-6 연결범위 변동 20건",
+      "thin": false,
+      "ratings": [
+        {
+          "position": "조선사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "기중에 연결 대상이 들고 난 경우에만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "재편이 이 필드의 잔액을 직접 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "기중에 연결 대상이 들고 난 경우에만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "재편이 이 필드의 잔액을 직접 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "기중에 연결 대상이 들고 난 경우에만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "재편이 이 필드의 잔액을 직접 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "기중에 연결 대상이 들고 난 경우에만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "재편이 이 필드의 잔액을 직접 만들지는 않는다"
+        },
+        {
+          "position": "조선사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "연결범위가 틀리면 그 아래 모든 필드가 같이 틀린다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매출·채권",
+          "level": "조건부",
+          "condition": "기중에 고객사가 계열에 들거나 빠진 경우에만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": true,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "상대방이 특수관계자인지가 재편으로 바뀐다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "매입·재고·원가",
+          "level": "조건부",
+          "condition": "기중에 지배구조나 지분이 변동했을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "현물출자로 설립된 회사가 있어 태생부터 그룹 안에 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "자금·금융상품",
+          "level": "조건부",
+          "condition": "기중에 지배구조나 지분이 변동했을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "현물출자로 설립된 회사가 있어 태생부터 그룹 안에 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "충당·우발",
+          "level": "조건부",
+          "condition": "기중에 지배구조나 지분이 변동했을 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "현물출자로 설립된 회사가 있어 태생부터 그룹 안에 있다"
+        },
+        {
+          "position": "조선기자재사",
+          "field": "전반(인차지)",
+          "level": "필수",
+          "condition": null,
+          "gate": {
+            "q1": true,
+            "q2": true,
+            "q3": true,
+            "q4": true,
+            "q5": true
+          },
+          "reason": "물적분할·상장이 잦아 비교 대상 기간 자체가 흔들린다"
+        },
+        {
+          "position": "해운사",
+          "field": "매출·채권",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "이 팩의 마스터는 해운사의 그룹 구조를 다루지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "매입·재고·원가",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "이 팩의 마스터는 해운사의 그룹 구조를 다루지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "자금·금융상품",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "이 팩의 마스터는 해운사의 그룹 구조를 다루지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "충당·우발",
+          "level": "불필요",
+          "condition": null,
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": false
+          },
+          "reason": "이 팩의 마스터는 해운사의 그룹 구조를 다루지 않는다"
+        },
+        {
+          "position": "해운사",
+          "field": "전반(인차지)",
+          "level": "조건부",
+          "condition": "같은 그룹에 조선사가 있어 내부거래가 생길 때만",
+          "gate": {
+            "q1": false,
+            "q2": false,
+            "q3": false,
+            "q4": false,
+            "q5": true
+          },
+          "reason": "해운·조선이 같은 그룹인 경우가 있다"
+        }
+      ]
+    }
+  ],
+  "position_flips": [
+    {
+      "concept": "K-03",
+      "from": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "기간에 걸쳐인가 한 시점인가, 진행률은 원가투입법인가 공정률인가"
+    },
+    {
+      "concept": "K-03",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "기간에 걸쳐인가 한 시점인가, 진행률은 원가투입법인가 공정률인가"
+    },
+    {
+      "concept": "K-04",
+      "from": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "후판가·인건비·환율이 계약 뒤에 움직이므로 총원가 추정이 계속 바뀐다"
+    },
+    {
+      "concept": "K-04",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "후판가·인건비·환율이 계약 뒤에 움직이므로 총원가 추정이 계속 바뀐다"
+    },
+    {
+      "concept": "K-07",
+      "from": {
+        "position": "조선기자재사",
+        "level": "불필요"
+      },
+      "to": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "reason": "은행이 발급해야 건조계약이 성립한다. 금융기관이 계약 성립 전부터 개입한다"
+    },
+    {
+      "concept": "K-08",
+      "from": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "후판이 건조원가의 약 20%. 강재를 회사가 사급하는지 협력사가 직접 사는지가 논점"
+    },
+    {
+      "concept": "K-08",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "후판이 건조원가의 약 20%. 강재를 회사가 사급하는지 협력사가 직접 사는지가 논점"
+    },
+    {
+      "concept": "K-09",
+      "from": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "선체를 블록으로 쪼개 협력사에 맡기고 야드에서 탑재한다. 블록 제작 3~4개월"
+    },
+    {
+      "concept": "K-09",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "선체를 블록으로 쪼개 협력사에 맡기고 야드에서 탑재한다. 블록 제작 3~4개월"
+    },
+    {
+      "concept": "K-10",
+      "from": {
+        "position": "조선사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "LNG선 화물창 GTT 척당 5%(2024 기준), 대형엔진 MAN·WinGD. 요율·시점은 빈칸"
+    },
+    {
+      "concept": "K-10",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "LNG선 화물창 GTT 척당 5%(2024 기준), 대형엔진 MAN·WinGD. 요율·시점은 빈칸"
+    },
+    {
+      "concept": "K-14",
+      "from": {
+        "position": "조선기자재사",
+        "level": "필수"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "불필요"
+      },
+      "reason": "조선사 수주 후 엔진 2년, 피팅 1년, 조명·전장 1~1.5년 뒤에 매출이 도착한다"
+    },
+    {
+      "concept": "K-17",
+      "from": {
+        "position": "조선기자재사",
+        "level": "불필요"
+      },
+      "to": {
+        "position": "해운사",
+        "level": "필수"
+      },
+      "reason": "선주가 배값을 어떻게 조달하는가. 조선사에게는 고객의 지급능력 문제다"
+    }
+  ],
+  "field_summary": [
+    {
+      "field": "매출·채권",
+      "position": "조선사",
+      "필수": ["K-01", "K-02", "K-03", "K-04", "K-05", "K-06", "K-07", "K-13", "K-15", "K-16"],
+      "조건부": ["K-08", "K-09", "K-10", "K-11", "K-12", "K-17", "K-18"]
+    },
+    {
+      "field": "매입·재고·원가",
+      "position": "조선사",
+      "필수": ["K-02", "K-03", "K-04", "K-05", "K-08", "K-09", "K-10"],
+      "조건부": ["K-01", "K-06", "K-07", "K-11", "K-12", "K-13", "K-15", "K-16", "K-17", "K-18"]
+    },
+    {
+      "field": "자금·금융상품",
+      "position": "조선사",
+      "필수": ["K-02", "K-07", "K-16"],
+      "조건부": [
+        "K-01",
+        "K-03",
+        "K-04",
+        "K-05",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-11",
+        "K-12",
+        "K-13",
+        "K-15",
+        "K-17",
+        "K-18"
+      ]
+    },
+    {
+      "field": "충당·우발",
+      "position": "조선사",
+      "필수": ["K-03", "K-04", "K-05", "K-06", "K-07", "K-08", "K-12"],
+      "조건부": ["K-01", "K-02", "K-09", "K-10", "K-11", "K-13", "K-15", "K-16", "K-17", "K-18"]
+    },
+    {
+      "field": "전반(인차지)",
+      "position": "조선사",
+      "필수": [
+        "K-01",
+        "K-02",
+        "K-03",
+        "K-04",
+        "K-05",
+        "K-06",
+        "K-07",
+        "K-08",
+        "K-09",
+        "K-12",
+        "K-13",
+        "K-18"
+      ],
+      "조건부": ["K-10", "K-11", "K-14", "K-15", "K-16", "K-17"]
+    },
+    {
+      "field": "매출·채권",
+      "position": "조선기자재사",
+      "필수": ["K-01", "K-03", "K-05", "K-09", "K-11", "K-14"],
+      "조건부": ["K-02", "K-04", "K-06", "K-08", "K-10", "K-12", "K-13", "K-15", "K-16", "K-18"]
+    },
+    {
+      "field": "매입·재고·원가",
+      "position": "조선기자재사",
+      "필수": ["K-04", "K-08", "K-09", "K-10", "K-11", "K-14"],
+      "조건부": ["K-01", "K-02", "K-03", "K-05", "K-06", "K-12", "K-13", "K-15", "K-16", "K-18"]
+    },
+    {
+      "field": "자금·금융상품",
+      "position": "조선기자재사",
+      "필수": ["K-11"],
+      "조건부": [
+        "K-01",
+        "K-02",
+        "K-03",
+        "K-04",
+        "K-05",
+        "K-06",
+        "K-08",
+        "K-09",
+        "K-10",
+        "K-12",
+        "K-13",
+        "K-14",
+        "K-15",
+        "K-16",
+        "K-18"
+      ]
+    },
+    {
+      "field": "충당·우발",
+      "position": "조선기자재사",
+      "필수": ["K-04", "K-06", "K-09", "K-11", "K-12"],
+      "조건부": ["K-01", "K-02", "K-03", "K-05", "K-08", "K-10", "K-13", "K-14", "K-15", "K-16", "K-18"]
+    },
+    {
+      "field": "전반(인차지)",
+      "position": "조선기자재사",
+      "필수": ["K-01", "K-03", "K-09", "K-11", "K-14", "K-18"],
+      "조건부": ["K-02", "K-04", "K-05", "K-06", "K-08", "K-10", "K-12", "K-13", "K-15", "K-16"]
+    },
+    {
+      "field": "매출·채권",
+      "position": "해운사",
+      "필수": [],
+      "조건부": ["K-15", "K-16", "K-17"]
+    },
+    {
+      "field": "매입·재고·원가",
+      "position": "해운사",
+      "필수": ["K-17"],
+      "조건부": ["K-15", "K-16"]
+    },
+    {
+      "field": "자금·금융상품",
+      "position": "해운사",
+      "필수": ["K-17"],
+      "조건부": ["K-02", "K-07", "K-15", "K-16"]
+    },
+    {
+      "field": "충당·우발",
+      "position": "해운사",
+      "필수": ["K-17"],
+      "조건부": ["K-06", "K-12", "K-15", "K-16"]
+    },
+    {
+      "field": "전반(인차지)",
+      "position": "해운사",
+      "필수": ["K-17"],
+      "조건부": ["K-01", "K-05", "K-11", "K-13", "K-15", "K-16", "K-18"]
+    }
+  ],
+  "notes": [
+    "해운사 칸은 이 팩의 마스터가 해운업 자체를 다루지 않는 상태에서 판정한 것이다. 마스터가 해운사를 다루는 범위(고객·발주 주체·규제 수범자·선박금융)를 넘는 개념은 불필요로 두었고, 용선·운임계약처럼 해운사에 필수일 것이 분명한 개념은 마스터에 없으므로 개념으로 올리지 않았다. 해운업 산업팩이 생기면 이 위치는 통째로 다시 판정해야 한다.",
+    "전 필드 불필요로 판정한 선박 공학적 세부사양이라도, 원가 추정·하자보증·계약변경에 직접 영향을 주는 사양(예: 기화율 보증치)은 개별로 판정해 필수로 올린다. K-12 가 그 예다.",
+    "thin: true 인 개념 6건(K-03·K-04·K-05·K-06·K-08·K-16)은 전부 사업보고서 주석·KAM·인터뷰로만 열린다. 강의를 더 넣어도 열리지 않는다(pack.json known_limits).",
+    "판정은 산업 일반론 위에서만 이루어졌다. 감사대상 회사의 실제 계약 조건에 따라 조건부 칸의 조건이 충족되는지는 회사 자료로만 확인된다.",
+    "필수가 3개 미만인 칸이 남아 있다. 조선기자재사 × 자금·금융상품이 필수 1건(K-11)뿐이다. 개념 추출이 부족해서가 아니라 마스터가 기자재사의 자금 구조(차입·상생결제·그룹 자금거래)를 거의 다루지 않기 때문이다. 억지로 개념을 늘리지 않고 빈 상태로 둔다 — 이것이 다음 소스를 넣을 자리다.",
+    "해운사는 다섯 필드 모두 필수가 1건 이하다. 해운업 소스가 없는 상태의 당연한 결과이며, 이 위치를 고른 사용자에게 화면이 안내만 띄우는 현재 동작과 일치한다."
+  ]
+}
