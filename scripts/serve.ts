@@ -7,6 +7,7 @@
  */
 
 import { createServer } from "node:http";
+import { connect } from "node:net";
 import { spawn } from "node:child_process";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { extname, join, normalize } from "node:path";
@@ -48,6 +49,32 @@ const server = createServer((req, res) => {
   res.end(readFileSync(filePath));
 });
 
+/**
+ * 그 포트에 이미 누가 응답하는지 미리 확인합니다.
+ *
+ * EADDRINUSE 만 믿으면 안 됩니다. 다른 앱이 ::1(IPv6 로컬호스트)에만 붙어 있으면
+ * 우리가 ::(전체)로 바인딩해도 오류가 나지 않고 **둘 다 같은 포트에 붙습니다.**
+ * 그러면 브라우저가 localhost 를 ::1 로 풀어 다른 앱을 열고, 우리 화면은 열리지 않습니다.
+ * 실제로 그렇게 다른 프로젝트의 개발 서버가 5173 을 잡고 있었습니다.
+ */
+async function isPortTaken(port: number): Promise<boolean> {
+  const probe = (host: string) =>
+    new Promise<boolean>((resolve) => {
+      const socket = connect({ host, port });
+      const done = (taken: boolean) => {
+        socket.destroy();
+        resolve(taken);
+      };
+      socket.setTimeout(300);
+      socket.once("connect", () => done(true));
+      socket.once("timeout", () => done(false));
+      socket.once("error", () => done(false));
+    });
+
+  const results = await Promise.all([probe("127.0.0.1"), probe("::1")]);
+  return results.some(Boolean);
+}
+
 let attempt = 0;
 
 server.on("error", (err: NodeJS.ErrnoException) => {
@@ -55,6 +82,11 @@ server.on("error", (err: NodeJS.ErrnoException) => {
     attempt++;
     server.listen(FIRST_PORT + attempt);
     return;
+  }
+  if (err.code === "EADDRINUSE") {
+    console.error(`${FIRST_PORT}번부터 ${MAX_TRIES}개 포트가 모두 사용 중입니다.`);
+    console.error("다른 개발 서버를 끄거나 PORT 환경변수로 포트를 직접 지정하십시오.");
+    process.exit(1);
   }
   console.error("서버를 열지 못했습니다:", err.message);
   process.exit(1);
@@ -80,4 +112,10 @@ server.on("listening", () => {
   }
 });
 
-server.listen(FIRST_PORT);
+/* 이미 누가 응답하는 포트는 건너뜁니다. 그 뒤에도 EADDRINUSE 는 그대로 대비합니다. */
+let port = FIRST_PORT;
+while (attempt < MAX_TRIES && (await isPortTaken(port))) {
+  attempt++;
+  port = FIRST_PORT + attempt;
+}
+server.listen(port);
