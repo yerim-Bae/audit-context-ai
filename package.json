@@ -7,7 +7,7 @@
     "node": ">=22.6.0"
   },
   "scripts": {
-    "build": "node scripts/build.ts",
+    "build": "node scripts/build-deck.ts && node scripts/build-overlay.ts && node scripts/build.ts",
     "deck:build": "node scripts/build-deck.ts",
     "overlay:build": "node scripts/build-overlay.ts",
     "start": "node scripts/build.ts && node scripts/serve.ts",

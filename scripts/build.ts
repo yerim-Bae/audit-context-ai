@@ -10,6 +10,8 @@ import { join } from "node:path";
 
 import { loadSeed, REPO_ROOT, SOURCES_DIR } from "../src/seed/load.ts";
 import { renderPage } from "../src/render/page.ts";
+import { listPackIds, loadPack } from "../src/pack/load.ts";
+import { listOverlayIds, loadOverlay } from "../src/overlay/load.ts";
 import { renderCandidatesPage } from "../src/render/candidatesPage.ts";
 import type { CandidateRow, DartManifest } from "../src/render/candidatesPage.ts";
 import { renderCompanyPage } from "../src/render/companyPage.ts";
@@ -25,9 +27,21 @@ mkdirSync(DIST_SOURCES, { recursive: true });
 const seed = loadSeed();
 const hasCandidates = existsSync(join(DART_SOURCES, "candidates.json"));
 const hasCompany = existsSync(join(REPO_ROOT, "seed", "hanatour", "claims.json"));
+/* 산업 카드덱·회사 오버레이는 이 화면과 다른 자산입니다. 섞지 않고 링크로만 잇습니다. */
+const deckLinks = listPackIds().map((id) => {
+  const pack = loadPack(id);
+  return { label: pack.meta.industry, href: `deck-${pack.meta.id}.html` };
+});
+const overlayLinks = listOverlayIds().map((id) => {
+  const overlay = loadOverlay(id);
+  return { label: overlay.meta.companyName, href: `overlay-${overlay.meta.id}.html` };
+});
+
 const html = renderPage(seed, {
   candidatesLink: hasCandidates ? "candidates.html" : undefined,
   companyLink: hasCompany ? "hanatour.html" : undefined,
+  deckLinks,
+  overlayLinks,
 });
 writeFileSync(join(DIST, "index.html"), html, "utf-8");
 

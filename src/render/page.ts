@@ -33,6 +33,10 @@ export interface RenderOptions {
   candidatesLink?: string;
   /** 실제 회사 사례 화면이 만들어졌을 때 그 링크 */
   companyLink?: string;
+  /** 산업 카드덱. 이 화면(여행업 거래 지도)과 다른 자산이므로 링크로만 잇습니다(ADR 0009). */
+  deckLinks?: { label: string; href: string }[];
+  /** 회사 오버레이 화면(ADR 0011). */
+  overlayLinks?: { label: string; href: string }[];
 }
 
 export function renderPage(seed: Seed, options: RenderOptions = {}): string {
@@ -399,6 +403,12 @@ dialog::backdrop{background:rgba(20,28,38,.45)}
     <span class="nav-links">
       ${options.companyLink ? `<a class="nav-link" href="${esc(options.companyLink)}">실제 회사 사례 (하나투어 공시) →</a>` : ""}
       ${options.candidatesLink ? `<a class="nav-link" href="${esc(options.candidatesLink)}">근거 후보 검토 →</a>` : ""}
+      ${(options.deckLinks ?? [])
+        .map((d) => `<a class="nav-link" href="${esc(d.href)}">${esc(d.label)} 온보딩 카드덱 →</a>`)
+        .join("")}
+      ${(options.overlayLinks ?? [])
+        .map((o) => `<a class="nav-link" href="${esc(o.href)}">${esc(o.label)} 회사 차이표 →</a>`)
+        .join("")}
     </span>
   </div>
   <div class="counts">
