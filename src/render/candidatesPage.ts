@@ -147,7 +147,7 @@ dialog::backdrop{background:rgba(20,28,38,.45)}
 </head>
 <body>
 <header class="top">
-  <a class="back" href="index.html">← 거래 지도로 돌아가기</a>
+  <a class="back" href="index.html">← 첫 화면으로</a>
   <h1>근거 후보 검토 — ${esc(manifest.corp_name)} ${esc(manifest.report_name)}</h1>
   <p class="meta">
     접수번호 ${esc(manifest.receipt_no)} · 접수일 ${esc(manifest.receipt_date)} · 수집일 ${esc(manifest.fetched_at)} ·

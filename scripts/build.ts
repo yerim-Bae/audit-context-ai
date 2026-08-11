@@ -10,6 +10,7 @@ import { join } from "node:path";
 
 import { loadSeed, REPO_ROOT, SOURCES_DIR } from "../src/seed/load.ts";
 import { renderPage } from "../src/render/page.ts";
+import { renderHomePage } from "../src/render/homePage.ts";
 import { listPackIds, loadPack } from "../src/pack/load.ts";
 import { listOverlayIds, loadOverlay } from "../src/overlay/load.ts";
 import { renderCandidatesPage } from "../src/render/candidatesPage.ts";
@@ -43,7 +44,7 @@ const html = renderPage(seed, {
   deckLinks,
   overlayLinks,
 });
-writeFileSync(join(DIST, "index.html"), html, "utf-8");
+writeFileSync(join(DIST, "travel-bsp.html"), html, "utf-8");
 
 let copied = 0;
 for (const file of readdirSync(SOURCES_DIR)) {
@@ -51,7 +52,7 @@ for (const file of readdirSync(SOURCES_DIR)) {
   copyFileSync(join(SOURCES_DIR, file), join(DIST_SOURCES, file));
   copied++;
 }
-console.log(`dist/index.html      (${(html.length / 1024).toFixed(1)} KB)`);
+console.log(`dist/travel-bsp.html (${(html.length / 1024).toFixed(1)} KB)`);
 console.log(`dist/sources/        원문 ${copied}개 복사`);
 
 /* 2. 근거 후보 검토 화면 (DART 원문을 가져온 경우에만) */
@@ -89,3 +90,32 @@ if (hasCompany) {
     `dist/hanatour.html   (${(page.length / 1024).toFixed(1)} KB) — 회사 특정 사실 ${company.claims.length}건`,
   );
 }
+
+/* 4. 첫 화면. 자산이 셋이라 입구가 흩어져 있으므로 여기서 한 곳으로 모읍니다. */
+const home = renderHomePage({
+  industries: [
+    ...deckLinks.map((d) => ({
+      label: d.label,
+      href: d.href,
+      kind: "카드덱" as const,
+      detail: "산업 구조를 카드로 읽고, 담당 필드에 필요한 만큼만 엽니다.",
+    })),
+    {
+      label: "여행업",
+      href: "travel-bsp.html",
+      kind: "거래 지도" as const,
+      detail: "항공권 BSP 정산의 거래 흐름과 위험·요청자료·질문을 잇는 화면입니다. 가상 회사 사례입니다.",
+    },
+  ],
+  companies: overlayLinks.map((o) => ({
+    label: o.label,
+    href: o.href,
+    detail: "산업 표준과 다른 점 · 물어볼 것",
+  })),
+  tools: [
+    ...(hasCompany ? [{ label: "하나투어 공시로 확인한 사실", href: "hanatour.html" }] : []),
+    ...(hasCandidates ? [{ label: "근거 후보 검토", href: "candidates.html" }] : []),
+  ],
+});
+writeFileSync(join(DIST, "index.html"), home, "utf-8");
+console.log(`dist/index.html      (${(home.length / 1024).toFixed(1)} KB) — 첫 화면`);

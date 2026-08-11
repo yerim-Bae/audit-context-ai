@@ -1,0 +1,55 @@
+# dist/ 를 GitHub Pages 로 올립니다.
+#
+# 빌드에는 DART 인증키가 필요 없습니다. 공시 원문은 이미 seed/ 에 스냅샷으로 들어 있고,
+# DART 를 부르는 것은 로컬 스크립트(dart:fetch·company:suggest)뿐입니다.
+# 그래서 이 워크플로에는 비밀값이 하나도 없습니다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 한 번에 하나만. 진행 중인 것을 취소하지 않고 줄을 세웁니다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 로컬에서 확인한 버전과 맞춥니다. .ts 를 그대로 실행하므로
+          # 타입 스트리핑이 기본으로 켜진 버전이어야 합니다(22.18+ / 24.x).
+          node-version: "24.x"
+
+      - run: npm ci
+
+      # 검사가 깨진 채로 배포되지 않게 합니다.
+      - run: npm run typecheck
+      - run: npm run format:check
+      - run: npm run build
+      - run: npm test
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

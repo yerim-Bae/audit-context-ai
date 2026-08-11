@@ -613,6 +613,7 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
     `<header><div class="hdr">` +
     `<div class="brand">${escapeHtml(pack.meta.title)} <span>· ${escapeHtml(pack.meta.industry)}</span></div>` +
     `<div class="sp"></div><div class="meta" id="ctx"></div>` +
+    `<a class="btn" href="index.html">← 첫 화면</a>` +
     `<div class="prog" id="prog">0/${pack.cards.length}장 · 약 0분</div>` +
     `<a class="btn hide" id="ovl" href="">이 회사 차이표 →</a>` +
     `<button class="btn" type="button" id="reset">처음부터</button>` +

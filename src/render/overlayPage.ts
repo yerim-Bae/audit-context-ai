@@ -229,7 +229,8 @@ export function renderOverlayPage(input: OverlayRenderInput): string {
   <h1>${esc(meta.companyName)}</h1>
   <span class="sub">${esc(meta.industryLabel)} · ${esc(profile.positionLabel)} · ${esc(meta.fiscalYear)}</span>
   <span class="spacer"></span>
-  ${input.deckLink ? `<a class="btn" href="${esc(input.deckLink)}">← 산업 카드덱</a>` : ""}
+  <a class="btn" href="index.html">← 첫 화면</a>
+  ${input.deckLink ? `<a class="btn" href="${esc(input.deckLink)}">산업 카드덱 →</a>` : ""}
   <a class="btn" href="${esc(meta.dartUrl)}" target="_blank" rel="noopener">DART 원문 ↗</a>
 </div></header>
 <main>

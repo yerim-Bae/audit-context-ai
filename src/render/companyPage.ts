@@ -136,7 +136,8 @@ code{font-family:Consolas,monospace;font-size:11.5px;word-break:break-all}
 <body>
 <header class="top">
   <div class="nav">
-    <a href="index.html">← 가상 여행사 거래 지도</a>
+    <a href="index.html">← 첫 화면</a>
+    <a href="travel-bsp.html">가상 여행사 거래 지도 →</a>
     ${options.candidatesLink ? `<a href="${esc(options.candidatesLink)}">근거 후보 검토 →</a>` : ""}
   </div>
   <h1>${esc(c.company_name)} — 공시로 확인된 것과 확인되지 않은 것</h1>
