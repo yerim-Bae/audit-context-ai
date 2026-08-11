@@ -65,44 +65,97 @@ export const CARD_AXIS_LABEL_KO: Record<CardAxis, { label: string; mark: string;
   },
 };
 
-/** 트랙. 배열 순서가 곧 목차 표시 순서입니다. */
-export const TRACK = [
-  "INDUSTRY_BASICS",
-  "BUSINESS",
-  "TRANSACTION",
-  "EQUIPMENT",
-  "GLOSSARY",
-  "FIELD",
-  "WRAP_UP",
-] as const;
-export type Track = (typeof TRACK)[number];
+/**
+ * 트랙 id.
+ *
+ * 트랙은 도메인 열거값이 아니라 **팩 데이터**입니다. 축(CardAxis)은 감사인이 카드를 읽는 방식이라
+ * 산업이 바뀌어도 그대로지만, 트랙은 그 산업을 무엇으로 나눠 설명하느냐이므로 산업마다 다릅니다.
+ * (조선업은 기자재가 한 트랙이고, 원전은 SMR·운영단계·제약조건이 한 트랙입니다.)
+ * 그래서 고정 유니온이 아니라 문자열 별칭으로 두고, 값은 pack.json 의 tracks 가 정합니다.
+ * 팩이 tracks 를 적지 않으면 DEFAULT_TRACK_DEFS 로 동작합니다 — 근거: ADR 0012.
+ */
+export type Track = string;
 
-/** cards.json 의 한국어 track 값 → 저장 열거값. */
-export const TRACK_FROM_KO: Record<string, Track> = {
-  산업기초: "INDUSTRY_BASICS",
-  비즈니스: "BUSINESS",
-  거래구조: "TRANSACTION",
-  기자재: "EQUIPMENT",
-  용어: "GLOSSARY",
-  필드: "FIELD",
-  마무리: "WRAP_UP",
-};
+/** 팩이 선언하는 트랙 하나. id 는 저장값(영어 대문자 슬러그), label 은 화면 표기(한국어)입니다. */
+export interface TrackDef {
+  id: Track;
+  label: string;
+}
 
-export const TRACK_LABEL_KO: Record<Track, string> = {
-  INDUSTRY_BASICS: "산업기초",
-  BUSINESS: "비즈니스",
-  TRANSACTION: "거래구조",
-  EQUIPMENT: "기자재",
-  GLOSSARY: "용어",
-  FIELD: "필드",
-  WRAP_UP: "마무리",
-};
+/**
+ * tracks 를 적지 않은 팩의 기본 트랙. 배열 순서가 곧 목차 표시 순서입니다.
+ * 조선업 팩이 이 키 없이 만들어졌으므로 그 순서를 그대로 보존합니다.
+ */
+export const DEFAULT_TRACK_DEFS: readonly TrackDef[] = [
+  { id: "INDUSTRY_BASICS", label: "산업기초" },
+  { id: "BUSINESS", label: "비즈니스" },
+  { id: "TRANSACTION", label: "거래구조" },
+  { id: "EQUIPMENT", label: "기자재" },
+  { id: "GLOSSARY", label: "용어" },
+  { id: "FIELD", label: "필드" },
+  { id: "WRAP_UP", label: "마무리" },
+];
 
-/** 목차 표시 순서. */
-export const TRACK_ORDER: readonly Track[] = TRACK;
+/**
+ * 이 두 id 만은 화면 동작에 쓰입니다. 팩이 트랙을 새로 선언하더라도 이 id 는 그대로 씁니다.
+ * - FIELD: 목차에 넣지 않고 "내 필드" 목록에 따로 나옵니다.
+ * - WRAP_UP: 담당 필드와 무관하게 항상 보이는 마무리 카드입니다.
+ */
+export const FIELD_TRACK_ID: Track = "FIELD";
+export const WRAP_UP_TRACK_ID: Track = "WRAP_UP";
 
 /** 목차에 넣지 않는 트랙. 담당 필드에 따라 "내 필드" 목록에 따로 나옵니다. */
-export const TRACK_HIDDEN_IN_TOC: readonly Track[] = ["FIELD"];
+export const HIDDEN_IN_TOC_TRACK_IDS: readonly Track[] = [FIELD_TRACK_ID];
+
+/** 담당 필드로 바로 가는 칩을 붙이지 않는 트랙. 이미 필드 카드이거나 마무리 카드입니다. */
+export const NO_FIELD_JUMP_TRACK_IDS: readonly Track[] = [FIELD_TRACK_ID, WRAP_UP_TRACK_ID];
+
+/** 팩 하나의 트랙 인덱스. order 는 목차 순서, fromLabel 은 cards.json 의 한국어 값 → id 입니다. */
+export interface TrackIndex {
+  order: TrackDef[];
+  fromLabel: Record<string, Track>;
+}
+
+/**
+ * 팩이 선언한 트랙으로 인덱스를 만듭니다. 선언이 없으면 기본값으로 동작합니다.
+ * fromLabel 에는 기본 트랙 라벨도 함께 넣습니다. tracks 키가 없던 시절에 만든 팩과,
+ * 기본 라벨(산업기초·용어·필드·마무리)을 그대로 쓰는 새 팩이 모두 읽히게 하기 위해서입니다.
+ * 팩이 같은 라벨을 다른 id 로 선언했다면 팩 쪽이 이깁니다.
+ */
+export function buildTrackIndex(packTracks?: readonly TrackDef[]): TrackIndex {
+  const declared = packTracks ?? [];
+  const order: TrackDef[] = declared.length > 0 ? declared.map((t) => ({ ...t })) : [...DEFAULT_TRACK_DEFS];
+
+  const seenIds = new Set<string>();
+  const seenLabels = new Set<string>();
+  for (const [index, track] of order.entries()) {
+    if (typeof track.id !== "string" || track.id.trim().length === 0) {
+      throw new Error(`pack.json 의 tracks[${index}] 에 id 가 없습니다. 영어 대문자 슬러그로 적어 주십시오.`);
+    }
+    if (typeof track.label !== "string" || track.label.trim().length === 0) {
+      throw new Error(
+        `pack.json 의 tracks[${index}](id ${track.id}) 에 label 이 없습니다. 화면에 나갈 한국어 이름입니다.`,
+      );
+    }
+    if (seenIds.has(track.id)) throw new Error(`pack.json 의 tracks 에 id 가 중복입니다: ${track.id}`);
+    if (seenLabels.has(track.label)) {
+      throw new Error(`pack.json 의 tracks 에 label 이 중복입니다: ${track.label}`);
+    }
+    seenIds.add(track.id);
+    seenLabels.add(track.label);
+  }
+
+  const fromLabel: Record<string, Track> = {};
+  for (const track of DEFAULT_TRACK_DEFS) fromLabel[track.label] = track.id;
+  for (const track of order) fromLabel[track.label] = track.id;
+
+  return { order, fromLabel };
+}
+
+/** 화면 표기. 인덱스에 없는 id 는 저장값을 그대로 보여 줍니다(로더가 이미 경고한 상태입니다). */
+export function trackLabel(trackDefs: readonly TrackDef[], id: Track): string {
+  return trackDefs.find((t) => t.id === id)?.label ?? id;
+}
 
 /**
  * 본문에 허용하는 태그. 목록에 없는 태그와 **모든 속성**을 금지합니다.
@@ -271,6 +324,8 @@ export interface Pack {
   meta: PackMeta;
   cards: Card[];
   fieldMatrix: FieldMatrix;
+  /** 이 팩의 트랙 선언. 배열 순서가 목차 순서입니다. 팩이 안 적었으면 기본 트랙입니다. */
+  trackDefs: TrackDef[];
 }
 
 export function cardsById(cards: Card[]): Map<string, Card> {

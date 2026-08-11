@@ -11,10 +11,10 @@
 
 import {
   CARD_AXIS_LABEL_KO,
-  TRACK_HIDDEN_IN_TOC,
-  TRACK_LABEL_KO,
-  TRACK_ORDER,
+  HIDDEN_IN_TOC_TRACK_IDS,
+  NO_FIELD_JUMP_TRACK_IDS,
   totalMinutes,
+  trackLabel,
 } from "../domain/pack.ts";
 import type { Card, Pack } from "../domain/pack.ts";
 
@@ -342,7 +342,7 @@ function renderAxisTag(card: Card): string {
 
 function renderCard(pack: Pack, card: Card, byId: Map<string, Card>): string {
   const next = card.next.filter((n) => byId.has(n.to));
-  const showFieldJump = card.track !== "FIELD" && card.track !== "WRAP_UP";
+  const showFieldJump = !NO_FIELD_JUMP_TRACK_IDS.includes(card.track);
 
   const terms = card.terms.length
     ? `<div class="terms">` +
@@ -384,7 +384,7 @@ function renderCard(pack: Pack, card: Card, byId: Map<string, Card>): string {
   return (
     `<article class="card hide" id="card-${escapeHtml(card.id)}">` +
     `<div class="kicker">` +
-    `<span class="tag">${escapeHtml(TRACK_LABEL_KO[card.track])}</span>` +
+    `<span class="tag">${escapeHtml(trackLabel(pack.trackDefs, card.track))}</span>` +
     renderAxisTag(card) +
     `<span class="tag">${card.minutes}분</span>` +
     `</div>` +
@@ -401,12 +401,12 @@ function renderCard(pack: Pack, card: Card, byId: Map<string, Card>): string {
 function renderToc(pack: Pack, byId: Map<string, Card>): string {
   const sections: string[] = [];
 
-  for (const track of TRACK_ORDER) {
-    if (TRACK_HIDDEN_IN_TOC.includes(track)) continue;
-    const cards = pack.cards.filter((c) => c.track === track);
+  for (const track of pack.trackDefs) {
+    if (HIDDEN_IN_TOC_TRACK_IDS.includes(track.id)) continue;
+    const cards = pack.cards.filter((c) => c.track === track.id);
     if (!cards.length) continue;
     sections.push(
-      `<h4>${escapeHtml(TRACK_LABEL_KO[track])}</h4><ul class="toc">` +
+      `<h4>${escapeHtml(track.label)}</h4><ul class="toc">` +
         cards
           .map(
             (c) =>

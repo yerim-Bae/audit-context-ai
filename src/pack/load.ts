@@ -11,7 +11,14 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-import { ALLOWED_BODY_TAGS, CARD_AXIS_FROM_KO, TRACK_FROM_KO, disallowedBodyMarkup } from "../domain/pack.ts";
+import {
+  ALLOWED_BODY_TAGS,
+  CARD_AXIS_FROM_KO,
+  FIELD_TRACK_ID,
+  WRAP_UP_TRACK_ID,
+  buildTrackIndex,
+  disallowedBodyMarkup,
+} from "../domain/pack.ts";
 import type {
   Card,
   CardTerm,
@@ -19,6 +26,8 @@ import type {
   FieldOption,
   Pack,
   PackMeta,
+  TrackDef,
+  TrackIndex,
   ValueChainPosition,
 } from "../domain/pack.ts";
 
@@ -54,6 +63,8 @@ interface RawPackMeta {
   positions?: (string | { id?: string; label?: string; note?: string })[];
   fields?: (string | { id?: string; label?: string; card?: string })[];
   known_limits?: string[];
+  /** 이 팩의 트랙 선언. 없으면 기본 트랙으로 동작합니다(ADR 0012). */
+  tracks?: TrackDef[];
   /** 아래는 화면 전용. 없으면 기본값을 씁니다. */
   title?: string;
   subtitle?: string;
@@ -116,16 +127,44 @@ export function loadPack(id: string): Pack {
     throw new Error(`팩 "${id}" 의 cards.json 은 카드 배열이어야 합니다.`);
   }
 
+  /* 트랙은 팩 데이터입니다. 선언이 없으면 기본 트랙으로 동작합니다(ADR 0012). */
+  const trackIndex = buildTrackIndex(rawMeta.tracks);
+
   /* 자리표시자 주석만 있는 항목은 카드가 아닙니다(packs/_template/cards.json 참조). */
   const cards = rawCards
     .filter((raw) => typeof raw.id === "string" && raw.id.length > 0)
-    .map((raw, index) => normalizeCard(id, raw, index));
+    .map((raw, index) => normalizeCard(id, raw, index, trackIndex));
 
   const meta = normalizeMeta(id, rawMeta, cards);
   const fieldMatrix = normalizeFieldMatrix(id, rawMatrix, rawMeta, cards);
 
   validatePack(id, meta, cards, fieldMatrix);
-  return { meta, cards, fieldMatrix };
+  warnAboutTracks(id, trackIndex, cards);
+  return { meta, trackDefs: trackIndex.order, cards, fieldMatrix };
+}
+
+/**
+ * 트랙에 대한 경고. 오류는 아니지만 사람이 봐야 합니다.
+ * - 선언했는데 카드가 하나도 없는 트랙: 목차에 아무것도 안 나옵니다.
+ * - 선언하지 않은 트랙을 쓴 카드: 기본 대응표로 읽히긴 하지만 목차에서 빠집니다.
+ */
+function warnAboutTracks(packId: string, trackIndex: TrackIndex, cards: Card[]): void {
+  const used = new Set(cards.map((c) => c.track));
+  for (const track of trackIndex.order) {
+    if (!used.has(track.id)) {
+      console.warn(`팩 "${packId}" 경고: 트랙 "${track.label}"(${track.id}) 에 카드가 한 장도 없습니다.`);
+    }
+  }
+
+  const declared = new Set(trackIndex.order.map((t) => t.id));
+  for (const trackId of used) {
+    if (!declared.has(trackId)) {
+      console.warn(
+        `팩 "${packId}" 경고: 카드가 쓰는 트랙 ${trackId} 가 pack.json 의 tracks 에 없습니다. ` +
+          `목차에 나오지 않습니다.`,
+      );
+    }
+  }
 }
 
 /** 팩 전부. 하나라도 검증에 실패하면 그 팩의 오류를 그대로 올립니다. */
@@ -133,14 +172,14 @@ export function loadAllPacks(): Pack[] {
   return listPackIds().map((id) => loadPack(id));
 }
 
-function normalizeCard(packId: string, raw: RawCard, index: number): Card {
+function normalizeCard(packId: string, raw: RawCard, index: number, trackIndex: TrackIndex): Card {
   const where = raw.id ? `카드 ${raw.id}` : `${index + 1}번째 카드`;
 
-  const track = TRACK_FROM_KO[raw.track];
+  const track = trackIndex.fromLabel[raw.track];
   if (!track) {
     throw new Error(
       `팩 "${packId}" ${where}: 모르는 track "${raw.track}". ` +
-        `쓸 수 있는 값: ${Object.keys(TRACK_FROM_KO).join(", ")}`,
+        `이 팩에서 쓸 수 있는 값: ${trackIndex.order.map((t) => t.label).join(", ")}`,
     );
   }
 
@@ -252,8 +291,8 @@ function normalizeFieldMatrix(
     return { id: option.id, label: option.label, note };
   });
 
-  const fieldCards = cards.filter((c) => c.track === "FIELD");
-  const wrapCards = cards.filter((c) => c.track === "WRAP_UP");
+  const fieldCards = cards.filter((c) => c.track === FIELD_TRACK_ID);
+  const wrapCards = cards.filter((c) => c.track === WRAP_UP_TRACK_ID);
   const taken = new Set<string>();
 
   const fields: FieldOption[] = rawFields.map((value) => {

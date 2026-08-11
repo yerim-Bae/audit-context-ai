@@ -10,11 +10,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { listPackIds, loadPack, orphanCardIds } from "../src/pack/load.ts";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+import { REPO_ROOT, listPackIds, loadPack, orphanCardIds } from "../src/pack/load.ts";
 import { escapeHtml, jsonForScript, renderDeckPage } from "../src/render/deckPage.ts";
 import {
   BODY_TEXT_MAX,
   BODY_TEXT_MIN,
+  DEFAULT_TRACK_DEFS,
+  HIDDEN_IN_TOC_TRACK_IDS,
+  buildTrackIndex,
+  trackLabel,
   CARD_AXIS_CLAIM,
   CARD_AXIS_LABEL_KO,
   NEXT_MAX,
@@ -56,6 +63,123 @@ test("script 안에 넣는 JSON 은 태그를 일찍 닫지 못한다", () => {
 
 test("화면에 나가는 글자는 HTML 이스케이프된다", () => {
   assert.equal(escapeHtml('<b class="x">&\'</b>'), "&lt;b class=&quot;x&quot;&gt;&amp;&#39;&lt;/b&gt;");
+});
+
+/* ---------- 트랙이 팩 데이터라는 것 (ADR 0012) ---------- */
+
+test("T-트랙1 트랙을 선언하지 않은 팩은 기본 트랙으로 동작한다", () => {
+  const index = buildTrackIndex(undefined);
+  assert.deepEqual(
+    index.order.map((t) => t.id),
+    DEFAULT_TRACK_DEFS.map((t) => t.id),
+    "선언이 없으면 기본 트랙 순서 그대로여야 합니다.",
+  );
+  assert.equal(index.fromLabel["기자재"], "EQUIPMENT");
+
+  const shipbuilding = packs.find((p) => p.meta.id === "shipbuilding");
+  assert.ok(shipbuilding, "조선업 팩이 없습니다.");
+  assert.deepEqual(
+    shipbuilding.trackDefs.map((t) => t.id),
+    DEFAULT_TRACK_DEFS.map((t) => t.id),
+    "조선업 팩은 tracks 키 없이 만들어졌으므로 기본 트랙이어야 합니다.",
+  );
+});
+
+test("T-트랙2 팩이 선언한 트랙이 선언 순서대로 목차에 나오고 필드 트랙은 빠진다", () => {
+  const declared = [
+    { id: "ALPHA", label: "가나다" },
+    { id: "FIELD", label: "필드" },
+    { id: "BETA", label: "라마바" },
+  ];
+  const index = buildTrackIndex(declared);
+  assert.deepEqual(
+    index.order.map((t) => t.id),
+    ["ALPHA", "FIELD", "BETA"],
+    "선언 순서가 곧 목차 순서입니다.",
+  );
+  assert.equal(trackLabel(index.order, "BETA"), "라마바");
+  assert.equal(trackLabel(index.order, "없는id"), "없는id", "모르는 id 는 저장값을 그대로 보여 줍니다.");
+  assert.ok(HIDDEN_IN_TOC_TRACK_IDS.includes("FIELD"), "필드 트랙은 목차에서 빠져야 합니다.");
+
+  /* 실제 팩에서도 목차 제목이 선언 순서대로 나오는지 본다. */
+  for (const pack of packs) {
+    const html = renderDeckPage(pack);
+    const visible = pack.trackDefs.filter(
+      (t) => !HIDDEN_IN_TOC_TRACK_IDS.includes(t.id) && pack.cards.some((c) => c.track === t.id),
+    );
+    const positions = visible.map((t) => html.indexOf(`<h4>${escapeForCheck(t.label)}</h4>`));
+    for (const [i, at] of positions.entries()) {
+      assert.ok(at > -1, `[${pack.meta.id}] 목차에 트랙 "${visible[i]!.label}" 이 없습니다.`);
+      if (i > 0) {
+        assert.ok(at > positions[i - 1]!, `[${pack.meta.id}] 목차 순서가 선언 순서와 다릅니다.`);
+      }
+    }
+    const fieldTrack = pack.trackDefs.find((t) => t.id === "FIELD");
+    if (fieldTrack) {
+      assert.ok(
+        !html.includes(`<h4>${escapeForCheck(fieldTrack.label)}</h4><ul class="toc">`),
+        `[${pack.meta.id}] 필드 트랙이 목차에 나왔습니다.`,
+      );
+    }
+  }
+});
+
+test("T-트랙3 모르는 트랙을 쓰면 그 팩 기준 허용값과 함께 막는다", () => {
+  const dir = join(REPO_ROOT, "packs", "_track-test-unknown");
+  mkdirSync(dir, { recursive: true });
+  try {
+    writeFileSync(
+      join(dir, "pack.json"),
+      JSON.stringify({
+        id: "_track-test-unknown",
+        industry: "검사용",
+        tracks: [
+          { id: "ALPHA", label: "가나다" },
+          { id: "FIELD", label: "필드" },
+        ],
+        positions: ["위치"],
+        fields: ["필드하나"],
+      }),
+      "utf-8",
+    );
+    writeFileSync(
+      join(dir, "cards.json"),
+      JSON.stringify([{ id: "X01", track: "없는트랙", axis: "산업", title: "t", body: "<p>b</p>" }]),
+      "utf-8",
+    );
+
+    assert.throws(
+      () => loadPack("_track-test-unknown"),
+      (e: Error) => {
+        assert.match(e.message, /모르는 track "없는트랙"/);
+        assert.match(e.message, /이 팩에서 쓸 수 있는 값: 가나다, 필드/);
+        return true;
+      },
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("T-트랙4 트랙 id 나 label 이 중복이면 막는다", () => {
+  assert.throws(
+    () =>
+      buildTrackIndex([
+        { id: "A", label: "가" },
+        { id: "A", label: "나" },
+      ]),
+    /id 가 중복입니다: A/,
+  );
+  assert.throws(
+    () =>
+      buildTrackIndex([
+        { id: "A", label: "가" },
+        { id: "B", label: "가" },
+      ]),
+    /label 이 중복입니다: 가/,
+  );
+  assert.throws(() => buildTrackIndex([{ id: "", label: "가" }]), /id 가 없습니다/);
+  assert.throws(() => buildTrackIndex([{ id: "A", label: "" }]), /label 이 없습니다/);
 });
 
 for (const pack of packs) {
