@@ -18,6 +18,7 @@
     "dart:check": "node --env-file=.env scripts/dart-check.ts",
     "dart:find": "node --env-file=.env scripts/dart-find.ts",
     "dart:fetch": "node --env-file=.env scripts/dart-fetch.ts",
+    "company:suggest": "node --env-file=.env scripts/company-suggest.ts",
     "seed:report": "node scripts/seed-report.ts",
     "review": "node scripts/review-tables.ts"
   },

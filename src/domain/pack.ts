@@ -303,6 +303,12 @@ export interface ValueChainPosition {
   id: string;
   label: string;
   note: string;
+  /**
+   * 회사 공시의 사업 서술에서 이 위치를 가늠할 때 쓰는 낱말.
+   * **판정이 아니라 제안의 근거입니다** — 화면에는 나가지 않고
+   * `scripts/company-suggest.ts` 만 씁니다. 사람이 원문을 보고 확정합니다.
+   */
+  keywords: string[];
 }
 
 /** 담당 필드 → 그 필드에서 먼저 볼 카드. */

@@ -138,8 +138,10 @@ a.btn{text-decoration:none;line-height:1.6}
 .start .sub{color:var(--muted);font-size:15px;margin:0 0 28px}
 .f{margin-bottom:20px}
 .f label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em}
-.f input{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);
- border-radius:9px;padding:11px 14px;font-size:15px;font-family:inherit}
+.f input,.f select{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--bg);
+ color:var(--ink);border-radius:9px;padding:11px 14px;font-size:15px;font-family:inherit}
+.f select{cursor:pointer}
+.f select:focus,.f input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
 .opts{display:flex;gap:8px;flex-wrap:wrap}
 .opt{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;
  padding:8px 15px;font-size:14px;cursor:pointer;font-family:inherit}
@@ -205,6 +207,14 @@ const CLIENT_JS = `
       checkReady();
     };
   });
+
+  /* 산업을 바꾸면 그 산업의 카드덱으로 넘어간다. */
+  var ind = el("ind");
+  if (ind) {
+    ind.onchange = function () {
+      if (ind.value) location.href = ind.value;
+    };
+  }
 
   /* 회사 층이 준비된 회사인지 본다. 이름이 정확히 같을 때만 잇는다 — 짐작으로 잇지 않는다. */
   function overlayFor(name) {
@@ -442,7 +452,28 @@ function renderToc(pack: Pack, byId: Map<string, Card>): string {
   );
 }
 
-function renderStart(pack: Pack, overlays: OverlayLink[]): string {
+function renderStart(pack: Pack, overlays: OverlayLink[], industries: IndustryOption[]): string {
+  /* 산업 고르기. 자료를 넣은 팩만 나옵니다 — 목록이 곧 "지금 답할 수 있는 범위"입니다. */
+  const industryPicker =
+    industries.length > 1
+      ? `<div class="f"><label for="ind">산업</label>` +
+        `<select id="ind">` +
+        industries
+          .map(
+            (i) =>
+              `<option value="deck-${escapeHtml(i.id)}.html"${i.id === pack.meta.id ? " selected" : ""}>` +
+              `${escapeHtml(i.label)} — 카드 ${i.cards}장 · 약 ${i.minutes}분</option>`,
+          )
+          .join("") +
+        `</select>` +
+        `<p class="note">자료를 넣은 산업만 나옵니다. 다른 산업을 고르면 그 산업의 카드덱으로 넘어갑니다.</p>` +
+        `</div>`
+      : "";
+
+  return renderStartBody(pack, overlays, industryPicker);
+}
+
+function renderStartBody(pack: Pack, overlays: OverlayLink[], industryPicker: string): string {
   const positions = pack.fieldMatrix.positions
     .map(
       (p) =>
@@ -466,6 +497,7 @@ function renderStart(pack: Pack, overlays: OverlayLink[]): string {
     `<div id="startview"><div class="start">` +
     `<h2>어느 회사를 맡으셨나요</h2>` +
     `<p class="sub">${escapeHtml(pack.meta.subtitle)}</p>` +
+    industryPicker +
     `<div class="f"><label for="co">회사명</label>` +
     `<input id="co" type="text" placeholder="예: 한국조선" list="colist" autocomplete="off">` +
     (overlays.length
@@ -533,13 +565,24 @@ export interface OverlayLink {
   href: string;
 }
 
+/** 고를 수 있는 산업 하나. 자료를 넣은 팩만 여기에 들어옵니다. */
+export interface IndustryOption {
+  id: string;
+  label: string;
+  cards: number;
+  minutes: number;
+}
+
 export interface DeckRenderOptions {
   overlays?: OverlayLink[];
+  /** 산업 바꾸기 드롭다운에 넣을 목록. 지금 팩도 포함합니다. */
+  industries?: IndustryOption[];
 }
 
 export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): string {
   const byId = new Map(pack.cards.map((c) => [c.id, c]));
   const overlays = options.overlays ?? [];
+  const industries = options.industries ?? [];
 
   /* 검색 색인. 본문 HTML 대신 태그를 벗긴 글자만 넣습니다. */
   const data = {
@@ -574,7 +617,7 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
     `<a class="btn hide" id="ovl" href="">이 회사 차이표 →</a>` +
     `<button class="btn" type="button" id="reset">처음부터</button>` +
     `</div></header>\n` +
-    renderStart(pack, overlays) +
+    renderStart(pack, overlays, industries) +
     `\n<div class="wrap hide" id="mainview">` +
     `<p class="ovlnote hide" id="ovlnote"></p>` +
     `<div class="layout">` +
@@ -598,26 +641,52 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
 }
 
 /** 팩이 여러 개일 때 여는 목록 화면. */
-export function renderDeckIndexPage(packs: Pack[]): string {
-  const rows = packs
+/**
+ * 산업 고르기 화면.
+ *
+ * 드롭다운에 나오는 것이 곧 **자료를 넣은 산업의 전부**입니다.
+ * 목록에 없는 산업은 이 도구가 답할 수 없다는 뜻이므로, 빈 항목을 만들지 않습니다.
+ */
+export function renderDeckIndexPage(
+  packs: Pack[],
+  extraLinks: { label: string; href: string }[] = [],
+): string {
+  const options = packs
     .map(
       (p) =>
-        `<li><a href="deck-${escapeHtml(p.meta.id)}.html">${escapeHtml(p.meta.title)} — ${escapeHtml(p.meta.industry)}</a>` +
-        ` <span class="meta">카드 ${p.cards.length}장 · 약 ${totalMinutes(p.cards)}분</span></li>`,
+        `<option value="deck-${escapeHtml(p.meta.id)}.html">${escapeHtml(p.meta.industry)} — ` +
+        `카드 ${p.cards.length}장 · 약 ${totalMinutes(p.cards)}분</option>`,
     )
     .join("");
+
+  const extras = extraLinks.length
+    ? `<p class="note">따로 있는 화면 — ` +
+      extraLinks.map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`).join(" · ") +
+      `</p>`
+    : "";
 
   return (
     `<!DOCTYPE html>\n<html lang="ko"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
-    `<title>감사 투입 전 온보딩 — 팩 목록</title>\n<style>${CSS}` +
-    `ul.packs{list-style:none;padding:0;margin:24px 0}ul.packs li{margin:10px 0;font-size:16px}` +
-    `ul.packs a{color:var(--accent)}ul.packs .meta{margin-left:8px}` +
+    `<title>감사 투입 전 온보딩 — 산업 고르기</title>\n<style>${CSS}` +
+    `.start .note a{color:var(--accent)}` +
     `</style></head><body>\n` +
-    `<header><div class="hdr"><div class="brand">감사 투입 전 온보딩 <span>· 팩 목록</span></div></div></header>\n` +
-    `<div class="wrap"><div class="start"><h2>어느 산업을 보시겠습니까</h2>` +
-    `<ul class="packs">${rows}</ul>` +
-    `<p class="note">각 팩은 산업 일반론입니다. 감사 판단의 근거가 아니라 합리성 검증의 기준선으로만 쓰십시오.</p>` +
-    `</div></div>\n</body></html>\n`
+    `<header><div class="hdr"><div class="brand">감사 투입 전 온보딩</div></div></header>\n` +
+    `<div class="wrap"><div class="start">` +
+    `<h2>어느 산업을 맡으셨나요</h2>` +
+    `<p class="sub">고르시면 그 산업의 카드덱으로 넘어갑니다. 회사명과 담당 필드는 다음 화면에서 묻습니다.</p>` +
+    `<div class="f"><label for="ind">산업</label>` +
+    `<select id="ind"><option value="">— 고르십시오 —</option>${options}</select></div>` +
+    `<button class="go" type="button" id="go" disabled>시작하기</button>` +
+    `<p class="note">여기 나오는 ${packs.length}개가 지금 자료를 넣은 산업의 전부입니다. ` +
+    `각 팩은 산업 일반론이므로 감사 판단의 근거가 아니라 합리성 검증의 기준선으로만 쓰십시오.</p>` +
+    extras +
+    `</div></div>\n` +
+    `<script>(function(){` +
+    `var s=document.getElementById("ind"),g=document.getElementById("go");` +
+    `function sync(){g.disabled=!s.value;}` +
+    `s.addEventListener("change",sync);` +
+    `g.addEventListener("click",function(){if(s.value)location.href=s.value;});` +
+    `sync();})();</script>\n</body></html>\n`
   );
 }

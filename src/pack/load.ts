@@ -60,7 +60,7 @@ interface RawPackMeta {
   sources?: { id: string; title: string; type: string; grade: string }[];
   date_range?: { from: string; to: string };
   date_clusters?: { from: string; to: string; sources: string[] }[];
-  positions?: (string | { id?: string; label?: string; note?: string })[];
+  positions?: (string | { id?: string; label?: string; note?: string; keywords?: string[] })[];
   fields?: (string | { id?: string; label?: string; card?: string })[];
   known_limits?: string[];
   /** 이 팩의 트랙 선언. 없으면 기본 트랙으로 동작합니다(ADR 0012). */
@@ -78,7 +78,7 @@ interface RawPackMeta {
  * 담당 필드와 카드의 연결은 card_by_field 로 적을 수 있고, 없으면 필드 트랙 카드에서 찾습니다.
  */
 interface RawFieldMatrix {
-  positions?: (string | { id?: string; label?: string; note?: string })[];
+  positions?: (string | { id?: string; label?: string; note?: string; keywords?: string[] })[];
   fields?: (string | { id?: string; label?: string; card?: string })[];
   card_by_field?: Record<string, string>;
   always_cards?: string[];
@@ -288,7 +288,11 @@ function normalizeFieldMatrix(
       (typeof value === "object" && value.note) ||
       limits.find((limit) => limit.startsWith(option.label)) ||
       "";
-    return { id: option.id, label: option.label, note };
+    const keywords =
+      typeof value === "object" && Array.isArray(value.keywords)
+        ? value.keywords.filter((k): k is string => typeof k === "string" && k.trim().length > 0)
+        : [];
+    return { id: option.id, label: option.label, note, keywords };
   });
 
   const fieldCards = cards.filter((c) => c.track === FIELD_TRACK_ID);
