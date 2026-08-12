@@ -62,7 +62,9 @@ select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var
 .go:hover:not(:disabled){background:var(--conflict)}
 .go:disabled{opacity:.32;cursor:default}
 .pick{font-size:13px;color:var(--muted);margin-top:12px;min-height:1.6em}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+/* 안쪽 칸은 각자 여백을 지우고, 감싸는 상자가 다른 칸과 같은 18px 을 갖습니다.
+   (감싸는 상자에 안 주면 아래 칸과 딱 붙습니다) */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
 @media(max-width:640px){.two{grid-template-columns:1fr}}
 .two .panel{margin:0}
 ul{margin:0;padding-left:18px}
