@@ -1,3 +1,11 @@
+import {
+  THEME_BASE,
+  THEME_CURSOR_CSS,
+  THEME_CURSOR_JS,
+  THEME_FONTS,
+  THEME_ROOT,
+  THEME_TOPBAR_CSS,
+} from "./theme.ts";
 /**
  * 근거 후보 검토 화면.
  *
@@ -105,26 +113,28 @@ export function renderCandidatesPage(manifest: DartManifest, candidates: Candida
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>근거 후보 검토 — ${esc(manifest.corp_name)} ${esc(manifest.report_name)}</title>
+${THEME_FONTS}
 <style>
-:root{--bg:#f6f7f9;--panel:#fff;--line:#d9dee5;--ink:#1b2430;--muted:#5d6b7a;--accent:#31506e}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Malgun Gothic","맑은 고딕",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+${THEME_ROOT}
+${THEME_BASE}
+${THEME_TOPBAR_CSS}
+${THEME_CURSOR_CSS}
 header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 20px}
 h1{font-size:18px;margin:0 0 6px}
 .meta{color:var(--muted)}
 .meta a{color:var(--accent)}
-.warn{margin-top:10px;padding:9px 12px;border:1px solid #d9b25a;background:#fdf6e3;border-radius:6px}
+.warn{margin-top:10px;padding:9px 12px;border:1px solid #d9b25a;background:#fdf6e3;border-radius:2px}
 .back{display:inline-block;margin-bottom:8px;color:var(--accent)}
 .filters{padding:12px 20px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .filters span.label{color:var(--muted);margin-right:4px}
-.chip{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:14px;padding:3px 11px;cursor:pointer}
+.chip{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:3px;padding:3px 11px;cursor:pointer}
 .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 main{padding:16px 20px 60px}
 .file-group{margin-bottom:26px}
 .file-group h2{font-size:15px;margin:0 0 2px}
 .file-meta{margin:0 0 12px;color:var(--muted);font-size:12.5px}
 code{font-family:Consolas,monospace;font-size:11.5px;word-break:break-all}
-.sec{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-bottom:9px}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:10px 13px;margin-bottom:9px}
 .sec.hidden{display:none}
 .sec-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
 .sec-no{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 7px}
@@ -137,7 +147,7 @@ code{font-family:Consolas,monospace;font-size:11.5px;word-break:break-all}
 .pending{font-size:11.5px;color:var(--muted)}
 .snippet{margin:0;background:#f2f5f8;border-left:3px solid #9bb6d0;border-radius:0 5px 5px 0;padding:7px 10px;font-size:13px;white-space:pre-wrap;word-break:break-word}
 mark{background:#ffe9a8;padding:0 2px}
-dialog{border:1px solid var(--line);border-radius:10px;padding:0;max-width:900px;width:94vw}
+dialog{border:1px solid var(--line);border-radius:2px;padding:0;max-width:900px;width:94vw}
 dialog::backdrop{background:rgba(20,28,38,.45)}
 .dlg-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
 .dlg-body{padding:12px 16px;max-height:70vh;overflow:auto}
@@ -221,6 +231,7 @@ document.addEventListener("click", async (e) => {
   }
 });
 </script>
+${THEME_CURSOR_JS}
 </body>
 </html>
 `;

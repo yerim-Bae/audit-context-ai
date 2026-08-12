@@ -13,6 +13,14 @@
  *  - 위험·요청자료·질문은 근거 사슬을 드러냄
  */
 
+import {
+  THEME_BASE,
+  THEME_CURSOR_CSS,
+  THEME_CURSOR_JS,
+  THEME_FONTS,
+  THEME_ROOT,
+  THEME_TOPBAR_CSS,
+} from "./theme.ts";
 import { ASSERTION_LABEL_KO, SCOPE_LABEL_KO } from "../domain/types.ts";
 import type { AssertionStatus, Scope } from "../domain/types.ts";
 import type { Claim, EvidenceSpan, Seed, Source, TransactionStep } from "../domain/model.ts";
@@ -281,21 +289,19 @@ export function renderPage(seed: Seed, options: RenderOptions = {}): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>감사맥락AI — ${esc(seed.case.company_name)} BSP 거래 지도</title>
+${THEME_FONTS}
 <style>
-:root{
-  --bg:#f6f7f9; --panel:#fff; --line:#d9dee5; --ink:#1b2430; --muted:#5d6b7a;
-  --fact:#0b6b3a; --inference:#8a5a00; --unverified:#7a2f8a; --conflict:#a4202a;
-  --company:#7a2f8a; --industry:#31506e;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Malgun Gothic","맑은 고딕",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55}
+${THEME_ROOT}
+${THEME_BASE}
+${THEME_TOPBAR_CSS}
+${THEME_CURSOR_CSS}
 header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 20px}
 .title-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px}
 h1{font-size:18px;margin:0}
 .period{color:var(--muted)}
 .nav-links{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}
-.nav-link{color:#31506e;font-weight:700}
-.warn{margin-top:10px;padding:9px 12px;border:1px solid #d9b25a;background:#fdf6e3;border-radius:6px}
+.nav-link{color:var(--industry);font-weight:700}
+.warn{margin-top:10px;padding:9px 12px;border:1px solid #d9b25a;background:#fdf6e3;border-radius:2px}
 .counts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .count{border:1px solid var(--line);border-radius:20px;padding:3px 11px;background:#fff}
 .count .mark{font-weight:700;margin-right:5px}
@@ -304,10 +310,10 @@ h1{font-size:18px;margin:0}
 nav.steps{background:var(--panel);border-right:1px solid var(--line);min-height:calc(100vh - 120px);padding:10px}
 nav.steps h3{font-size:12px;color:var(--muted);margin:6px 8px 8px;letter-spacing:.04em}
 .step-btn{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;width:100%;text-align:left;
-  background:none;border:1px solid transparent;border-radius:8px;padding:9px 10px;cursor:pointer;font:inherit;color:inherit;margin-bottom:2px}
+  background:none;border:1px solid transparent;border-radius:2px;padding:9px 10px;cursor:pointer;font:inherit;color:inherit;margin-bottom:2px}
 .step-btn:hover{background:#eef2f6}
 .step-btn.active{background:#e7eff7;border-color:#9bb6d0;font-weight:700}
-.step-seq{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#31506e;color:#fff;font-size:12px}
+.step-seq{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--industry);color:#fff;font-size:12px}
 .step-seq.big{width:26px;height:26px}
 .step-count{color:var(--muted);font-size:12px}
 
@@ -328,13 +334,13 @@ h5{font-size:12.5px;color:var(--muted);margin:0 0 6px}
 
 .flows{list-style:none;margin:0;padding:0}
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);
-  border-left-width:4px;border-radius:6px;padding:7px 10px;margin-bottom:5px}
-.flow-cash{border-left-color:#0b6b3a}.flow-service{border-left-color:#31506e}.flow-document{border-left-color:#8a5a00}
+  border-left-width:4px;border-radius:2px;padding:7px 10px;margin-bottom:5px}
+.flow-cash{border-left-color:var(--fact)}.flow-service{border-left-color:var(--industry)}.flow-document{border-left-color:var(--inference)}
 .flow-kind{font-size:11px;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted)}
 .flow-arrow{color:var(--muted)}
 .flow-label{color:var(--muted)}
 
-.claim{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-bottom:9px}
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:11px 13px;margin-bottom:9px}
 .claim-head{display:flex;align-items:center;gap:7px;margin-bottom:6px}
 .claim-id{margin-left:auto;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
 .claim-text{margin:0 0 7px}
@@ -354,7 +360,7 @@ h5{font-size:12.5px;color:var(--muted);margin:0 0 6px}
 .ev-where{color:var(--muted);font-size:12.5px;margin-bottom:5px}
 .ev-quote{margin:0 0 6px;padding:7px 10px;background:#f2f5f8;border-left:3px solid #9bb6d0;border-radius:0 5px 5px 0;
   font-size:13px;white-space:pre-wrap}
-.ev-open{font:inherit;font-size:12.5px;cursor:pointer;background:#31506e;color:#fff;border:0;border-radius:5px;padding:4px 10px;margin-bottom:6px}
+.ev-open{font:inherit;font-size:12.5px;cursor:pointer;background:var(--industry);color:#fff;border:0;border-radius:2px;padding:4px 10px;margin-bottom:6px}
 .ev-link{font-size:12.5px}
 .ev-note{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
 .evidence-inference{border-top-color:var(--inference)}
@@ -366,30 +372,30 @@ h5{font-size:12.5px;color:var(--muted);margin:0 0 6px}
 .chip-action{background:#f6ecf8;border-color:var(--unverified);color:var(--unverified);cursor:default}
 .chip-missing{background:#fbecec;border-color:var(--conflict);color:var(--conflict)}
 
-.risk{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:12px}
+.risk{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:12px 14px;margin-bottom:12px}
 .risk-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .risk-id{color:var(--muted);font-size:12px}
 .tag{font-size:11.5px;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted)}
 .risk-text{margin:0 0 8px}
-.rationale{background:#f8fafc;border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:10px}
+.rationale{background:#f8fafc;border:1px solid var(--line);border-radius:2px;padding:8px 10px;margin-bottom:10px}
 .rat-line{display:flex;gap:8px;align-items:baseline;margin-bottom:4px;flex-wrap:wrap}
 .rat-key{color:var(--muted);font-size:12px;min-width:66px}
 .risk-note{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:820px){.actions{grid-template-columns:1fr}}
-.action{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:7px;background:#fff}
+.action{border:1px solid var(--line);border-radius:2px;padding:8px 10px;margin-bottom:7px;background:#fff}
 .action-head{display:flex;justify-content:space-between;color:var(--muted);font-size:11.5px;margin-bottom:3px}
 .action-text{margin:0 0 4px}
 .action-why,.action-from{margin:0;font-size:12.5px;color:var(--muted)}
 .empty{color:var(--muted);font-size:13px}
 
-dialog{border:1px solid var(--line);border-radius:10px;padding:0;max-width:720px;width:92vw}
+dialog{border:1px solid var(--line);border-radius:2px;padding:0;max-width:720px;width:92vw}
 dialog::backdrop{background:rgba(20,28,38,.45)}
 .dlg-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
 .dlg-body{padding:14px 16px}
 .dlg-body dt{color:var(--muted);font-size:12px}
 .dlg-body dd{margin:0 0 8px}
-.dlg-close{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:5px;padding:3px 10px}
+.dlg-close{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:2px;padding:3px 10px}
 .hash{font-family:Consolas,monospace;font-size:11.5px;word-break:break-all;color:var(--muted)}
 .flash{animation:flash 1.4s ease-out}
 @keyframes flash{0%{background:#fff6cc}100%{background:transparent}}
@@ -497,6 +503,7 @@ document.addEventListener("click", (e) => {
   }
 });
 </script>
+${THEME_CURSOR_JS}
 </body>
 </html>
 `;

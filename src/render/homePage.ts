@@ -9,6 +9,7 @@
  */
 
 import { escapeHtml } from "./deckPage.ts";
+import { THEME_CSS, THEME_CURSOR_JS, THEME_FONTS, THEME_TOPBAR } from "./theme.ts";
 
 const esc = escapeHtml;
 
@@ -33,52 +34,49 @@ export interface HomeInput {
   tools: { label: string; href: string }[];
 }
 
-const CSS = `
-:root{
- --bg:#faf9f7; --panel:#fff; --ink:#1f2328; --muted:#6b7280; --line:#e6e3de;
- --accent:#2f5d50; --accent-soft:#eaf1ee; --warn:#8a5a2b; --warn-soft:#fdf3e7;
- --fact:#1d4ed8; --fact-soft:#e8eefc; --chip:#f3f1ed;
- --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
-}
-@media(prefers-color-scheme:dark){:root{
- --bg:#16181c; --panel:#1e2126; --ink:#e8e6e3; --muted:#9aa0a6; --line:#2e3238;
- --accent:#7fb3a2; --accent-soft:#20302b; --warn:#d9a45b; --warn-soft:#2c2419;
- --fact:#8fb4ff; --fact-soft:#1b2438; --chip:#262a30;
- --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
- font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
- line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:56px 20px 90px}
-h1{font-size:30px;line-height:1.3;margin:0 0 10px;letter-spacing:-.02em}
-.tag1{font-size:12.5px;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-bottom:10px}
-.sub{color:var(--muted);font-size:17px;margin:0 0 34px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;
- padding:30px 32px;box-shadow:var(--shadow);margin-bottom:22px}
-@media(max-width:640px){.panel{padding:22px 18px}.wrap{padding:32px 16px 70px}}
-.panel h2{font-size:17px;margin:0 0 14px;letter-spacing:-.01em}
-label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
+const CSS =
+  THEME_CSS +
+  `
+.wrap{max-width:46em;margin:0 auto;padding:34px 20px 90px}
+/* 제호는 포트폴리오처럼 굵은 산세리프 대문자로 세웁니다 */
+h1{font-family:inherit;font-weight:900;font-size:clamp(26px,3.6vw,40px);line-height:1.2;
+ margin:0 0 14px;letter-spacing:-.03em}
+.tag1{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+ font-weight:700;margin-bottom:12px}
+/* 설명 문장만 세리프로 — 포트폴리오의 인용문과 같은 결입니다 */
+.sub{font-family:"Noto Serif KR",serif;color:var(--muted);font-size:16px;line-height:1.85;
+ margin:0 0 38px}
+.sub b{color:var(--ink);font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:3px;
+ padding:26px 28px;margin-bottom:18px}
+@media(max-width:640px){.panel{padding:20px 16px}.wrap{padding:24px 16px 70px}}
+.panel h2{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+ color:var(--muted);margin:0 0 16px}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px}
 select{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);
- border-radius:10px;padding:13px 14px;font-size:16px;font-family:inherit;cursor:pointer}
-select:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
-.go{width:100%;margin-top:14px;background:var(--accent);color:#fff;border:0;border-radius:10px;
- padding:14px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit}
-.go:disabled{opacity:.4;cursor:default}
-.pick{font-size:13.5px;color:var(--muted);margin-top:12px;min-height:1.6em}
+ border-radius:2px;padding:13px 14px;font-size:15.5px;font-family:inherit;cursor:pointer}
+select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.go{width:100%;margin-top:14px;background:var(--accent);color:#fff;border:0;border-radius:2px;
+ padding:14px;font-size:15px;font-weight:700;letter-spacing:.02em;cursor:pointer;
+ font-family:inherit;transition:background-color .2s ease}
+.go:hover:not(:disabled){background:var(--conflict)}
+.go:disabled{opacity:.32;cursor:default}
+.pick{font-size:13px;color:var(--muted);margin-top:12px;min-height:1.6em}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:640px){.two{grid-template-columns:1fr}}
 .two .panel{margin:0}
-ul{margin:0;padding-left:19px}
-li{margin:7px 0;font-size:15px}
-.does li::marker{color:var(--accent)}
-.doesnt li::marker{color:var(--warn)}
+ul{margin:0;padding-left:18px}
+li{margin:9px 0;font-size:14.5px;line-height:1.7}
+.does li::marker{color:var(--fact)}
+.doesnt li::marker{color:var(--conflict)}
 .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
-.links a{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;
- padding:9px 14px;font-size:14px;text-decoration:none}
-.links a:hover{border-color:var(--accent);background:var(--accent-soft)}
-.note{font-size:13px;color:var(--muted);line-height:1.7}
-.note b{color:var(--ink)}
-footer{border-top:1px solid var(--line);margin-top:14px;padding-top:20px}
+.links a{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:2px;
+ padding:10px 14px;font-size:13.5px;font-weight:600;text-decoration:none;
+ transition:border-color .2s ease,color .2s ease}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+.note{font-size:13px;color:var(--muted);line-height:1.75}
+.note b{color:var(--ink);font-weight:600}
+footer{border-top:1px solid var(--line);margin-top:16px;padding-top:20px}
 `;
 
 export function renderHomePage(input: HomeInput): string {
@@ -101,7 +99,9 @@ export function renderHomePage(input: HomeInput): string {
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
     `<title>감사맥락AI — 감사 투입 전에 무엇을 물어볼지 정하는 도구</title>` +
     `<meta name="description" content="낯선 산업에 감사 투입되기 전, 산업 구조를 익히고 회사 공시와 대조해 물어볼 것을 정리하는 도구입니다.">` +
+    THEME_FONTS +
     `\n<style>${CSS}</style></head><body>\n` +
+    THEME_TOPBAR +
     `<div class="wrap">` +
     `<div class="tag1">감사맥락AI</div>` +
     `<h1>낯선 산업에 투입되기 전,<br>무엇을 물어볼지 정하는 도구</h1>` +
@@ -158,6 +158,8 @@ export function renderHomePage(input: HomeInput): string {
     `p.textContent=s.value?o.getAttribute("data-detail"):"";}` +
     `s.addEventListener("change",sync);` +
     `g.addEventListener("click",function(){if(s.value)location.href=s.value;});` +
-    `sync();})();</script>\n</body></html>\n`
+    `sync();})();</script>\n` +
+    THEME_CURSOR_JS +
+    `\n</body></html>\n`
   );
 }

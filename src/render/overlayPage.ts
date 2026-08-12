@@ -10,6 +10,14 @@
  * 실행: node scripts/build-overlay.ts
  */
 
+import {
+  THEME_BASE,
+  THEME_CURSOR_CSS,
+  THEME_CURSOR_JS,
+  THEME_FONTS,
+  THEME_ROOT,
+  THEME_TOPBAR_CSS,
+} from "./theme.ts";
 import { escapeHtml } from "./deckPage.ts";
 import { OVERLAY_STATUS_LABEL_KO } from "../domain/overlay.ts";
 import type { OverlayRow } from "../domain/overlay.ts";
@@ -36,38 +44,26 @@ export interface OverlayRenderInput {
 }
 
 const CSS = `
-:root{
- --bg:#faf9f7; --panel:#fff; --ink:#1f2328; --muted:#6b7280; --line:#e6e3de;
- --accent:#2f5d50; --accent-soft:#eaf1ee; --warn:#8a5a2b; --warn-soft:#fdf3e7;
- --fact:#1d4ed8; --fact-soft:#e8eefc; --chip:#f3f1ed;
- --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
-}
-@media(prefers-color-scheme:dark){:root{
- --bg:#16181c; --panel:#1e2126; --ink:#e8e6e3; --muted:#9aa0a6; --line:#2e3238;
- --accent:#7fb3a2; --accent-soft:#20302b; --warn:#d9a45b; --warn-soft:#2c2419;
- --fact:#8fb4ff; --fact-soft:#1b2438; --chip:#262a30;
- --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
-}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
- font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
- line-height:1.75;-webkit-text-size-adjust:100%}
+${THEME_ROOT}
+${THEME_BASE}
+${THEME_TOPBAR_CSS}
+${THEME_CURSOR_CSS}
 header{border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:10}
 .hd{max-width:900px;margin:0 auto;padding:14px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .hd h1{font-size:16px;margin:0;font-weight:700}
 .hd .sub{color:var(--muted);font-size:13px}
 .hd .spacer{flex:1}
-a.btn,.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;
+a.btn,.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:2px;
  padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block}
 .btn:hover{border-color:var(--accent)}
 main{max-width:900px;margin:0 auto;padding:26px 20px 80px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+.card{background:var(--panel);border:1px solid var(--line);border-radius:3px;
  padding:28px 30px;box-shadow:var(--shadow);margin-bottom:26px}
 .card h2{font-size:21px;margin:0 0 6px}
 .card .lead{color:var(--muted);margin:0 0 20px;font-size:14.5px}
 .cid{font-size:11.5px;letter-spacing:.08em;color:var(--fact);font-weight:700}
 .layerbar{display:flex;gap:10px;align-items:center;background:var(--fact-soft);border:1px solid var(--line);
- border-radius:12px;padding:12px 16px;margin-bottom:24px;font-size:13.5px}
+ border-radius:3px;padding:12px 16px;margin-bottom:24px;font-size:13.5px}
 .layerbar b{color:var(--fact)}
 .tag{display:inline-flex;gap:5px;align-items:center;border-radius:999px;padding:2px 10px;
  font-size:11.5px;font-weight:600;border:1px solid var(--line);white-space:nowrap}
@@ -76,25 +72,25 @@ main{max-width:900px;margin:0 auto;padding:26px 20px 80px}
 .tag.st-CONFLICTING{background:var(--warn-soft);color:var(--warn)}
 .tag.st-UNVERIFIED{background:var(--chip);color:var(--muted)}
 .seg{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 18px;padding:0;list-style:none}
-.seg li{flex:1 1 240px;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.seg li{flex:1 1 240px;border:1px solid var(--line);border-radius:2px;padding:14px 16px}
 .seg .nm{font-weight:700;font-size:14.5px}
 .seg .nt{color:var(--muted);font-size:13px}
 .rows{display:flex;flex-direction:column;gap:14px}
-.row{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.row{border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .row>.top{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;background:var(--panel)}
 .row .topic{font-weight:700;font-size:15.5px;flex:1}
 .row .cmp{padding:0 16px 14px;display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:720px){.row .cmp{grid-template-columns:1fr 1fr}}
-.side{border:1px dashed var(--line);border-radius:10px;padding:12px 14px}
+.side{border:1px dashed var(--line);border-radius:2px;padding:12px 14px}
 .side h4{margin:0 0 6px;font-size:11.5px;letter-spacing:.06em;color:var(--muted);font-weight:700}
 .side.ind{background:var(--bg)}
 .side.co{background:var(--fact-soft)}
 .side.co h4{color:var(--fact)}
 .side p{margin:0;font-size:14.5px}
 .side .src{margin-top:8px;font-size:12px;color:var(--muted)}
-.conflict{margin:0 16px 14px;padding:12px 14px;background:var(--warn-soft);border-radius:10px;font-size:14px}
+.conflict{margin:0 16px 14px;padding:12px 14px;background:var(--warn-soft);border-radius:2px;font-size:14px}
 .conflict b{color:var(--warn);display:block;font-size:11.5px;letter-spacing:.05em;margin-bottom:4px}
-.gap{margin:0 16px 14px;padding:12px 14px;background:var(--chip);border-radius:10px;font-size:14px}
+.gap{margin:0 16px 14px;padding:12px 14px;background:var(--chip);border-radius:2px;font-size:14px}
 .gap a{color:var(--fact)}
 details.ev{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
 details.ev summary{cursor:pointer;font-size:12.5px;color:var(--fact);font-weight:600}
@@ -102,9 +98,9 @@ details.ev .q{margin:8px 0 0;padding:10px 12px;background:var(--bg);border-left:
  border-radius:0 8px 8px 0;font-size:13.5px}
 details.ev .loc{font-size:11.5px;color:var(--muted);margin-top:6px}
 details.ev .raw{margin-top:8px;font-size:12.5px;color:var(--muted);white-space:pre-wrap;
- max-height:220px;overflow:auto;background:var(--bg);padding:10px 12px;border-radius:8px;line-height:1.6}
+ max-height:220px;overflow:auto;background:var(--bg);padding:10px 12px;border-radius:2px;line-height:1.6}
 .q{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
-.qitem{border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.qitem{border:1px solid var(--line);border-radius:3px;padding:14px 16px}
 .qitem .qt{font-weight:700;font-size:15.5px;margin-bottom:6px}
 .qitem .meta{font-size:13px;color:var(--muted)}
 .qitem .back{margin-top:8px;font-size:13px}
@@ -224,6 +220,7 @@ export function renderOverlayPage(input: OverlayRenderInput): string {
   return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(meta.companyName)} — 산업 표준과 무엇이 다른가</title>
+${THEME_FONTS}
 <style>${CSS}</style>
 <header><div class="hd">
   <h1>${esc(meta.companyName)}</h1>
@@ -317,5 +314,6 @@ export function renderOverlayPage(input: OverlayRenderInput): string {
   <div>출처: ${overlay.sources.map((s) => `${esc(s.title)} (신뢰등급 ${esc(s.trust_grade)})`).join(" · ")}</div>
   <div>접수번호 ${esc(meta.receiptNo)} · 원문 스냅샷 ${esc(overlay.sources[0]?.snapshot.sha256?.slice(0, 16) ?? "")}…</div>
 </div></footer>
-<script>${JS}</script>`;
+<script>${JS}</script>
+${THEME_CURSOR_JS}`;
 }

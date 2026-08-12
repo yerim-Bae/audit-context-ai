@@ -20,9 +20,16 @@ import { loadCompanySeed } from "../src/seed/loadCompany.ts";
 
 const DIST = join(REPO_ROOT, "dist");
 const DIST_SOURCES = join(DIST, "sources");
+const DIST_ASSETS = join(DIST, "assets");
 const DART_SOURCES = join(REPO_ROOT, "seed", "hanatour", "sources");
 
 mkdirSync(DIST_SOURCES, { recursive: true });
+
+/* 0. 화면에 쓰는 그림(워드마크 등)을 그대로 복사합니다. */
+mkdirSync(DIST_ASSETS, { recursive: true });
+for (const file of readdirSync(join(REPO_ROOT, "assets"))) {
+  copyFileSync(join(REPO_ROOT, "assets", file), join(DIST_ASSETS, file));
+}
 
 /* 1. 거래 지도 */
 const seed = loadSeed();

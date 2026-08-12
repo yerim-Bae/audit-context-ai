@@ -5,6 +5,14 @@
  * 공시로 확인된 사실, 공시로 확인되지 않은 것, 그래서 무엇을 더 물어야 하는지만 보여줍니다.
  */
 
+import {
+  THEME_BASE,
+  THEME_CURSOR_CSS,
+  THEME_CURSOR_JS,
+  THEME_FONTS,
+  THEME_ROOT,
+  THEME_TOPBAR_CSS,
+} from "./theme.ts";
 import { ASSERTION_LABEL_KO, SCOPE_LABEL_KO } from "../domain/types.ts";
 import type { CompanySeed } from "../seed/loadCompany.ts";
 import { byId } from "../seed/load.ts";
@@ -82,11 +90,12 @@ export function renderCompanyPage(company: CompanySeed, options: { candidatesLin
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(c.company_name)} — 공시 근거</title>
+${THEME_FONTS}
 <style>
-:root{--bg:#f6f7f9;--panel:#fff;--line:#d9dee5;--ink:#1b2430;--muted:#5d6b7a;--accent:#31506e;
- --fact:#0b6b3a;--company:#7a2f8a;--warn:#a4202a}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Malgun Gothic","맑은 고딕",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6}
+${THEME_ROOT}
+${THEME_BASE}
+${THEME_TOPBAR_CSS}
+${THEME_CURSOR_CSS}
 header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 20px}
 .nav{display:flex;gap:14px;margin-bottom:8px}
 .nav a{color:var(--accent)}
@@ -94,9 +103,9 @@ h1{font-size:18px;margin:0 0 4px}
 h2{font-size:15px;margin:24px 0 10px}
 .meta{color:var(--muted);margin:0}
 .meta a{color:var(--accent)}
-.warn{margin-top:10px;padding:9px 12px;border:1px solid var(--warn);background:#fbecec;border-radius:6px}
+.warn{margin-top:10px;padding:9px 12px;border:1px solid var(--warn);background:#fbecec;border-radius:2px}
 main{padding:4px 20px 60px;max-width:1200px}
-.claim{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-bottom:9px}
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:11px 13px;margin-bottom:9px}
 .claim-head{display:flex;align-items:center;gap:7px;margin-bottom:6px}
 .claim-id{margin-left:auto;color:var(--muted);font-size:12px}
 .claim-text{margin:0 0 7px;font-weight:600}
@@ -109,22 +118,22 @@ main{padding:4px 20px 60px;max-width:1200px}
 .ev-quote{margin:0 0 6px;padding:7px 10px;background:#f2f5f8;border-left:3px solid #9bb6d0;border-radius:0 5px 5px 0;font-size:13px;white-space:pre-wrap;word-break:break-word}
 .open-src{font:inherit;font-size:12.5px;cursor:pointer;background:var(--accent);color:#fff;border:0;border-radius:5px;padding:4px 10px;margin-right:8px}
 .ev-link{font-size:12.5px}
-table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:2px;overflow:hidden}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;font-size:13px}
 th{background:#f0f3f7;font-size:12.5px;color:var(--muted)}
 .mono{font-variant-numeric:tabular-nums;white-space:nowrap}
 .unknown{color:var(--warn)}
 .outcome{display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:12.5px;white-space:nowrap}
 .o-resolved{color:var(--fact)}.o-partial{color:#8a5a00}.o-unresolved{color:var(--company)}
-.pill{display:inline-block;font-size:11.5px;border:1px solid var(--line);border-radius:10px;padding:1px 8px;background:#fff}
-ul.neg{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 30px;margin:0}
+.pill{display:inline-block;font-size:11.5px;border:1px solid var(--line);border-radius:2px;padding:1px 8px;background:#fff}
+ul.neg{background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:10px 12px 10px 30px;margin:0}
 ul.neg li{margin-bottom:4px}
 .note{color:var(--muted);font-size:13px}
-.pending{background:#fdf6e3;border:1px solid #d9b25a;border-radius:8px;padding:12px 14px}
+.pending{background:#fdf6e3;border:1px solid #d9b25a;border-radius:2px;padding:12px 14px}
 .pending p{margin:6px 0}
 .pending-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .pending-tag{font-size:11.5px;font-weight:700;border:1px solid #8a5a00;color:#8a5a00;border-radius:4px;padding:1px 7px;background:#fff}
-dialog{border:1px solid var(--line);border-radius:10px;padding:0;max-width:900px;width:94vw}
+dialog{border:1px solid var(--line);border-radius:2px;padding:0;max-width:900px;width:94vw}
 dialog::backdrop{background:rgba(20,28,38,.45)}
 .dlg-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
 .dlg-body{padding:12px 16px;max-height:70vh;overflow:auto}
@@ -225,6 +234,7 @@ document.addEventListener("click", async (e) => {
   }
 });
 </script>
+${THEME_CURSOR_JS}
 </body>
 </html>
 `;

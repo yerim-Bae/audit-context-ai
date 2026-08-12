@@ -10,6 +10,14 @@
  */
 
 import {
+  THEME_BASE,
+  THEME_CURSOR_CSS,
+  THEME_CURSOR_SRC,
+  THEME_FONTS,
+  THEME_ROOT,
+  THEME_TOPBAR_CSS,
+} from "./theme.ts";
+import {
   CARD_AXIS_LABEL_KO,
   HIDDEN_IN_TOC_TRACK_IDS,
   NO_FIELD_JUMP_TRACK_IDS,
@@ -51,19 +59,10 @@ function plainText(html: string): string {
 }
 
 const CSS = `
-:root{
- --bg:#faf9f7; --panel:#fff; --ink:#1f2328; --muted:#6b7280; --line:#e6e3de;
- --accent:#2f5d50; --accent-soft:#eaf1ee; --warn:#8a5a2b; --warn-soft:#fdf3e7;
- --chip:#f3f1ed; --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05);
-}
-@media(prefers-color-scheme:dark){:root{
- --bg:#16181c; --panel:#1e2126; --ink:#e8e6e3; --muted:#9aa0a6; --line:#2e3238;
- --accent:#7fb3a2; --accent-soft:#20302b; --warn:#d9a45b; --warn-soft:#2c2419;
- --chip:#262a30; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
- font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
- line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+${THEME_ROOT}
+${THEME_BASE}
+${THEME_TOPBAR_CSS}
+${THEME_CURSOR_CSS}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
 header{border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:10}
 .hdr{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -71,7 +70,7 @@ header{border-bottom:1px solid var(--line);background:var(--panel);position:stic
 .brand span{color:var(--muted);font-weight:400}
 .hdr .sp{flex:1}
 .meta{font-size:13px;color:var(--muted)}
-.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:2px;
  padding:6px 12px;font-size:13px;cursor:pointer;font-family:inherit}
 .btn:hover{background:var(--chip)}
 .layout{display:grid;grid-template-columns:236px 1fr;gap:32px;margin-top:28px}
@@ -80,12 +79,12 @@ header{border-bottom:1px solid var(--line);background:var(--panel);position:stic
 .toc{list-style:none;margin:0;padding:0}
 .toc li{margin:1px 0}
 .toc button{width:100%;text-align:left;border:0;background:none;color:var(--ink);cursor:pointer;
- padding:5px 8px;border-radius:6px;font-size:13.5px;font-family:inherit;line-height:1.45}
+ padding:5px 8px;border-radius:2px;font-size:13.5px;font-family:inherit;line-height:1.45}
 .toc button:hover{background:var(--chip)}
 .toc button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .toc button.done::after{content:" · 읽음";color:var(--accent);font-size:11px}
 .toc button.on.done::after{content:""}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:32px 34px;box-shadow:var(--shadow)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:32px 34px;box-shadow:var(--shadow)}
 @media(max-width:860px){.card{padding:24px 20px}}
 .kicker{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
 .tag{font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--chip);color:var(--muted);letter-spacing:.01em}
@@ -105,7 +104,7 @@ h1{font-size:25px;line-height:1.35;margin:.1em 0 .35em;letter-spacing:-.02em}
 .body blockquote{margin:16px 0;padding:12px 16px;background:var(--warn-soft);border-left:3px solid var(--warn);border-radius:0 8px 8px 0}
 .body blockquote p:last-child{margin:0}
 .body em{font-style:normal;background:var(--warn-soft);color:var(--warn);padding:1px 5px;border-radius:4px;font-size:14px}
-.audit{margin:24px 0 0;padding:16px 18px;background:var(--accent-soft);border-radius:10px;font-size:15px}
+.audit{margin:24px 0 0;padding:16px 18px;background:var(--accent-soft);border-radius:2px;font-size:15px}
 .audit b{color:var(--accent);display:block;font-size:12px;letter-spacing:.05em;margin-bottom:5px}
 .terms{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
 .terms .t{display:flex;gap:10px;font-size:14px;margin:6px 0}
@@ -115,31 +114,31 @@ h1{font-size:25px;line-height:1.35;margin:.1em 0 .35em;letter-spacing:-.02em}
 .nextwrap h4{font-size:12px;letter-spacing:.06em;color:var(--muted);margin:0 0 10px}
 .chips{display:flex;flex-direction:column;gap:8px}
 .chip{text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);
- border-radius:10px;padding:12px 15px;cursor:pointer;font-size:15px;font-family:inherit;
+ border-radius:2px;padding:12px 15px;cursor:pointer;font-size:15px;font-family:inherit;
  transition:.12s;display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%}
 .chip:hover{border-color:var(--accent);background:var(--accent-soft)}
 .chip .arw{color:var(--muted);font-size:13px;flex-shrink:0}
-.ask{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.ask{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:20px 22px}
 .askrow{display:flex;gap:8px}
 .askrow input{flex:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);
- border-radius:9px;padding:11px 14px;font-size:15px;font-family:inherit}
+ border-radius:2px;padding:11px 14px;font-size:15px;font-family:inherit}
 .askrow input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
 .hits{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .hits .chip{font-size:14.5px;padding:10px 14px}
 .note{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.6}
 .ovlnote{max-width:1100px;margin:16px auto 0;padding:12px 16px;border:1px solid var(--line);
- border-radius:10px;background:var(--accent-soft);font-size:13.5px;line-height:1.7}
+ border-radius:2px;background:var(--accent-soft);font-size:13.5px;line-height:1.7}
 .ovlnote a{color:var(--accent);font-weight:600}
 /* display 를 정하지 않습니다. .hide 보다 뒤에 오는 규칙이라 display 를 쓰면 숨기기를 덮습니다. */
 a.btn{text-decoration:none;line-height:1.6}
 .start{max-width:640px;margin:56px auto;background:var(--panel);border:1px solid var(--line);
- border-radius:16px;padding:40px 38px;box-shadow:var(--shadow)}
+ border-radius:3px;padding:40px 38px;box-shadow:var(--shadow)}
 .start h2{font-size:22px;margin:0 0 6px;letter-spacing:-.02em}
 .start .sub{color:var(--muted);font-size:15px;margin:0 0 28px}
 .f{margin-bottom:20px}
 .f label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px;letter-spacing:.02em}
 .f input,.f select{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--bg);
- color:var(--ink);border-radius:9px;padding:11px 14px;font-size:15px;font-family:inherit}
+ color:var(--ink);border-radius:2px;padding:11px 14px;font-size:15px;font-family:inherit}
 .f select{cursor:pointer}
 .f select:focus,.f input:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
 .opts{display:flex;gap:8px;flex-wrap:wrap}
@@ -147,7 +146,7 @@ a.btn{text-decoration:none;line-height:1.6}
  padding:8px 15px;font-size:14px;cursor:pointer;font-family:inherit}
 .opt.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .opt.on::before{content:"\\2713 ";font-weight:700}
-.go{width:100%;margin-top:12px;background:var(--accent);color:#fff;border:0;border-radius:10px;
+.go{width:100%;margin-top:12px;background:var(--accent);color:#fff;border:0;border-radius:2px;
  padding:13px;font-size:15.5px;font-weight:600;cursor:pointer;font-family:inherit}
 .go:disabled{opacity:.4;cursor:default}
 .prog{font-size:12.5px;color:var(--muted)}
@@ -609,7 +608,8 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
   return (
     `<!DOCTYPE html>\n<html lang="ko"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
-    `<title>${escapeHtml(title)}</title>\n<style>${CSS}</style></head><body>\n` +
+    `<title>${escapeHtml(title)}</title>\n${THEME_FONTS}
+<style>${CSS}</style></head><body>\n` +
     `<header><div class="hdr">` +
     `<div class="brand">${escapeHtml(pack.meta.title)} <span>· ${escapeHtml(pack.meta.industry)}</span></div>` +
     `<div class="sp"></div><div class="meta" id="ctx"></div>` +
@@ -637,7 +637,8 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
     `</div></div>\n` +
     renderFooter(pack) +
     `\n<script type="application/json" id="deck-data">${jsonForScript(data)}</script>\n` +
-    `<script>${CLIENT_JS}</script>\n</body></html>\n`
+    `<script>${CLIENT_JS}${THEME_CURSOR_SRC}</script>\n` +
+    `</body></html>\n`
   );
 }
 
@@ -669,7 +670,9 @@ export function renderDeckIndexPage(
   return (
     `<!DOCTYPE html>\n<html lang="ko"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
-    `<title>감사 투입 전 온보딩 — 산업 고르기</title>\n<style>${CSS}` +
+    `<title>감사 투입 전 온보딩 — 산업 고르기</title>` +
+    THEME_FONTS +
+    `\n<style>${CSS}` +
     `.start .note a{color:var(--accent)}` +
     `</style></head><body>\n` +
     `<header><div class="hdr"><div class="brand">감사 투입 전 온보딩</div></div></header>\n` +
@@ -688,6 +691,7 @@ export function renderDeckIndexPage(
     `function sync(){g.disabled=!s.value;}` +
     `s.addEventListener("change",sync);` +
     `g.addEventListener("click",function(){if(s.value)location.href=s.value;});` +
-    `sync();})();</script>\n</body></html>\n`
+    `sync();})();${THEME_CURSOR_SRC}</script>\n` +
+    `</body></html>\n`
   );
 }
