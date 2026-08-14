@@ -17,7 +17,7 @@ import {
   THEME_BASE,
   THEME_CURSOR_CSS,
   THEME_CURSOR_JS,
-  THEME_FONTS,
+  THEME_HEAD,
   THEME_ROOT,
   THEME_TOPBAR_CSS,
 } from "./theme.ts";
@@ -289,7 +289,7 @@ export function renderPage(seed: Seed, options: RenderOptions = {}): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>감사맥락AI — ${esc(seed.case.company_name)} BSP 거래 지도</title>
-${THEME_FONTS}
+${THEME_HEAD}
 <style>
 ${THEME_ROOT}
 ${THEME_BASE}

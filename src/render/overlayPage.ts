@@ -14,7 +14,7 @@ import {
   THEME_BASE,
   THEME_CURSOR_CSS,
   THEME_CURSOR_JS,
-  THEME_FONTS,
+  THEME_HEAD,
   THEME_ROOT,
   THEME_TOPBAR_CSS,
 } from "./theme.ts";
@@ -220,7 +220,7 @@ export function renderOverlayPage(input: OverlayRenderInput): string {
   return `<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(meta.companyName)} — 산업 표준과 무엇이 다른가</title>
-${THEME_FONTS}
+${THEME_HEAD}
 <style>${CSS}</style>
 <header><div class="hd">
   <h1>${esc(meta.companyName)}</h1>

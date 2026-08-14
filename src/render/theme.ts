@@ -34,8 +34,17 @@ export const THEME_ROOT = `
 }
 `;
 
-/** 글꼴 파일. 포트폴리오와 같은 두 벌을 씁니다. */
-export const THEME_FONTS =
+/**
+ * <head> 에 공통으로 들어가는 것 — 탭 아이콘과 글꼴.
+ *
+ * 아이콘은 포트폴리오와 같은 주황 Y 입니다. 이 사이트는 도메인 뿌리가 아니라
+ * /audit-context-ai/ 아래에 있어서, 브라우저가 저절로 찾는 /favicon.ico 로는
+ * 닿지 않습니다. 그래서 링크로 직접 가리킵니다.
+ */
+export const THEME_HEAD =
+  `<link rel="icon" href="assets/favicon.ico" sizes="any">` +
+  `<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">` +
+  `<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">` +
   `<link rel="preconnect" href="https://fonts.googleapis.com">` +
   `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>` +
   `<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">` +

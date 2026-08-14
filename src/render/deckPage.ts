@@ -13,7 +13,7 @@ import {
   THEME_BASE,
   THEME_CURSOR_CSS,
   THEME_CURSOR_SRC,
-  THEME_FONTS,
+  THEME_HEAD,
   THEME_ROOT,
   THEME_TOPBAR_CSS,
 } from "./theme.ts";
@@ -608,7 +608,7 @@ export function renderDeckPage(pack: Pack, options: DeckRenderOptions = {}): str
   return (
     `<!DOCTYPE html>\n<html lang="ko"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
-    `<title>${escapeHtml(title)}</title>\n${THEME_FONTS}
+    `<title>${escapeHtml(title)}</title>\n${THEME_HEAD}
 <style>${CSS}</style></head><body>\n` +
     `<header><div class="hdr">` +
     `<div class="brand">${escapeHtml(pack.meta.title)} <span>· ${escapeHtml(pack.meta.industry)}</span></div>` +
@@ -671,7 +671,7 @@ export function renderDeckIndexPage(
     `<!DOCTYPE html>\n<html lang="ko"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
     `<title>감사 투입 전 온보딩 — 산업 고르기</title>` +
-    THEME_FONTS +
+    THEME_HEAD +
     `\n<style>${CSS}` +
     `.start .note a{color:var(--accent)}` +
     `</style></head><body>\n` +

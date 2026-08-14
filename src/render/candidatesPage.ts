@@ -2,7 +2,7 @@ import {
   THEME_BASE,
   THEME_CURSOR_CSS,
   THEME_CURSOR_JS,
-  THEME_FONTS,
+  THEME_HEAD,
   THEME_ROOT,
   THEME_TOPBAR_CSS,
 } from "./theme.ts";
@@ -113,7 +113,7 @@ export function renderCandidatesPage(manifest: DartManifest, candidates: Candida
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>근거 후보 검토 — ${esc(manifest.corp_name)} ${esc(manifest.report_name)}</title>
-${THEME_FONTS}
+${THEME_HEAD}
 <style>
 ${THEME_ROOT}
 ${THEME_BASE}

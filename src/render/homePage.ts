@@ -12,7 +12,7 @@ import { escapeHtml } from "./deckPage.ts";
 import {
   THEME_CSS,
   THEME_CURSOR_SRC,
-  THEME_FONTS,
+  THEME_HEAD,
   THEME_NOTICE,
   THEME_NOTICE_CSS,
   THEME_NOTICE_SRC,
@@ -110,7 +110,7 @@ export function renderHomePage(input: HomeInput): string {
     `<meta name="viewport" content="width=device-width,initial-scale=1">` +
     `<title>감사맥락AI — 감사 투입 전에 무엇을 물어볼지 정하는 도구</title>` +
     `<meta name="description" content="낯선 산업에 감사 투입되기 전, 산업 구조를 익히고 회사 공시와 대조해 물어볼 것을 정리하는 도구입니다.">` +
-    THEME_FONTS +
+    THEME_HEAD +
     `\n<style>${CSS}</style></head><body>\n` +
     THEME_TOPBAR +
     `<div class="wrap">` +
