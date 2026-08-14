@@ -132,28 +132,28 @@ export const THEME_TOPBAR =
 
 /* =========================================================================
    공지 창
-   화면 오른쪽에 붙습니다. 도구를 가리지 않으려고 가운데를 비워 둡니다.
+   화면 왼쪽에 붙습니다. 글을 왼쪽부터 읽으니 눈이 먼저 닿는 자리입니다.
    좁은 화면에서는 아래쪽 전체 폭으로 바뀝니다.
    ========================================================================= */
 export const THEME_NOTICE_CSS = `
 .nt-veil{position:fixed;inset:0;z-index:2147482000;background:rgba(28,26,25,.26);
  opacity:0;transition:opacity .24s ease}
 .nt-veil.on{opacity:1}
-.nt{position:fixed;z-index:2147482100;right:clamp(16px,3vw,44px);top:50%;
- transform:translateY(-50%) translateX(18px);width:min(380px,calc(100vw - 32px));
+.nt{position:fixed;z-index:2147482100;left:clamp(16px,3vw,44px);top:50%;
+ transform:translateY(-50%) translateX(-20px);width:min(460px,calc(100vw - 32px));
  background:var(--panel);border:1px solid var(--ink);border-top:3px solid var(--accent);
- padding:26px 26px 22px;opacity:0;
+ padding:32px 34px 26px;opacity:0;
  transition:opacity .26s ease,transform .26s cubic-bezier(.22,1,.36,1)}
 .nt.on{opacity:1;transform:translateY(-50%) translateX(0)}
-.nt-kicker{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
- color:var(--accent);margin:0 0 10px}
-.nt h2{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.4;margin:0 0 14px}
-.nt p{font-family:"Noto Serif KR",serif;font-size:14px;line-height:1.85;color:var(--muted);
- margin:0 0 11px}
-.nt p:last-of-type{margin-bottom:20px}
+.nt-kicker{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+ color:var(--accent);margin:0 0 12px}
+.nt h2{font-size:23px;font-weight:800;letter-spacing:-.025em;line-height:1.38;margin:0 0 18px}
+.nt p{font-family:"Noto Serif KR",serif;font-size:15px;line-height:1.9;color:var(--muted);
+ margin:0 0 13px}
+.nt p:last-of-type{margin-bottom:24px}
 .nt p b{color:var(--ink);font-weight:600}
 .nt-acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
-.nt-acts button{font:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:2px;
+.nt-acts button{font:inherit;font-size:13.5px;font-weight:600;padding:11px 17px;border-radius:2px;
  cursor:pointer;transition:border-color .2s ease,background-color .2s ease,color .2s ease}
 .nt-later{border:1px solid var(--line);background:none;color:var(--muted)}
 .nt-later:hover{border-color:var(--ink);color:var(--ink)}
@@ -161,9 +161,10 @@ export const THEME_NOTICE_CSS = `
 .nt-close:hover{background:var(--conflict);border-color:var(--conflict)}
 @media(max-width:640px){
  .nt{right:16px;left:16px;top:auto;bottom:16px;width:auto;
-  transform:translateY(18px);padding:22px 20px 18px}
+  transform:translateY(18px);padding:24px 22px 20px}
  .nt.on{transform:translateY(0)}
- .nt h2{font-size:17px}
+ .nt h2{font-size:19px;margin-bottom:14px}
+ .nt p{font-size:14px;line-height:1.85}
  .nt-acts button{flex:1}
 }
 @media (prefers-reduced-motion:reduce){
