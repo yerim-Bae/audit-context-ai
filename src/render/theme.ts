@@ -130,5 +130,91 @@ export const THEME_TOPBAR =
   `aria-label="배예림 포트폴리오로 돌아가기">` +
   `<img src="assets/wordmark.png" alt="Yerim" width="220" height="96"></a></div>`;
 
+/* =========================================================================
+   공지 창
+   화면 오른쪽에 붙습니다. 도구를 가리지 않으려고 가운데를 비워 둡니다.
+   좁은 화면에서는 아래쪽 전체 폭으로 바뀝니다.
+   ========================================================================= */
+export const THEME_NOTICE_CSS = `
+.nt-veil{position:fixed;inset:0;z-index:2147482000;background:rgba(28,26,25,.26);
+ opacity:0;transition:opacity .24s ease}
+.nt-veil.on{opacity:1}
+.nt{position:fixed;z-index:2147482100;right:clamp(16px,3vw,44px);top:50%;
+ transform:translateY(-50%) translateX(18px);width:min(380px,calc(100vw - 32px));
+ background:var(--panel);border:1px solid var(--ink);border-top:3px solid var(--accent);
+ padding:26px 26px 22px;opacity:0;
+ transition:opacity .26s ease,transform .26s cubic-bezier(.22,1,.36,1)}
+.nt.on{opacity:1;transform:translateY(-50%) translateX(0)}
+.nt-kicker{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+ color:var(--accent);margin:0 0 10px}
+.nt h2{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.4;margin:0 0 14px}
+.nt p{font-family:"Noto Serif KR",serif;font-size:14px;line-height:1.85;color:var(--muted);
+ margin:0 0 11px}
+.nt p:last-of-type{margin-bottom:20px}
+.nt p b{color:var(--ink);font-weight:600}
+.nt-acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.nt-acts button{font:inherit;font-size:13px;font-weight:600;padding:9px 14px;border-radius:2px;
+ cursor:pointer;transition:border-color .2s ease,background-color .2s ease,color .2s ease}
+.nt-later{border:1px solid var(--line);background:none;color:var(--muted)}
+.nt-later:hover{border-color:var(--ink);color:var(--ink)}
+.nt-close{border:1px solid var(--accent);background:var(--accent);color:#fff}
+.nt-close:hover{background:var(--conflict);border-color:var(--conflict)}
+@media(max-width:640px){
+ .nt{right:16px;left:16px;top:auto;bottom:16px;width:auto;
+  transform:translateY(18px);padding:22px 20px 18px}
+ .nt.on{transform:translateY(0)}
+ .nt h2{font-size:17px}
+ .nt-acts button{flex:1}
+}
+@media (prefers-reduced-motion:reduce){
+ .nt,.nt-veil{transition:none}
+ .nt{transform:translateY(-50%)}
+ @media(max-width:640px){.nt{transform:none}}
+}
+`;
+
+/** 공지 창 마크업. <body> 안 아무 곳에 두면 됩니다. */
+export const THEME_NOTICE =
+  `<div class="nt-veil" id="ntVeil" hidden></div>` +
+  `<aside class="nt" id="nt" role="dialog" aria-modal="false" aria-labelledby="ntTitle" hidden>` +
+  `<p class="nt-kicker">공지</p>` +
+  `<h2 id="ntTitle">감사맥락AI는 현재 업데이트 중입니다</h2>` +
+  `<p>낯선 산업의 구조와 거래 흐름을 미리 이해하고, 감사 인터뷰의 질문과 요청 자료를 ` +
+  `구체화하기 위해 만든 도구입니다.</p>` +
+  `<p>현재는 초기 프로토타입이며, <b>8월 17일까지 대규모 업데이트</b>가 진행될 예정입니다. ` +
+  `일부 미완성된 내용과 기능은 조금만 너그럽게 봐주세요.</p>` +
+  `<div class="nt-acts">` +
+  `<button type="button" class="nt-later" id="ntLater">오늘 하루 보지 않기</button>` +
+  `<button type="button" class="nt-close" id="ntClose">닫기</button>` +
+  `</div></aside>`;
+
+/**
+ * 공지 창 동작(태그 없음).
+ *
+ * 닫기 — 이번 방문에만 닫습니다. 새로 들어오면 다시 보입니다.
+ * 오늘 하루 보지 않기 — 그날 자정까지 저장해 두고 띄우지 않습니다.
+ * 저장을 못 하는 브라우저(사생활 보호 모드 등)에서는 그냥 매번 보입니다.
+ */
+export const THEME_NOTICE_SRC =
+  `(function(){` +
+  `var K="acai-notice-until",box=document.getElementById("nt"),veil=document.getElementById("ntVeil");` +
+  `if(!box)return;` +
+  `function until(){try{return Number(localStorage.getItem(K)||0);}catch(e){return 0;}}` +
+  `if(Date.now()<until())return;` +
+  /* rAF 는 화면을 그리지 않는 탭에서 안 돌 수 있습니다. 그러면 창이 투명한 채로
+     남으므로, 프레임이 아니라 타이머로 등장 상태를 켭니다. */
+  `function open(){box.hidden=false;veil.hidden=false;` +
+  `setTimeout(function(){box.classList.add("on");veil.classList.add("on");},20);` +
+  `document.getElementById("ntClose").focus({preventScroll:true});}` +
+  `function shut(){box.classList.remove("on");veil.classList.remove("on");` +
+  `setTimeout(function(){box.hidden=true;veil.hidden=true;},260);}` +
+  `document.getElementById("ntClose").addEventListener("click",shut);` +
+  `document.getElementById("ntLater").addEventListener("click",function(){` +
+  `var d=new Date();d.setHours(24,0,0,0);` +
+  `try{localStorage.setItem(K,String(d.getTime()));}catch(e){}shut();});` +
+  `veil.addEventListener("click",shut);` +
+  `addEventListener("keydown",function(e){if(e.key==="Escape"&&!box.hidden)shut();});` +
+  `open();})();`;
+
 /** 각 화면이 <style> 안에 넣는 한 덩어리. */
 export const THEME_CSS = THEME_ROOT + THEME_BASE + THEME_TOPBAR_CSS + THEME_CURSOR_CSS;

@@ -9,7 +9,15 @@
  */
 
 import { escapeHtml } from "./deckPage.ts";
-import { THEME_CSS, THEME_CURSOR_JS, THEME_FONTS, THEME_TOPBAR } from "./theme.ts";
+import {
+  THEME_CSS,
+  THEME_CURSOR_SRC,
+  THEME_FONTS,
+  THEME_NOTICE,
+  THEME_NOTICE_CSS,
+  THEME_NOTICE_SRC,
+  THEME_TOPBAR,
+} from "./theme.ts";
 
 const esc = escapeHtml;
 
@@ -36,6 +44,7 @@ export interface HomeInput {
 
 const CSS =
   THEME_CSS +
+  THEME_NOTICE_CSS +
   `
 .wrap{max-width:46em;margin:0 auto;padding:34px 20px 90px}
 /* 제호는 포트폴리오처럼 굵은 산세리프 대문자로 세웁니다 */
@@ -152,6 +161,8 @@ export function renderHomePage(input: HomeInput): string {
     `이 도구는 감사 준비를 돕고, 결론을 대신 내리지 않습니다.` +
     `</p><footer><p class="note">공개 자료만 씁니다. 회사 내부 자료나 감사조서는 들어 있지 않습니다.</p></footer></div>` +
     `</div>\n` +
+    THEME_NOTICE +
+    `\n` +
     `<script>(function(){` +
     `var s=document.getElementById("ind"),g=document.getElementById("go"),p=document.getElementById("pick");` +
     `function sync(){` +
@@ -160,8 +171,9 @@ export function renderHomePage(input: HomeInput): string {
     `p.textContent=s.value?o.getAttribute("data-detail"):"";}` +
     `s.addEventListener("change",sync);` +
     `g.addEventListener("click",function(){if(s.value)location.href=s.value;});` +
-    `sync();})();</script>\n` +
-    THEME_CURSOR_JS +
-    `\n</body></html>\n`
+    `sync();})();` +
+    THEME_CURSOR_SRC +
+    THEME_NOTICE_SRC +
+    `</script>\n</body></html>\n`
   );
 }
